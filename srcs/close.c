@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:08:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/11 12:07:55 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/12 17:19:02 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	clear_map(t_cub3d *cub3d)
 
 void	clear_image_and_wall(t_cub3d *cub3d)
 {
-	if (cub3d->image)
+	if (cub3d->image && cub3d->image->img)
 		mlx_destroy_image(cub3d->mlx, cub3d->image->img);
 	free(cub3d->image);
 	if (cub3d->walls)
@@ -64,9 +64,9 @@ void	clear_cub3d(t_cub3d *cub3d)
 		return ;
 	if (cub3d->map)
 		clear_map(cub3d);
+	clear_image_and_wall(cub3d);
 	if (cub3d->window)
 		mlx_destroy_window(cub3d->mlx, cub3d->window);
-	clear_image_and_wall(cub3d);
 	free(cub3d);
 }
 

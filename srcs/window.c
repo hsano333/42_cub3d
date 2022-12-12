@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/11 12:15:51 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/12 17:29:17 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ int	update_image(t_cub3d *cub3d)
 
 	i++;
 	mlx_put_image_to_window(cub3d->mlx, cub3d->window, \
-		   	cub3d->walls->north->img, 200, 200);
+		   	cub3d->walls->north->img, 200, 0);
 	mlx_put_image_to_window(cub3d->mlx, cub3d->window, \
-		   	cub3d->walls->south->img, 200, 360);
+		   	cub3d->walls->south->img, 200, 400);
 	mlx_put_image_to_window(cub3d->mlx, cub3d->window, \
-		   	cub3d->walls->west->img, 120, 280);
+		   	cub3d->walls->west->img, 0, 200);
 	mlx_put_image_to_window(cub3d->mlx, cub3d->window, \
-		   	cub3d->walls->east->img, 280, 280);
+		   	cub3d->walls->east->img, 400, 200);
 	/*
 	if (!cub3d->update_image_flag)
 		return (false);

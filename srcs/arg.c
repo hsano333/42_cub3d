@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 06:03:23 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/11 12:08:23 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/12 17:32:25 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,19 @@ static void	allocate_memmory_wall(t_cub3d *cub3d)
 
 void	load_map_and_img(t_cub3d *cub3d, int argc, char **argv)
 {
-	printf("test width=40, height=30 , argc=%d, argv=%p \n", argc, argv);
+	//test
+	argc=argc;
+	argv=argv;
+
 	cub3d->image->width = 40;
 	cub3d->image->height = 30;
 	allocate_memmory_map(cub3d);
 	allocate_memmory_wall(cub3d);
 
 	//test
-	load_wall_img(cub3d, cub3d->mlx, &(cub3d->walls->north), "image/koto_north.xpm");
-	load_wall_img(cub3d, cub3d->mlx, &(cub3d->walls->west), "image/koto_west.xpm");
-	load_wall_img(cub3d, cub3d->mlx, &(cub3d->walls->east), "image/koto_east.xpm");
-	load_wall_img(cub3d, cub3d->mlx, &(cub3d->walls->south), "image/koto_south.xpm");
-	load_wall_img(cub3d, cub3d->mlx, &(cub3d->walls->sprite), "image/koto_sprite.xpm");
+	cub3d->walls->north = load_wall_img(cub3d, "image/north.xpm");
+	cub3d->walls->west = load_wall_img(cub3d, "image/west.xpm");
+	cub3d->walls->east = load_wall_img(cub3d, "image/east.xpm");
+	cub3d->walls->south = load_wall_img(cub3d, "image/south.xpm");
+	cub3d->walls->sprite = load_wall_img(cub3d, "image/east.xpm");
 }

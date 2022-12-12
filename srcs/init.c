@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 02:50:57 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/11 11:57:51 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/12 17:17:14 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_cub3d	*init_minilibx(void)
 {
 	t_cub3d	*cub3d;
 
-	cub3d = malloc(sizeof(cub3d));
+	cub3d = malloc(sizeof(t_cub3d));
 	if (!cub3d)
 		error_and_end_game(NULL, NULL);
 	ft_memset(cub3d, 0, sizeof(cub3d));
@@ -56,7 +56,5 @@ t_cub3d	*init(int argc, char **argv)
 	cub3d = init_minilibx();
 	load_map_and_img(cub3d, argc, argv);
 	init_mlx_hook(cub3d);
-	printf("end init\n");
-
 	return (cub3d);
 }
