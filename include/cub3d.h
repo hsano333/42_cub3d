@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/11 09:03:51 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/17 18:21:49 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3d_H
 # define WIN_WIDTH (800)
 # define WIN_HEIGHT (600)
+# define WALL_LEN (400)
 # define WALL_WIDTH (400)
 # define WALL_HEIGHT (400)
 # define FOV (120)
@@ -27,6 +28,15 @@
 
 
 typedef double t_cub3d_type;
+
+typedef struct s_point {
+	int	x;
+	int	x_len;
+	int	y;
+	int	y_len;
+	int	z;
+	int	z_len;
+}	t_point;
 
 typedef struct s_image
 {
@@ -75,6 +85,27 @@ typedef struct s_map
 	t_door_state	state;
 }	t_map;
 
+typedef struct s_ray
+{
+	int	x;
+	//int	begin_angle;
+	int	x_len;
+	int	z_distance;
+	//int	last_angle;
+	t_point	map_point;
+}	t_ray;
+
+typedef struct s_player
+{
+	int	map_x;  // >= 0
+	int	map_y; // >= 0
+	int	x; // >= 0 && < MAP_SPACE
+	int	y; // >= 0 && < MAP_SPACE
+	int	world_x; // map_x * SPACE + x
+	int	world_y; // map_y * SPACE + y
+	int	dir; //north:0 west:90 south:180 east:270
+}	t_player;
+
 typedef struct s_cub3d
 {
 	void		*mlx;
@@ -82,19 +113,12 @@ typedef struct s_cub3d
 	t_map		**map;
 	t_image		*image;
 	t_wall_imgs	*walls;
+	t_wall_imgs	*trans_walls;
+	t_player	*player;
+	t_ray		rays[WIN_WIDTH];
+	int		angles[WIN_WIDTH];
 	int		lock;
 }	t_cub3d;
-
-typedef struct s_player
-{
-	int	map_x;
-	int	map_y;
-	int	x;
-	int	y;
-	int	world_x; // map_x * SPACE + x
-	int	world_y; // map_y * SPACE + y
-	int	dir;
-}	t_player;
 
 typedef struct s_door
 {
@@ -110,11 +134,10 @@ typedef struct s_door
 	int	open_west;
 }	t_door;
 
-typedef struct s_point {
+typedef struct s_xspace {
 	int	x;
-	int	y;
-	int	z;
-}	t_point;
+	int	x_len;
+}	t_xspace;
 
 typedef struct s_matrix {
 	t_cub3d_type	a;

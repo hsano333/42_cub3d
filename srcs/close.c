@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:08:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/12 17:19:02 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/17 18:32:08 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,26 @@ void	clear_map(t_cub3d *cub3d)
 	cub3d->map = 0;
 }
 
-void	clear_image_and_wall(t_cub3d *cub3d)
+void	clear_wall(t_cub3d *cub3d, t_wall_imgs *walls)
 {
-	if (cub3d->image && cub3d->image->img)
-		mlx_destroy_image(cub3d->mlx, cub3d->image->img);
-	free(cub3d->image);
-	if (cub3d->walls)
+	if (walls)
 	{
-		if (cub3d->walls->north && cub3d->walls->north->img)
-			mlx_destroy_image(cub3d->mlx, cub3d->walls->north->img);
-		if (cub3d->walls->south && cub3d->walls->south->img)
-			mlx_destroy_image(cub3d->mlx, cub3d->walls->south->img);
-		if (cub3d->walls->west && cub3d->walls->west->img)
-			mlx_destroy_image(cub3d->mlx, cub3d->walls->west->img);
-		if (cub3d->walls->east && cub3d->walls->east->img)
-			mlx_destroy_image(cub3d->mlx, cub3d->walls->east->img);
-		if (cub3d->walls->sprite && cub3d->walls->sprite->img)
-			mlx_destroy_image(cub3d->mlx, cub3d->walls->sprite->img);
-		free(cub3d->walls->north);
-		free(cub3d->walls->south);
-		free(cub3d->walls->west);
-		free(cub3d->walls->east);
-		free(cub3d->walls->sprite);
-		free(cub3d->walls);
+		if (walls->north && walls->north->img)
+			mlx_destroy_image(cub3d->mlx, walls->north->img);
+		if (walls->south && walls->south->img)
+			mlx_destroy_image(cub3d->mlx, walls->south->img);
+		if (walls->west && walls->west->img)
+			mlx_destroy_image(cub3d->mlx, walls->west->img);
+		if (walls->east && walls->east->img)
+			mlx_destroy_image(cub3d->mlx, walls->east->img);
+		if (walls->sprite && walls->sprite->img)
+			mlx_destroy_image(cub3d->mlx, walls->sprite->img);
+		free(walls->north);
+		free(walls->south);
+		free(walls->west);
+		free(walls->east);
+		free(walls->sprite);
+		free(walls);
 	}
 }
 
@@ -64,9 +61,15 @@ void	clear_cub3d(t_cub3d *cub3d)
 		return ;
 	if (cub3d->map)
 		clear_map(cub3d);
-	clear_image_and_wall(cub3d);
+	if (cub3d->image && cub3d->image->img)
+		mlx_destroy_image(cub3d->mlx, cub3d->image->img);
+	free(cub3d->image);
+	clear_wall(cub3d, cub3d->walls);
+	clear_wall(cub3d, cub3d->trans_walls);
 	if (cub3d->window)
 		mlx_destroy_window(cub3d->mlx, cub3d->window);
+	if (cub3d->player)
+		free(cub3d->player);
 	free(cub3d);
 }
 
