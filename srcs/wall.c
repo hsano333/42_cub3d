@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 08:08:57 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/12 17:19:48 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/18 08:54:42 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_image	*load_wall_img(t_cub3d *cub3d, char *path)
 {
 	t_image *wall;
 
+	//todo  
 	wall = (t_image *)ft_calloc(sizeof(t_image), 1);
 	if (!wall)
 		error_and_end_game(cub3d, NULL);

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/17 18:21:49 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/18 08:46:47 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ typedef double t_cub3d_type;
 
 typedef struct s_point {
 	int	x;
-	int	x_len;
+	//int	x_len;
 	int	y;
-	int	y_len;
+	//int	y_len;
 	int	z;
-	int	z_len;
+	//int	z_len;
 }	t_point;
 
 typedef struct s_image
@@ -87,12 +87,14 @@ typedef struct s_map
 
 typedef struct s_ray
 {
-	int	x;
-	//int	begin_angle;
-	int	x_len;
-	int	z_distance;
+	int		x;
+	t_cub3d_type	angle;
+	int		x_len;
+	//int	z_distance;
+	t_point		distance;
 	//int	last_angle;
-	t_point	map_point;
+	t_point		map_point;
+	t_image		*wall_img;
 }	t_ray;
 
 typedef struct s_player
@@ -101,8 +103,8 @@ typedef struct s_player
 	int	map_y; // >= 0
 	int	x; // >= 0 && < MAP_SPACE
 	int	y; // >= 0 && < MAP_SPACE
-	int	world_x; // map_x * SPACE + x
-	int	world_y; // map_y * SPACE + y
+	int	world_x; // map_x * MAP_SPACE + x
+	int	world_y; // map_y * MAP_SPACE + y
 	int	dir; //north:0 west:90 south:180 east:270
 }	t_player;
 
@@ -116,7 +118,7 @@ typedef struct s_cub3d
 	t_wall_imgs	*trans_walls;
 	t_player	*player;
 	t_ray		rays[WIN_WIDTH];
-	int		angles[WIN_WIDTH];
+	t_cub3d_type	angles[WIN_WIDTH];
 	int		lock;
 }	t_cub3d;
 

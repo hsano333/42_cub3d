@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/17 14:17:58 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/18 08:59:46 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,49 @@
 #include "mlx.h"
 #include "affine.h"
 #include "projective_trans.h"
+#include "ray.h"
+
+int	update_image_per_x(t_cub3d *cub3d, int x, t_cub3d_type z, t_ray *ray)
+{
+	int	*win_img_addr;
+	int	*img_addr;
+	int	y;
+	t_point	img_point;
+
+	y = z;
+	y = 0;
+	img_point.x = x;
+	win_img_addr = NULL;
+	img_addr = NULL;
+	while (y < WIN_HEIGHT)
+	{
+		img_point.y = y;
+		if (0 <= img_point.y && img_point.y < ray->wall_img->height && 0 <= img_point.x && img_point.x < ray->wall_img->width)
+		{
+			win_img_addr = cub3d->image->addr + (cub3d->image->sl * (img_point.y));
+			img_addr = ray->wall_img->addr + (ray->wall_img->sl * y);
+			win_img_addr[x] = img_addr[img_point.x];
+		}
+		y++;
+	}
+	return (true);
+}
 
 int	update_image(t_cub3d *cub3d)
 {
 	t_matrix	matrix;
 	t_xyz		src_xyz;
 	t_xyz		dst_xyz;
+	size_t		i;
+	size_t		next_i;
+	size_t		j;
+	//t_point		map_point;
+	t_cub3d_type	z;
 
+	//map_point.x = 0;
+	i = 0;
+	next_i = 0;
+	j = 0;
 
 	/* y-axsis
 	matrix.a = 0.866; //cos
@@ -47,6 +83,23 @@ int	update_image(t_cub3d *cub3d)
 	t_xspace	x_space;
 	x_space.x = 0;
 	x_space.x_len = 100;
+
+	cub3d->player->x = 2;
+	cub3d->player->y = 2;
+	
+	//map_point = cub3d->rays[j].map_point;
+	//printf("map_point=%d\n", map_point.x);
+	while (i < WIN_WIDTH)
+	{
+		if (i == next_i)
+		{
+			j = i;
+			next_i = fire_ray(cub3d, i);
+		}
+		z = tan(cub3d->rays[j].angle);
+		update_image_per_x(cub3d, i, z, &cub3d->rays[j]);
+		i++;
+	}
 	projective_trans(cub3d, cub3d->walls->south,&matrix, &src_xyz, &dst_xyz, &x_space);
 	mlx_put_image_to_window(cub3d->mlx, cub3d->window, \
 		   	cub3d->walls->north->img, 200, 0);
