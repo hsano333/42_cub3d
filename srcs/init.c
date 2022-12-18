@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 02:50:57 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/17 19:41:57 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/18 12:15:42 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	calc_angles(t_cub3d *cub3d)
 	i = 0;
 	while (i < WIN_WIDTH)
 	{
-		cub3d->angles[i] = FOV / 2 - (FOV * (i / (WIN_WIDTH - 1)));
+		cub3d->angles[i] = FOV / 2 - (FOV * ((double)i / (WIN_WIDTH - 1)));
 		i++;
 	}
 }
@@ -69,7 +69,7 @@ t_cub3d	*init(int argc, char **argv)
 	if (argc != 2)
 		error_and_end_game(NULL, "cub3D:invalid argument\n");
 	cub3d = init_minilibx();
-	//calc_angles(cub3d);
+	calc_angles(cub3d);
 	load_map_and_img(cub3d, argc, argv);
 	init_mlx_hook(cub3d);
 	return (cub3d);

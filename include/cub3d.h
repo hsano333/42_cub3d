@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/18 08:46:47 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/18 14:27:57 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 # define CUB3d_H
 # define WIN_WIDTH (800)
 # define WIN_HEIGHT (600)
+# define WALL_IMG_LEN (80)
 # define WALL_LEN (400)
-# define WALL_WIDTH (400)
-# define WALL_HEIGHT (400)
+//# define WALL_WIDTH (400)
+//# define WALL_HEIGHT (400)
 # define FOV (120)
-# define CAMERA (100)
-# define MAP_SPACE (25)
+//# define CAMERA (100)
+# define MAP_SPACE (400)
+# define MOVE_STEP (20)
 # define ON_EXPOSE (14)
 # define ON_DESTROY (17)
 # include <unistd.h>
