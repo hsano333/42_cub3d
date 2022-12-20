@@ -6,10 +6,11 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 02:50:57 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/18 12:15:42 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/20 07:22:07 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "close.h"
 #include "libft_str.h"
 #include "libft_mem.h"
@@ -26,9 +27,14 @@ void	calc_angles(t_cub3d *cub3d)
 	size_t	i;
 
 	i = 0;
-	while (i < WIN_WIDTH)
+	while (i < WIN_WIDTH * 360 / FOV)
 	{
-		cub3d->angles[i] = FOV / 2 - (FOV * ((double)i / (WIN_WIDTH - 1)));
+		cub3d->angles[i].degree = FOV / 2 - (FOV * ((double)i / (WIN_WIDTH - 1)));
+		if (cub3d->angles[i].degree < 0)
+			cub3d->angles[i].degree += 360;
+		else if (cub3d->angles[i].degree >= 360)
+			cub3d->angles[i].degree -= 360;
+		cub3d->angles[i].radian = fabs(cub3d->angles[i].degree) * M_PI / 180;
 		i++;
 	}
 }

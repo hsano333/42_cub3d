@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/18 14:27:57 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/19 19:01:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@
 
 
 typedef double t_cub3d_type;
+
+typedef struct s_const_angle
+{
+	t_cub3d_type	degree;
+	t_cub3d_type	radian;
+}	t_const_angle;
 
 typedef struct s_point {
 	int	x;
@@ -87,24 +93,35 @@ typedef struct s_map
 	t_door_state	state;
 }	t_map;
 
+typedef enum e_wall_dir
+{
+	NORTH_WALL,
+	SOUTH_WALL,
+	EAST_WALL,
+	WEST_WALL,
+}	t_wall_dir;
+
 typedef struct s_ray
 {
 	int		x;
-	t_cub3d_type	angle;
+	t_wall_dir	wall_dir;
+	t_cub3d_type	begin_angle;
+	t_cub3d_type	last_angle;
 	int		x_len;
 	//int	z_distance;
 	t_point		distance;
 	//int	last_angle;
 	t_point		map_point;
 	t_image		*wall_img;
+	t_cub3d_type	ratio;
 }	t_ray;
 
 typedef struct s_player
 {
 	int	map_x;  // >= 0
 	int	map_y; // >= 0
-	int	x; // >= 0 && < MAP_SPACE
-	int	y; // >= 0 && < MAP_SPACE
+	int	x; // > 0 && < MAP_SPACE
+	int	y; // > 0 && < MAP_SPACE
 	int	world_x; // map_x * MAP_SPACE + x
 	int	world_y; // map_y * MAP_SPACE + y
 	int	dir; //north:0 west:90 south:180 east:270
@@ -119,8 +136,8 @@ typedef struct s_cub3d
 	t_wall_imgs	*walls;
 	t_wall_imgs	*trans_walls;
 	t_player	*player;
-	t_ray		rays[WIN_WIDTH];
-	t_cub3d_type	angles[WIN_WIDTH];
+	t_ray		rays[WIN_WIDTH * 360 / FOV];
+	t_const_angle	angles[WIN_WIDTH * 360 / FOV];
 	int		lock;
 }	t_cub3d;
 

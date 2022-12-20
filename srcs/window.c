@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/18 14:29:33 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/20 17:51:07 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "affine.h"
 #include "projective_trans.h"
 #include "ray.h"
+#include "close.h"
 
 int	update_image_per_x(t_cub3d *cub3d, int x, t_cub3d_type z, t_ray *ray, t_cub3d_type angle)
 {
@@ -26,19 +27,35 @@ int	update_image_per_x(t_cub3d *cub3d, int x, t_cub3d_type z, t_ray *ray, t_cub3
 
 	y = z;
 	y = 0;
-	img_point.x = x;
+	//img_point.x = x;
 	//img_point.x = (int)(nearbyintl(tan(angle) * ray->distance.x - (ray->map_point.x - cub3d->player->map_x) * WALL_LEN) / WALL_LEN) * ray->wall_img->width / WALL_LEN;
-	printf("x = %d, angle=%f,ray->distance.x=%d, img_point.x=%d\n ", x,angle, ray->distance.x, img_point.x);
+	//img_point.x = (int)(nearbyintl( (tan(angle) * ray->distance.x - (ray->map_point.x - cub3d->player->map_x) * WALL_LEN) * ray->wall_img->width / WALL_LEN) * tan(60) );
+	//double diff = (tan(angle) * ray->distance.x - (ray->map_point.x - cub3d->player->map_x) * WALL_LEN);
+	double diff = (ray->distance.x / tan(angle));// - (ray->map_point.x - cub3d->player->map_x) * WALL_LEN);
+	//int dis_y = ((ray->map_point.y - cub3d->player->map_y) * WALL_LEN);
+	//img_point.x = (int)(nearbyintl( (tan(angle) * ray->distance.x - ((ray->map_point.y - cub3d->player->map_y) * WALL_LEN)) * ray->wall_img->width / WALL_LEN) );
+	while (diff > WALL_LEN)
+		diff -= WALL_LEN;
+	img_point.x = (int)(nearbyintl( diff * ray->wall_img->width / WALL_LEN) );
+	//img_point.x = (int)(nearbyintl( ( ray->distance.x / tan(angle) - ((ray->map_point.y - cub3d->player->map_y) * WALL_LEN)) * ray->wall_img->width / WALL_LEN) );
+	//printf("x = %d, angle=%f,ray->distancex=%d, .y=%d, img_point.x=%d, tan=%lf, ray_map_x=%d,ray_mapy=%d,diff=%lf , dis_y=%d, 0=%lf, ray.x=%d, ray_x_len=%d\n ", x,angle * 180 / M_PI,ray->distance.x, ray->distance.y, img_point.x, tan(angle), ray->map_point.x,ray->map_point.y,diff,  dis_y, ray->begin_angle * 180 / M_PI, ray->x, ray->x_len);
 	win_img_addr = NULL;
 	img_addr = NULL;
 	wall_flag = false;
 	while (y < WIN_HEIGHT)
 	{
-		img_point.y = y;
+		//img_point.y = y;
 		win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
-		img_addr = ray->wall_img->addr + (ray->wall_img->sl * img_point.y);
+		//img_point.y = (int)nearbyintl((double)y * (tan(angle) / (double)img_point.x  ) * WIN_HEIGHT / ray->wall_img->height) * 50 ;
+		if ((0 < angle && angle < 0.0001) || (179.9999 < angle && angle < 180.0001))
+			img_point.y = (int)nearbyintl(((double)y * WALL_LEN / WIN_HEIGHT) * ray->distance.y / ray->wall_img->height);
+		else if ((89.99999 < angle && angle < 90.000001) && (269.99999 < angle && angle < 270.000001))
+			img_point.y = (int)nearbyintl(((double)y * WALL_LEN / WIN_HEIGHT) * ray->distance.x / ray->wall_img->height);
+		else
+			img_point.y = (int)nearbyintl(((double)y * WALL_LEN / WIN_HEIGHT) * ray->distance.x / tan(angle) / ray->wall_img->height);
 		if (0 <= img_point.y && img_point.y < ray->wall_img->height && 0 <= img_point.x && img_point.x < ray->wall_img->width)
 		{
+			img_addr = ray->wall_img->addr + (ray->wall_img->sl * img_point.y);
 			wall_flag = true;
 			win_img_addr[x] = img_addr[img_point.x];
 		}
@@ -53,11 +70,11 @@ int	update_image_per_x(t_cub3d *cub3d, int x, t_cub3d_type z, t_ray *ray, t_cub3
 
 int	update_image(t_cub3d *cub3d)
 {
-	t_matrix	matrix;
-	t_xyz		src_xyz;
-	t_xyz		dst_xyz;
+	//t_matrix	matrix;
+	//t_xyz		src_xyz;
+	//t_xyz		dst_xyz;
 	size_t		i;
-	size_t		next_i;
+	//size_t		next_i;
 	size_t		j;
 	//t_point		map_point;
 	t_cub3d_type	z;
@@ -65,64 +82,47 @@ int	update_image(t_cub3d *cub3d)
 
 	//map_point.x = 0;
 	i = 0;
-	next_i = 0;
+	//next_i = 0;
 	j = 0;
 
-	/* y-axsis
-	matrix.a = 0.866; //cos
-	matrix.b = -0.5;
-	matrix.c = 0.5;
-	matrix.d = 0.866;
-	matrix.e = 50;
-	matrix.f = 50;
-	*/
-	matrix.a = 1;
-	matrix.b = 0;
-	matrix.c = 0;
-	//matrix.d = 0.866;
-	matrix.d = 0.5;
-	matrix.e = 150;
-	matrix.f = 150;
 	//affine(cub3d, cub3d->walls->south,matrix);
-	src_xyz.x = 10;
-	src_xyz.y = 10;
-	src_xyz.z = 10;
-	dst_xyz.x = 800;
-	dst_xyz.y = 800;
-	dst_xyz.z = 10;
-	t_xspace	x_space;
-	x_space.x = 0;
-	x_space.x_len = 100;
+	//src_xyz.x = 10;
+	//src_xyz.y = 10;
+	//src_xyz.z = 10;
+	//dst_xyz.x = 800;
+	//dst_xyz.y = 800;
+	//dst_xyz.z = 10;
+	//t_xspace	x_space;
+	//x_space.x = 0;
+	//x_space.x_len = 100;
 
-	cub3d->player->map_x = 3;
+	cub3d->player->map_x = 2;
 	cub3d->player->map_y = 3;
-	cub3d->player->x = 10;
-	cub3d->player->y = 10;
+	cub3d->player->x = 100;
+	cub3d->player->y = 300;
+	cub3d->player->dir = 0;
 	
 	//map_point = cub3d->rays[j].map_point;
 	//printf("map_point=%d\n", map_point.x);
+	cub3d->rays[j].last_angle = (cub3d->player->dir * M_PI / 180 + cub3d->angles[0].radian) + 1;
+	//printf("No.0 angle\n");
 	while (i < WIN_WIDTH)
 	{
-		if (i == next_i)
+		angle = (cub3d->player->dir * M_PI / 180 + cub3d->angles[i].radian);
+		if (angle < cub3d->rays[j].last_angle)
 		{
+			//printf("No.1 angle =%lf,cub3d->rays[j].last_angle=%lf i=%ld, j=%ld\n", angle,cub3d->rays[j].last_angle, i, j);
 			j = i;
-			next_i = fire_ray(cub3d, i);
+			fire_ray(cub3d, i, angle);
+			//printf("No.2 angle =%lf,cub3d->rays[j].last_angle=%lf i=%ld, j=%ld\n", angle,cub3d->rays[j].last_angle, i, j);
 		}
-		z = tan(cub3d->rays[j].angle);
-		angle = cub3d->player->dir + cub3d->angles[i];
+		z = tan(cub3d->rays[j].begin_angle);
 		//printf("cub3d->player->dir=%d, angle[%zu]=%f, angle=%f\n", cub3d->player->dir,i, cub3d->angles[i], angle);
 		update_image_per_x(cub3d, i, z, &cub3d->rays[j], angle);
 		i++;
 	}
-	projective_trans(cub3d, cub3d->walls->south,&matrix, &src_xyz, &dst_xyz, &x_space);
-	mlx_put_image_to_window(cub3d->mlx, cub3d->window, \
-		   	cub3d->walls->north->img, 200, 0);
-	mlx_put_image_to_window(cub3d->mlx, cub3d->window, \
-		   	cub3d->walls->south->img, 200, 400);
-	mlx_put_image_to_window(cub3d->mlx, cub3d->window, \
-		   	cub3d->walls->west->img, 0, 200);
-	mlx_put_image_to_window(cub3d->mlx, cub3d->window, \
-		   	cub3d->walls->east->img, 400, 200);
+	//printf("No.3 angle =%lf,cub3d->rays[j].last_angle=%lf i=%ld, j=%ld\n", angle,cub3d->rays[j].last_angle, i, j);
+	//projective_trans(cub3d, cub3d->walls->south,&matrix, &src_xyz, &dst_xyz, &x_space);
 	mlx_put_image_to_window(cub3d->mlx, cub3d->window, \
 		   	cub3d->image->img, 0, 0);
 	/*
@@ -135,5 +135,6 @@ int	update_image(t_cub3d *cub3d)
 	cub3d->update_image_flag = false;
 	cub3d->create_image_flag = false;
 	*/
+	//error_and_end_game(cub3d, "cub3D:failure to init minilix\n");
 	return (true);
 }
