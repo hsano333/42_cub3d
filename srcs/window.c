@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/23 11:59:55 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/23 13:52:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,20 @@ int	update_image_per_x(t_cub3d *cub3d, int x, t_cub3d_type z, t_ray *ray, t_cub3
 		else
 			img_point.y = (int)nearbyintl(((double)y * WALL_LEN / WIN_HEIGHT) * ray->distance.x / tan(angle) / ray->wall_img->height);
 		//double tmp = ((ray->distance.x / tan(angle)) / BASE_Z);
-		double offset = (ray->distance.x / tan(angle)) / 2 - WALL_LEN;
+		t_cub3d_type offset = (ray->distance.x / tan(angle)) / 2 - WALL_LEN;
+		t_cub3d_type z = 0;
+		t_cub3d_type ratio = 0;
+
+		if (ray->begin_distance.y == ray->last_distance.y)
+			z = ray->begin_distance.y;
+		else
+			z = ray->begin_distance.x / tan(angle);
+		offset = z * WALL_LEN / WIN_HEIGHT - WALL_LEN / 2;
+		ratio = z / BASE_Z;
+		img_point.y = (y * ratio - offset) * ray->wall_img->height / WALL_LEN;
+
+
+		/*
 		if (tan(angle) != NAN)
 			img_point.y = (int)(y / (BASE_Z / (ray->distance.x / tan(angle))) + offset);
 		else
@@ -54,6 +67,7 @@ int	update_image_per_x(t_cub3d *cub3d, int x, t_cub3d_type z, t_ray *ray, t_cub3
 		}
 		else
 			img_point.y = (int)(y  * ray->begin_distance.y / (BASE_Z * tan(angle) ));
+		*/
 		if (0 <= img_point.y && img_point.y < ray->wall_img->height && 0 <= img_point.x && img_point.x < ray->wall_img->width)
 		{
 			img_addr = ray->wall_img->addr + (ray->wall_img->sl * img_point.y);
@@ -126,7 +140,7 @@ int	update_image(t_cub3d *cub3d)
 	cub3d->player->map_x = 2;
 	cub3d->player->map_y = 3;
 	cub3d->player->x = 100;
-	cub3d->player->y = 150;
+	cub3d->player->y = 250;
 	cub3d->player->dir.degree = 0;
 	cub3d->player->dir.radian = 0 * M_PI / 180;
 	
