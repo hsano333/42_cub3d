@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/23 06:58:47 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/23 11:29:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define MOVE_STEP (20)
 # define ON_EXPOSE (14)
 # define ON_DESTROY (17)
+# define BASE_Z (300)
 # include <unistd.h>
 # include <stdio.h>
 # include <stdbool.h>
@@ -116,6 +117,8 @@ typedef struct s_ray
 	t_point		distance;
 	//int	last_angle;
 	t_point		map_point;
+	t_point		begin_distance;
+	t_point		last_distance;
 	t_image		*wall_img;
 	t_cub3d_type	ratio;
 }	t_ray;

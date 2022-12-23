@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/23 07:25:14 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/23 12:40:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,11 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 	offset = get_offset(ray, FIRST);
 	begin_distance.x = ((int)((cub3d->player->map_x - (ray->map_point.x + offset.x))) * WALL_LEN + cub3d->player->x);
 	begin_distance.y = ((int)((cub3d->player->map_y - (ray->map_point.y + offset.y))) * WALL_LEN + cub3d->player->y);
+	ray->begin_distance = begin_distance;
 	offset = get_offset(ray, LAST);
 	last_distance.x = ((int)((cub3d->player->map_x - (ray->map_point.x + offset.x))) * WALL_LEN + cub3d->player->x);
 	last_distance.y = ((int)((cub3d->player->map_y - (ray->map_point.y + offset.y))) * WALL_LEN + cub3d->player->y);
+	ray->last_distance = last_distance;
 	//ray->begin_angle = atan((double)begin_distance.x / begin_distance.y);
 	//ray->last_angle = atan((double)last_distance.x / last_distance.y);
 	//ray->begin_angle = distance_to_angle((double)begin_distance.x / begin_distance.y, ray->last_angle);
@@ -134,19 +136,13 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 	double base_x = (begin_distance.x / tan(ray->last_angle) - begin_distance.x / tan(ray->begin_angle)) / WALL_LEN;
 	if (begin_distance.x == last_distance.x)
 	{
-		//printf("tst1 No.1, begin_distance.x=%d, last_distance.x=%d\n", begin_distance.x, last_distance.x);
-		//printf("tst1 No.1\n");
-		//ray->img_offset_begin = (int)fabs(nearbyintl((begin_distance.y * tan(angle) - begin_distance.y * tan(ray->begin_angle)) * ray->wall_img->width / WIN_WIDTH));
 		ray->img_offset_begin = fabs(nearbyintl((begin_distance.x / tan(angle) - begin_distance.x / tan(ray->begin_angle)) * base_x));
-		ray->img_offset_last = fabs(nearbyintl((last_distance.x / tan(ray->last_angle) - last_distance.x / tan(cub3d->player->dir.radian + cub3d->angles[WIN_WIDTH - 1].radian)) * base_x));
-		//ray->img_offset_begin = (int)fabs(nearbyintl((begin_distance.x / tan(ray->last_angle) - begin_distance.x / tan(ray->begin_angle)) /  base_x));
+		ray->img_offset_last = cub3d->player->y;
 	}
 	else
 	{
 		ray->img_offset_begin = fabs(nearbyintl((begin_distance.y * tan(angle) - begin_distance.y * tan(ray->begin_angle)) * base_y));
-		ray->img_offset_last = fabs(nearbyintl((last_distance.y * tan(ray->last_angle) - last_distance.y * tan(cub3d->player->dir.radian + cub3d->angles[WIN_WIDTH - 1].radian)) * base_y));
-		//printf("tst2 No.2\n");
-		//printf("tst3 No.3\n");
+		ray->img_offset_last = cub3d->player->x;
 	}
 	if (ray->last_x < WIN_WIDTH)
 		ray->img_offset_last = 0;

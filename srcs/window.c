@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/23 07:21:04 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/23 11:59:55 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,26 @@ int	update_image_per_x(t_cub3d *cub3d, int x, t_cub3d_type z, t_ray *ray, t_cub3
 	wall_flag = false;
 	while (y < WIN_HEIGHT)
 	{
-		//img_point.y = y;
 		win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
-		//img_point.y = (int)nearbyintl((double)y * (tan(angle) / (double)img_point.x  ) * WIN_HEIGHT / ray->wall_img->height) * 50 ;
 		if ((0 < angle && angle < 0.1 * M_PI / 180) || (179.9999 * M_PI / 180 < angle && angle < 180.0001 * M_PI / 180))
 			img_point.y = (int)nearbyintl(((double)y * WALL_LEN / WIN_HEIGHT) * ray->distance.y / ray->wall_img->height);
 		else if ((89.99999 * M_PI / 180 < angle && angle < 90.000001 * M_PI / 180) && (269.99999  * M_PI / 180 < angle && angle < 270.000001 * M_PI / 180))
 			img_point.y = (int)nearbyintl(((double)y * WALL_LEN / WIN_HEIGHT) * ray->distance.x / ray->wall_img->height);
 		else
 			img_point.y = (int)nearbyintl(((double)y * WALL_LEN / WIN_HEIGHT) * ray->distance.x / tan(angle) / ray->wall_img->height);
-		//if (x > 650 && y == 10)
-			//printf("x: x=%d, test img_point.x=%d,  y=%d, test img_point.y=%d \n", x, img_point.x, y, img_point.y);
-		img_point.y = y;
+		//double tmp = ((ray->distance.x / tan(angle)) / BASE_Z);
+		double offset = (ray->distance.x / tan(angle)) / 2 - WALL_LEN;
+		if (tan(angle) != NAN)
+			img_point.y = (int)(y / (BASE_Z / (ray->distance.x / tan(angle))) + offset);
+		else
+			img_point.y = (int)(y / (BASE_Z / (ray->distance.x )) + offset);
+
+		if (ray->begin_distance.y == ray->last_distance.y)
+		{
+			img_point.y = (int)(y  * ray->begin_distance.y / BASE_Z );
+		}
+		else
+			img_point.y = (int)(y  * ray->begin_distance.y / (BASE_Z * tan(angle) ));
 		if (0 <= img_point.y && img_point.y < ray->wall_img->height && 0 <= img_point.x && img_point.x < ray->wall_img->width)
 		{
 			img_addr = ray->wall_img->addr + (ray->wall_img->sl * img_point.y);
@@ -118,7 +126,7 @@ int	update_image(t_cub3d *cub3d)
 	cub3d->player->map_x = 2;
 	cub3d->player->map_y = 3;
 	cub3d->player->x = 100;
-	cub3d->player->y = 100;
+	cub3d->player->y = 150;
 	cub3d->player->dir.degree = 0;
 	cub3d->player->dir.radian = 0 * M_PI / 180;
 	
