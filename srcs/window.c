@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/23 13:52:50 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/23 16:52:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	update_image_per_x(t_cub3d *cub3d, int x, t_cub3d_type z, t_ray *ray, t_cub3
 	y = z;
 	y = 0;
 
+	//img_point.x = (int)((((((x - ray->begin_x) * (WALL_LEN - ray->img_offset_begin - ray->img_offset_last) / (ray->last_x - ray->begin_x)))) + (ray->img_offset_begin)) * ray->wall_img->width / WALL_LEN);
 	img_point.x = (int)((((((x - ray->begin_x) * (WALL_LEN - ray->img_offset_begin - ray->img_offset_last) / (ray->last_x - ray->begin_x)))) + (ray->img_offset_begin)) * ray->wall_img->width / WALL_LEN);
 	win_img_addr = NULL;
 	img_addr = NULL;
@@ -76,7 +77,7 @@ int	update_image_per_x(t_cub3d *cub3d, int x, t_cub3d_type z, t_ray *ray, t_cub3
 		}
 		else if (wall_flag)
 		{
-			win_img_addr[x] = 0;
+			win_img_addr[x] = 65535 * 255;
 			if (y == 5)
 			{
 				/*
@@ -152,25 +153,47 @@ int	update_image(t_cub3d *cub3d)
 	int tmp = 0;
 	while (i < WIN_WIDTH)
 	{
-		angle = (cub3d->player->dir.radian + cub3d->angles[i].radian);
-		if (angle > 360 * M_PI / 180)
-			angle -= 360 * M_PI / 180;
 		//if (angle > cub3d->rays[j].begin_angle)
 			//angle -= 360 * M_PI / 180;
 		//if (is_next_wall(&(cub3d->rays[j]), angle))
 		if (i >= cub3d->rays[j].last_x)
 		{
+			angle = (cub3d->player->dir.radian + cub3d->angles[i].radian);
+			if (angle > 360 * M_PI / 180)
+				angle -= 360 * M_PI / 180;
+			cub3d->rays[j].next_i = i;
+			j = i;
+			//cub3d->rays[j].cur_angle = angle;
 			printf("fire renew i=%d, j=%d, angle=n%lf\n", i, j, angle * 180 / M_PI);
 			//printf("No.1 angle =%lf,cub3d->rays[j].last_angle=%lf i=%ld, j=%ld\n", angle,cub3d->rays[j].last_angle, i, j);
-			j = i;
 			tmp = fire_ray(cub3d, i, angle, tmp);
 			//printf("No.2 angle =%lf,cub3d->rays[j].last_angle=%lf i=%ld, j=%ld\n", angle,cub3d->rays[j].last_angle, i, j);
 		}
-		z = tan(cub3d->rays[j].begin_angle);
+		//z = tan(cub3d->rays[j].begin_angle);
 		//printf("cub3d->player->dir=%d, angle[%zu]=%f, angle=%f\n", cub3d->player->dir,i, cub3d->angles[i], angle);
+		//update_image_per_x(cub3d, i, z, &cub3d->rays[j], angle);
+		i++;
+	}
+	cub3d->rays[j].next_i = i;
+
+	i = 0;
+	j = 0;
+	//z = tan(cub3d->rays[j].begin_angle);
+	while (i < WIN_WIDTH)
+	{
+		angle = (cub3d->player->dir.radian + cub3d->angles[i].radian);
+		//printf("cub3d->player->dir=%d, angle[%zu]=%f, angle=%f\n", cub3d->player->dir,i, cub3d->angles[i], angle);
+		//i = cub3d->rays[i].next_i;
+		printf("i=%d\n",i);
+		if (i == cub3d->rays[j].next_i || i == 0)
+		{
+			z = tan(cub3d->rays[j].begin_angle);
+			j = i;
+		}
 		update_image_per_x(cub3d, i, z, &cub3d->rays[j], angle);
 		i++;
 	}
+
 	//printf("No.3 angle =%lf,cub3d->rays[j].last_angle=%lf i=%ld, j=%ld\n", angle,cub3d->rays[j].last_angle, i, j);
 	//projective_trans(cub3d, cub3d->walls->south,&matrix, &src_xyz, &dst_xyz, &x_space);
 	mlx_put_image_to_window(cub3d->mlx, cub3d->window, \

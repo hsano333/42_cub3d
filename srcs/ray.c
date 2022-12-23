@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/23 12:40:50 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/23 15:00:45 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,17 +291,25 @@ int	fire_ray(t_cub3d *cub3d, size_t i, t_cub3d_type angle, int tmp)
 	}
 	else if (tmp == 1)
 	{
+		//cub3d->rays[i].map_point.x = 1;
+		//cub3d->rays[i].map_point.y = 2;
 		cub3d->rays[i].map_point.x = 1;
-		cub3d->rays[i].map_point.y = 2;
-		cub3d->rays[i].wall_dir = EAST_WALL;
-		cub3d->rays[i].wall_img = cub3d->walls->east;
+		cub3d->rays[i].map_point.y = 1;
+		cub3d->rays[i].wall_dir = SOUTH_WALL;
+		cub3d->rays[i].wall_img = cub3d->walls->south;
+		//cub3d->rays[i].wall_dir = EAST_WALL;
+		//cub3d->rays[i].wall_img = cub3d->walls->east;
 	}
 	else if (tmp == 0)
 	{
-		cub3d->rays[i].map_point.x = 1;
-		cub3d->rays[i].map_point.y = 3;
-		cub3d->rays[i].wall_dir = EAST_WALL;
-		cub3d->rays[i].wall_img = cub3d->walls->east;
+		//cub3d->rays[i].map_point.x = 1;
+		//cub3d->rays[i].map_point.y = 3;
+		cub3d->rays[i].map_point.x = 0;
+		cub3d->rays[i].map_point.y = 1;
+		cub3d->rays[i].wall_dir = SOUTH_WALL;
+		cub3d->rays[i].wall_img = cub3d->walls->south;
+		//cub3d->rays[i].wall_dir = EAST_WALL;
+		//cub3d->rays[i].wall_img = cub3d->walls->east;
 	}
 	//tmp++;
 	//if (tmp > 7 || cub3d->rays[i].last_x == 800)
@@ -310,7 +318,7 @@ int	fire_ray(t_cub3d *cub3d, size_t i, t_cub3d_type angle, int tmp)
 	cub3d->rays[i].distance = get_distance_from_wall(cub3d, &(cub3d->rays[i]), angle);
 	//calc_x_len(cub3d, &(cub3d->rays[i]), angle);
 
-	//printf("No.2 x=%d, y=%d,dist_x=%d,dist_y=%d, ray->begin_angle=%lf, ray->last_angle=%lf, angle=%lf,begin=%d,last_x =%d ,ray->img_offset_begin=%lf , ray->wall_img->width=%d, tmp=%d, begin_distance.x=%d, begin_distance.y=%d, ray->img_offset_last=%lf\n",cub3d->rays[i].map_point.x, cub3d->rays[i].map_point.y,cub3d->rays[i].distance.x,cub3d->rays[i].distance.y,  cub3d->rays[i].begin_angle * 180 / M_PI, cub3d->rays[i].last_angle * 180 / M_PI, angle * 180 / M_PI, cub3d->rays[i].begin_x, cub3d->rays[i].last_x, cub3d->rays[i].img_offset_begin, cub3d->rays[i].wall_img->width,tmp, cub3d->rays[i].distance.x, cub3d->rays[i].distance.y, cub3d->rays[i].img_offset_last);
+	printf("No.2 x=%d, y=%d,dist_x=%d,dist_y=%d, ray->begin_angle=%lf, ray->last_angle=%lf, angle=%lf,begin=%d,last_x =%d ,ray->img_offset_begin=%lf , ray->wall_img->width=%d, tmp=%d, begin_distance.x=%d, begin_distance.y=%d, ray->img_offset_last=%lf\n",cub3d->rays[i].map_point.x, cub3d->rays[i].map_point.y,cub3d->rays[i].distance.x,cub3d->rays[i].distance.y,  cub3d->rays[i].begin_angle * 180 / M_PI, cub3d->rays[i].last_angle * 180 / M_PI, angle * 180 / M_PI, cub3d->rays[i].begin_x, cub3d->rays[i].last_x, cub3d->rays[i].img_offset_begin, cub3d->rays[i].wall_img->width,tmp, cub3d->rays[i].distance.x, cub3d->rays[i].distance.y, cub3d->rays[i].img_offset_last);
 
 	//cub3d->rays[i].x_len = 200;
 	return (tmp + 1);
