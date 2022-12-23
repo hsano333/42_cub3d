@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   angle_utils.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/17 15:33:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/22 16:27:53 by hsano            ###   ########.fr       */
+/*   Created: 2022/12/22 12:52:37 by hsano             #+#    #+#             */
+/*   Updated: 2022/12/22 19:17:34 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
-# include "cub3d.h"
+#ifndef ANGLE_UTILS_H
+# define ANGLE_UTILS_H
 # include <math.h>
+# include "cub3d.h"
 
-int	is_next_wall(t_ray *ray, t_cub3d_type angle);
-int	fire_ray(t_cub3d *cub3d, size_t i, t_cub3d_type angle, int tmp);
+typedef enum e_rotate_mode
+{
+	RORATE_PLUS,
+	RORATE_MINUS,
+}	t_rotate_mode;
+
+t_cub3d_type	distance_to_angle(t_cub3d_type val, t_cub3d_type angle, t_rotate_mode mode);
 #endif

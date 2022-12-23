@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/20 17:51:07 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/23 06:34:22 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,8 @@ int	update_image_per_x(t_cub3d *cub3d, int x, t_cub3d_type z, t_ray *ray, t_cub3
 
 	y = z;
 	y = 0;
-	//img_point.x = x;
-	//img_point.x = (int)(nearbyintl(tan(angle) * ray->distance.x - (ray->map_point.x - cub3d->player->map_x) * WALL_LEN) / WALL_LEN) * ray->wall_img->width / WALL_LEN;
-	//img_point.x = (int)(nearbyintl( (tan(angle) * ray->distance.x - (ray->map_point.x - cub3d->player->map_x) * WALL_LEN) * ray->wall_img->width / WALL_LEN) * tan(60) );
-	//double diff = (tan(angle) * ray->distance.x - (ray->map_point.x - cub3d->player->map_x) * WALL_LEN);
-	double diff = (ray->distance.x / tan(angle));// - (ray->map_point.x - cub3d->player->map_x) * WALL_LEN);
-	//int dis_y = ((ray->map_point.y - cub3d->player->map_y) * WALL_LEN);
-	//img_point.x = (int)(nearbyintl( (tan(angle) * ray->distance.x - ((ray->map_point.y - cub3d->player->map_y) * WALL_LEN)) * ray->wall_img->width / WALL_LEN) );
-	while (diff > WALL_LEN)
-		diff -= WALL_LEN;
-	img_point.x = (int)(nearbyintl( diff * ray->wall_img->width / WALL_LEN) );
-	//img_point.x = (int)(nearbyintl( ( ray->distance.x / tan(angle) - ((ray->map_point.y - cub3d->player->map_y) * WALL_LEN)) * ray->wall_img->width / WALL_LEN) );
-	//printf("x = %d, angle=%f,ray->distancex=%d, .y=%d, img_point.x=%d, tan=%lf, ray_map_x=%d,ray_mapy=%d,diff=%lf , dis_y=%d, 0=%lf, ray.x=%d, ray_x_len=%d\n ", x,angle * 180 / M_PI,ray->distance.x, ray->distance.y, img_point.x, tan(angle), ray->map_point.x,ray->map_point.y,diff,  dis_y, ray->begin_angle * 180 / M_PI, ray->x, ray->x_len);
+
+	img_point.x = (int)((((((x - ray->begin_x) * (WALL_LEN - ray->img_offset_x) / (ray->last_x - ray->begin_x)))) + (ray->img_offset_x)) * ray->wall_img->width / WALL_LEN);
 	win_img_addr = NULL;
 	img_addr = NULL;
 	wall_flag = false;
@@ -47,12 +37,15 @@ int	update_image_per_x(t_cub3d *cub3d, int x, t_cub3d_type z, t_ray *ray, t_cub3
 		//img_point.y = y;
 		win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
 		//img_point.y = (int)nearbyintl((double)y * (tan(angle) / (double)img_point.x  ) * WIN_HEIGHT / ray->wall_img->height) * 50 ;
-		if ((0 < angle && angle < 0.0001) || (179.9999 < angle && angle < 180.0001))
+		if ((0 < angle && angle < 0.1 * M_PI / 180) || (179.9999 * M_PI / 180 < angle && angle < 180.0001 * M_PI / 180))
 			img_point.y = (int)nearbyintl(((double)y * WALL_LEN / WIN_HEIGHT) * ray->distance.y / ray->wall_img->height);
-		else if ((89.99999 < angle && angle < 90.000001) && (269.99999 < angle && angle < 270.000001))
+		else if ((89.99999 * M_PI / 180 < angle && angle < 90.000001 * M_PI / 180) && (269.99999  * M_PI / 180 < angle && angle < 270.000001 * M_PI / 180))
 			img_point.y = (int)nearbyintl(((double)y * WALL_LEN / WIN_HEIGHT) * ray->distance.x / ray->wall_img->height);
 		else
 			img_point.y = (int)nearbyintl(((double)y * WALL_LEN / WIN_HEIGHT) * ray->distance.x / tan(angle) / ray->wall_img->height);
+		if (x > 650 && y == 10)
+			printf("x: x=%d, test img_point.x=%d,  y=%d, test img_point.y=%d \n", x, img_point.x, y, img_point.y);
+		//img_point.y = y;
 		if (0 <= img_point.y && img_point.y < ray->wall_img->height && 0 <= img_point.x && img_point.x < ray->wall_img->width)
 		{
 			img_addr = ray->wall_img->addr + (ray->wall_img->sl * img_point.y);
@@ -60,22 +53,45 @@ int	update_image_per_x(t_cub3d *cub3d, int x, t_cub3d_type z, t_ray *ray, t_cub3
 			win_img_addr[x] = img_addr[img_point.x];
 		}
 		else if (wall_flag)
+		{
 			win_img_addr[x] = 0;
+			if (y == 5)
+			{
+				if (!(0 <= img_point.x && img_point.x < ray->wall_img->width))
+					printf("invalid x: x=%d, test img_point.x=%d,  y=%d, test img_point.y=%d \n", x, img_point.x, y, img_point.y);
+				if (!(0 <= img_point.y && img_point.y < ray->wall_img->height))
+					printf("invalid y: x=%d, test img_point.x=%d,  y=%d, test img_point.y=%d \n", x, img_point.x, y, img_point.y);
+			}
+			//if (y == 100)
+				//printf("blank x=%d, img_point.x=%d, img_point.y=%d\n", x, img_point.x, img_point.y);
+
+		}
 		else
+		{
 			win_img_addr[x] = 255;
+			if (y == 5)
+			{
+				if (!(0 <= img_point.x && img_point.x < ray->wall_img->width))
+					printf("invalid x: x=%d, test img_point.x=%d,  y=%d, test img_point.y=%d,ray->begin_x=%d, ray->last_x=%d  \n", x, img_point.x, y, img_point.y, ray->begin_x, ray->last_x);
+				if (!(0 <= img_point.y && img_point.y < ray->wall_img->height))
+					printf("invalid y: x=%d, test img_point.x=%d,  y=%d, test img_point.y=%d \n", x, img_point.x, y, img_point.y);
+			}
+		}
+
 		y++;
 	}
 	return (true);
 }
+
 
 int	update_image(t_cub3d *cub3d)
 {
 	//t_matrix	matrix;
 	//t_xyz		src_xyz;
 	//t_xyz		dst_xyz;
-	size_t		i;
+	int		i;
 	//size_t		next_i;
-	size_t		j;
+	int		j;
 	//t_point		map_point;
 	t_cub3d_type	z;
 	t_cub3d_type	angle;
@@ -99,21 +115,29 @@ int	update_image(t_cub3d *cub3d)
 	cub3d->player->map_x = 2;
 	cub3d->player->map_y = 3;
 	cub3d->player->x = 100;
-	cub3d->player->y = 300;
+	cub3d->player->y = 100;
 	cub3d->player->dir = 0;
 	
 	//map_point = cub3d->rays[j].map_point;
 	//printf("map_point=%d\n", map_point.x);
 	cub3d->rays[j].last_angle = (cub3d->player->dir * M_PI / 180 + cub3d->angles[0].radian) + 1;
 	//printf("No.0 angle\n");
+	cub3d->rays[0].last_x = -1;
+	int tmp = 0;
 	while (i < WIN_WIDTH)
 	{
 		angle = (cub3d->player->dir * M_PI / 180 + cub3d->angles[i].radian);
-		if (angle < cub3d->rays[j].last_angle)
+		if (angle > 360 * M_PI / 180)
+			angle -= 360 * M_PI / 180;
+		//if (angle > cub3d->rays[j].begin_angle)
+			//angle -= 360 * M_PI / 180;
+		//if (is_next_wall(&(cub3d->rays[j]), angle))
+		if (i >= cub3d->rays[j].last_x)
 		{
+			printf("fire renew i=%d, j=%d, angle=n%lf\n", i, j, angle * 180 / M_PI);
 			//printf("No.1 angle =%lf,cub3d->rays[j].last_angle=%lf i=%ld, j=%ld\n", angle,cub3d->rays[j].last_angle, i, j);
 			j = i;
-			fire_ray(cub3d, i, angle);
+			tmp = fire_ray(cub3d, i, angle, tmp);
 			//printf("No.2 angle =%lf,cub3d->rays[j].last_angle=%lf i=%ld, j=%ld\n", angle,cub3d->rays[j].last_angle, i, j);
 		}
 		z = tan(cub3d->rays[j].begin_angle);
