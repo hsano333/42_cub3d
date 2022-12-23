@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 07:27:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/22 20:08:11 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/23 07:25:10 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_cub3d_type	near_angle(t_cub3d_type angle, t_cub3d_type a, t_cub3d_type b)
 		diff2[2] = diff2[1];
 	else
 		diff2[2] = diff2[0];
-	printf("angle=%lf, a =%lf,b=%lf, diff1=%lf, diff2=%lf\n", angle* 180 / M_PI, a* 180 / M_PI, b * 180 / M_PI, diff1[2], diff2[2]);
+	//printf("angle=%lf, a =%lf,b=%lf, diff1=%lf, diff2=%lf\n", angle* 180 / M_PI, a* 180 / M_PI, b * 180 / M_PI, diff1[2], diff2[2]);
 	if (diff1[2] > diff2[2])
 		return (b);
 	return (a);

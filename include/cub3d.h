@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/23 04:39:06 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/23 06:58:47 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_const_angle
 {
 	t_cub3d_type	degree;
 	t_cub3d_type	radian;
-}	t_const_angle;
+}	t_angle;
 
 typedef struct s_point {
 	int	x;
@@ -107,7 +107,8 @@ typedef struct s_ray
 	t_wall_dir	wall_dir;
 	t_cub3d_type	begin_angle;
 	t_cub3d_type	last_angle;
-	t_cub3d_type	img_offset_x;
+	t_cub3d_type	img_offset_begin;
+	t_cub3d_type	img_offset_last;
 	int		begin_x;
 	int		last_x;
 	int		x_len;
@@ -127,7 +128,7 @@ typedef struct s_player
 	int	y; // > 0 && < MAP_SPACE
 	int	world_x; // map_x * MAP_SPACE + x
 	int	world_y; // map_y * MAP_SPACE + y
-	int	dir; //north:0 west:90 south:180 east:270
+	t_angle	dir; //north:0 west:90 south:180 east:270
 }	t_player;
 
 typedef struct s_cub3d
@@ -140,7 +141,7 @@ typedef struct s_cub3d
 	t_wall_imgs	*trans_walls;
 	t_player	*player;
 	t_ray		rays[WIN_WIDTH * 360 / FOV];
-	t_const_angle	angles[WIN_WIDTH * 360 / FOV];
+	t_angle	angles[WIN_WIDTH * 360 / FOV];
 	int		lock;
 }	t_cub3d;
 
