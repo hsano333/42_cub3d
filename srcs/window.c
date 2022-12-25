@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/24 08:45:31 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/25 06:27:11 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,28 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 	y = z;
 	y = 0;
 
-	tan_val = tan(angle); 
+	//tan_val = fabs(sin(cub3d->player->dir.radian + FOV * M_PI / 180)); 
+	//tan_val = fabs(tan(cub3d->player->dir.radian + cub3d->angles[img_x_offset].radian));
+	tan_val = fabs(tan(ray->base_angle));
+	//tan_val = 0.25;
+	//tan_val = (ray->last_distance.y - ray->begin_distance.y) * cos(cub3d->player->dir.radian) / WALL_LEN; 
+	//tan_val = (ray->last_distance.y - ray->begin_distance.y) * cos(angle) / WALL_LEN; 
 	if (ray->begin_distance.y == ray->last_distance.y || tan_val == NAN)
 		z = ray->begin_distance.y;
 	else
-		z = ray->begin_distance.x / tan_val;
+		z = ray->last_distance.y / tan_val;
+		//z = ray->last_distance.y;
+		//z = (WALL_LEN - ray->img_offset_begin - ray->img_offset_last) / tan_val;
 	//offset = z * WALL_LEN / WIN_WIDTH - WALL_LEN / 2;
 	//offset = ray->begin_x;
-	ratio = z / RATIO_Z;
-	img_point.x = (int)(((x - img_x_offset) * ratio) * ray->wall_img->width / WALL_LEN) + ray->img_offset_begin / ratio;
+	//ratio = z / RATIO_Z;
+	//ratio = z / RATIO_Z;
+	ratio = z / 400;
+	//img_point.x = (int)(((x - img_x_offset) * ratio) * ray->wall_img->width / WALL_LEN) + ray->img_offset_begin / ratio;
+	//img_point.x = (int)(((x - img_x_offset) * ratio) * ray->wall_img->width / WALL_LEN) + ray->img_offset_begin / ratio / ray->wall_img->width * WALL_LEN;
+	//img_point.x = (int)(((x - img_x_offset) * ratio) * ray->wall_img->width / WALL_LEN + ray->img_offset_begin);
+	img_point.x = (int)((((x - img_x_offset) * ratio)  + ray->img_offset_begin) * ray->wall_img->width / WALL_LEN);
+	//img_point.x = (x - img_x_offset) * ratio;
 	//printf("img_point.x=%d,ray->wall_img->width=%d\n ",img_point.x, ray->wall_img->width);
 	if (img_point.x >= ray->wall_img->width)
 		return (true);
@@ -61,9 +74,15 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 			img_point.y = (int)nearbyintl(((double)y * WALL_LEN / WIN_HEIGHT) * ray->distance.x / tan(angle) / ray->wall_img->height);
 		//double tmp = ((ray->distance.x / tan(angle)) / RATIO_Z);
 
+		tan_val = tan(angle); 
+		if (ray->begin_distance.y == ray->last_distance.y || tan_val == NAN)
+			z = ray->begin_distance.y;
+		else
+			z = ray->begin_distance.x / tan_val;
 		offset = z * WALL_LEN / WIN_HEIGHT - WALL_LEN / 2;
 		ratio = z / RATIO_Z;
 		img_point.y = (y * ratio - offset) * ray->wall_img->height / WALL_LEN;
+		img_point.y = y;
 
 
 		/*
@@ -103,6 +122,7 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 		else
 		{
 			win_img_addr[x] = 255;
+			/*
 			if (y == 5)
 			{
 				if (!(0 <= img_point.x && img_point.x < ray->wall_img->width))
@@ -110,6 +130,7 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 				if (!(0 <= img_point.y && img_point.y < ray->wall_img->height))
 					printf("invalid y: x=%d, test img_point.x=%d,  y=%d, test img_point.y=%d \n", x, img_point.x, y, img_point.y);
 			}
+			*/
 		}
 		y++;
 	}
@@ -125,14 +146,20 @@ int	update_image_per_wall(t_cub3d *cub3d, t_ray *ray, int offset)
 	//j = 
 
 	i = 0;
+	double tan_val = fabs(tan(ray->base_angle));
+	double z = ray->last_distance.y / tan_val;
+	printf("update_image_per_wall No.1 offset=%d, img_offset_begin=%lf,ray->base_angle=%lf, ray->last_distance.y=%d, z=%lf \n", offset, ray->img_offset_begin, ray->base_angle * 180 / M_PI, ray->last_distance.y, z);
 	while (i + offset < WIN_WIDTH)
 	{
 		angle = cub3d->player->dir.radian + cub3d->angles[i + offset].radian;
+		//if (angle < ray->last_angle)
+		//printf("is_next_wall No.0\n");
 		end_image_flag = update_image_per_x(cub3d, i + offset, offset, ray, angle);
-		i++;
 		if (end_image_flag)
 			break ;
+		i++;
 	}
+	//printf("wall end i=%d, offset=%d, i+offset=%d\n", i, offset, i+offset);
 	return (i + offset);
 
 	//printf("cub3d->player->dir=%d, angle[%zu]=%f, angle=%f\n", cub3d->player->dir,i, cub3d->angles[i], angle);
@@ -175,9 +202,9 @@ int	update_image(t_cub3d *cub3d)
 	//x_space.x_len = 100;
 
 	cub3d->player->map_x = 2;
-	cub3d->player->map_y = 3;
-	cub3d->player->x = 300;
-	cub3d->player->y = 250;
+	cub3d->player->map_y = 4;
+	cub3d->player->x = 200;
+	cub3d->player->y = 0;
 	cub3d->player->dir.degree = 0;
 	cub3d->player->dir.radian = 0 * M_PI / 180;
 	
@@ -185,7 +212,7 @@ int	update_image(t_cub3d *cub3d)
 	//printf("map_point=%d\n", map_point.x);
 	cub3d->rays[j].last_angle = (cub3d->player->dir.radian + cub3d->angles[0].radian) + 1;
 	//printf("No.0 angle\n");
-	cub3d->rays[0].last_x = -1;
+	//cub3d->rays[0].last_x = -1;
 	int tmp = 0;
 	while (i < WIN_WIDTH)
 	{
@@ -200,7 +227,7 @@ int	update_image(t_cub3d *cub3d)
 		//cub3d->rays[j].next_i = i;
 		//j = i;
 		//cub3d->rays[j].cur_angle = angle;
-		printf("fire renew i=%d, j=%d, angle=n%lf\n", i, j, angle * 180 / M_PI);
+		printf("\nfire renew i=%d, j=%d, angle=n%lf\n", i, j, angle * 180 / M_PI);
 		printf("No.1 angle =%lf,cub3d->rays[j].last_angle=%lf i=%d, j=%d\n", angle,cub3d->rays[j].last_angle, i, j);
 		tmp = fire_ray(cub3d, &(cub3d->rays[j]), i, angle, tmp);
 		//i = update_image_per_wall();
@@ -242,6 +269,6 @@ int	update_image(t_cub3d *cub3d)
 	cub3d->update_image_flag = false;
 	cub3d->create_image_flag = false;
 	*/
-	//error_and_end_game(cub3d, "cub3D:failure to init minilix\n");
+//	error_and_end_game(cub3d, "cub3D:failure to init minilix\n");
 	return (true);
 }

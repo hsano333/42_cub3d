@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 07:27:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/23 07:25:10 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/25 05:54:29 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,15 @@ t_cub3d_type	near_angle(t_cub3d_type angle, t_cub3d_type a, t_cub3d_type b)
 	if (diff1[2] > diff2[2])
 		return (b);
 	return (a);
-	
+}
 
+t_angle	get_radian_per_len(int len)
+{
+	t_angle	tmp;
+
+	tmp.degree = (t_cub3d_type)len / (WIN_WIDTH - 1);
+	tmp.radian = tmp.degree * M_PI / 180;
+	return (tmp);
 }
 
 t_cub3d_type	distance_to_angle(t_cub3d_type val, t_cub3d_type angle, t_rotate_mode mode)
@@ -61,17 +68,17 @@ t_cub3d_type	distance_to_angle(t_cub3d_type val, t_cub3d_type angle, t_rotate_mo
 	//diff1 = fabs(angle - tmp1);
 	if (mode == RORATE_PLUS)
 	{
-		if (tmp1 > angle)
+		if (tmp1 >= angle)
 			return (tmp1);
-		else if (tmp2 > angle)
+		else if (tmp2 >= angle)
 			return (tmp2);
 		else
 			return (tmp1 + 2 * M_PI);
 	}
-	if (angle < tmp1)
+	if (angle <= tmp1)
 		return (tmp1);
-	else if (angle < tmp2)
+	else if (angle <= tmp2)
 		return (tmp1);
-	return (tmp2 + 2 * M_PI);
+	return (tmp1 + 2 * M_PI);
 
 }

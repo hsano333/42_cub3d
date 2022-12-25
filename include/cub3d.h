@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/24 06:13:51 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/24 18:55:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 # define WALL_LEN (400)
 //# define WALL_WIDTH (400)
 //# define WALL_HEIGHT (400)
-# define FOV (120)
+# define FOV (90)
 //# define CAMERA (100)
 # define MAP_SPACE (400)
 # define MOVE_STEP (20)
 # define ON_EXPOSE (14)
 # define ON_DESTROY (17)
-# define RATIO_Z (400)
+# define RATIO_Z (200)
 # define BASE_ZX (400)
 # define BASE_ZY (300)
 # include <unistd.h>
@@ -111,11 +111,12 @@ typedef struct s_ray
 	//t_cub3d_type	cur_angle;
 	t_cub3d_type	begin_angle;
 	t_cub3d_type	last_angle;
-	t_cub3d_type	img_offset_begin;
-	t_cub3d_type	img_offset_last;
+	t_cub3d_type	base_angle;
+	double		img_offset_begin;
+	double		img_offset_last;
 	int		begin_x;
-	int		last_x;
-	int		x_len;
+	//int		last_x;
+	//int		x_len;
 	//int	z_distance;
 	t_point		distance;
 	//int	last_angle;
