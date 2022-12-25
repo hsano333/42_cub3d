@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/25 06:29:41 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/25 07:08:14 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ static t_point	get_offset(t_ray *ray, int mode)
 	}
 	else if (ray->wall_dir == EAST_WALL)
 		point.x = 1;
+	else if (ray->wall_dir == WEST_WALL)
+		point.y = 1;
 	return (point);
 }
 

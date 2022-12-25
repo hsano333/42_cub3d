@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/25 06:27:11 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/25 06:56:15 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 		offset = z * WALL_LEN / WIN_HEIGHT - WALL_LEN / 2;
 		ratio = z / RATIO_Z;
 		img_point.y = (y * ratio - offset) * ray->wall_img->height / WALL_LEN;
-		img_point.y = y;
+		//img_point.y = y;
 
 
 		/*
