@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/25 06:56:15 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/26 17:41:37 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 	t_cub3d_type z = 0;
 	t_cub3d_type ratio = 0;
 	t_cub3d_type tan_val;
+	t_cub3d_type far_height;
 
 	y = z;
 	y = 0;
@@ -52,7 +53,7 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 	//img_point.x = (int)(((x - img_x_offset) * ratio) * ray->wall_img->width / WALL_LEN) + ray->img_offset_begin / ratio;
 	//img_point.x = (int)(((x - img_x_offset) * ratio) * ray->wall_img->width / WALL_LEN) + ray->img_offset_begin / ratio / ray->wall_img->width * WALL_LEN;
 	//img_point.x = (int)(((x - img_x_offset) * ratio) * ray->wall_img->width / WALL_LEN + ray->img_offset_begin);
-	img_point.x = (int)((((x - img_x_offset) * ratio)  + ray->img_offset_begin) * ray->wall_img->width / WALL_LEN);
+	img_point.x = (int)((((x - img_x_offset) * ratio) + ray->img_offset_begin) * ray->wall_img->width / WALL_LEN);
 	//img_point.x = (x - img_x_offset) * ratio;
 	//printf("img_point.x=%d,ray->wall_img->width=%d\n ",img_point.x, ray->wall_img->width);
 	if (img_point.x >= ray->wall_img->width)
@@ -63,6 +64,24 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 	win_img_addr = NULL;
 	img_addr = NULL;
 	wall_flag = false;
+	double tmp_x = ((((x - img_x_offset) * ratio)  + ray->img_offset_begin) * ray->wall_img->width / WALL_LEN);// + ray->img_offset_begin;
+	//z = (tmp_x * WALL_LEN / ray->wall_img->width + ray->begin_distance.y);
+	if (ray->begin_distance.y == ray->last_distance.y || tan_val == NAN)
+		z = ray->begin_distance.y;
+	else
+		z = (tmp_x * WALL_LEN / ray->wall_img->width + ray->begin_distance.y);
+	//offset = (z / RATIO_Z - 1) * WALL_LEN / 2 * WIN_HEIGHT / (z * 2 * WIN_WIDTH / WIN_HEIGHT);
+	offset = (z / RATIO_Z * WALL_LEN / 2 - WALL_LEN / 2) * ray->wall_img->height / WALL_LEN;
+	ratio = z / RATIO_Z;
+	far_height = z * WALL_LEN / RATIO_Z;
+	//tan_val = tan(ray->base_angle); 
+		//z = ray->begin_distance.x / tan_val + tmp_x * WALL_LEN / (ray->wall_img->height - ray->img_offset_begin / 2);
+		//z = ray->begin_distance.x / tan_val + tmp_x * WALL_LEN / (ray->wall_img->height - ray->img_offset_begin / 2);
+		//z = ray->begin_distance.x / tan_val + tmp_x * WALL_LEN / (ray->wall_img->height + ray->img_offset_begin * 2);
+	//offset = z * WALL_LEN / WIN_HEIGHT - WALL_LEN / 2;
+	//offset = (z / RATIO_Z - 1) * WALL_LEN / 2;
+	if (x >=0 && x <= 500)
+		printf("x = %d, tmp_x=%lf, z=%lf, offset=%lf, ratio=%lf\n", x, tmp_x, z, offset, ratio);
 	while (y < WIN_HEIGHT)
 	{
 		win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
@@ -74,14 +93,23 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 			img_point.y = (int)nearbyintl(((double)y * WALL_LEN / WIN_HEIGHT) * ray->distance.x / tan(angle) / ray->wall_img->height);
 		//double tmp = ((ray->distance.x / tan(angle)) / RATIO_Z);
 
-		tan_val = tan(angle); 
-		if (ray->begin_distance.y == ray->last_distance.y || tan_val == NAN)
-			z = ray->begin_distance.y;
-		else
-			z = ray->begin_distance.x / tan_val;
-		offset = z * WALL_LEN / WIN_HEIGHT - WALL_LEN / 2;
-		ratio = z / RATIO_Z;
+		//tan_val = tan(angle); 
+
+
+		//double b1 = (tan(ray->base_angle) - tan(ray->last_angle)) * ray->last_distance.y;
+		//double b2 = WALL_LEN - ray->begin_distance.x / tan(ray->base_angle);
+		//double b3 = (b2/ b1) * RATIO_Z / ray->last_distance.y;
+
+		//img_point.y = ((y) * ratio) * ray->wall_img->height / WALL_LEN;
+		img_point.y = (double)y * ray->wall_img->height / WIN_HEIGHT / far_height;
+		//img_point.y = (double)y / WIN_HEIGHT * far_height / far_height * ray->wall_img->height * ratio;
+		if (img_point.y <= offset)
+			img_point.y = -1;
+		if (img_point.y >= far_height - offset)
+			img_point.y = ray->wall_img->height + 1;
 		img_point.y = (y * ratio - offset) * ray->wall_img->height / WALL_LEN;
+		//ratio = z / 300;
+		//img_point.y = (int)((((yoffset) * ratio)  + ray->img_offset_begin) * ray->wall_img->width / WALL_LEN);
 		//img_point.y = y;
 
 

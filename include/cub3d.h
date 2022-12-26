@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/24 18:55:33 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/25 12:11:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define MOVE_STEP (20)
 # define ON_EXPOSE (14)
 # define ON_DESTROY (17)
-# define RATIO_Z (200)
+# define RATIO_Z (300)
 # define BASE_ZX (400)
 # define BASE_ZY (300)
 # include <unistd.h>
