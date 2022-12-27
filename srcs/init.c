@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 02:50:57 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/20 07:22:07 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/27 18:28:57 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,28 @@
 #include "wall.h"
 #include "arg.h"
 #include "hook.h"
+#include "unistd.h"
 
 
 void	calc_angles(t_cub3d *cub3d)
 {
-	size_t	i;
+	int	i;
+	double	ratio;
 
 	i = 0;
-	while (i < WIN_WIDTH * 360 / FOV)
+	//while (i < WIN_WIDTH * 360 / FOV)
+	i = 0;
+	while (i < WIN_WIDTH)
 	{
-		cub3d->angles[i].degree = FOV / 2 - (FOV * ((double)i / (WIN_WIDTH - 1)));
+		//cub3d->angles[i].degree = FOV / 2 - (FOV * ((double)i / (WIN_WIDTH - 1)));
+		//cub3d->angles[i].degree = FOV / 2 - (FOV * ((double)i / (WIN_WIDTH - 1)));
+		ratio = (double)(WIN_WIDTH / 2 - i) / BASE_ZX;
+		cub3d->angles[i].radian = atan(ratio);
 		if (cub3d->angles[i].degree < 0)
-			cub3d->angles[i].degree += 360;
-		else if (cub3d->angles[i].degree >= 360)
-			cub3d->angles[i].degree -= 360;
-		cub3d->angles[i].radian = fabs(cub3d->angles[i].degree) * M_PI / 180;
+			cub3d->angles[i].degree += 2 * M_PI;
+		//else if (cub3d->angles[i].degree >= 360)
+			//cub3d->angles[i].degree -= 360;
+		cub3d->angles[i].degree = cub3d->angles[i].radian * 180 / M_PI;
 		i++;
 	}
 }

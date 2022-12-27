@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/26 06:40:18 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/27 18:31:34 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static t_point	get_offset(t_ray *ray, int mode)
 
 int	is_next_wall(t_ray *ray, t_cub3d_type angle)
 {
-	printf("is_next_wall No.2, ray->begin_angle=%lf, ray->last_angle=%lf, angle=%lf\n", ray->begin_angle * 180 / M_PI, ray->last_angle * 180 / M_PI, angle * 180 / M_PI);
+	//printf("is_next_wall No.2, ray->begin_angle=%lf, ray->last_angle=%lf, angle=%lf\n", ray->begin_angle * 180 / M_PI, ray->last_angle * 180 / M_PI, angle * 180 / M_PI);
 	if (ray->begin_angle >= ray->last_angle && angle < ray->last_angle)
 		return (true);
 	else if (ray->begin_angle < ray->last_angle)
@@ -95,7 +95,7 @@ int	is_next_wall(t_ray *ray, t_cub3d_type angle)
 		if (angle > ray->begin_angle && angle < ray->last_angle)
 			return (true);
 	}
-	printf("is_next_wall No.3\n");
+	//printf("is_next_wall No.3\n");
 	return (false);
 }
 
@@ -110,7 +110,7 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 	begin_distance.x = ((int)((cub3d->player->map_x - (ray->map_point.x + offset.x))) * WALL_LEN + cub3d->player->x);
 	begin_distance.y = ((int)((cub3d->player->map_y - (ray->map_point.y + offset.y))) * WALL_LEN + cub3d->player->y);
 	//safe
-	printf("ray=%p, ray->begin_distance=%p\n", ray, &(ray->begin_distance.x));
+	//printf("ray=%p, ray->begin_distance=%p\n", ray, &(ray->begin_distance.x));
 	//ray->begin_distance.x = begin_distance.x;
 	//ray->begin_distance.y = 1;
 	//return (offset);
@@ -167,7 +167,7 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 		ray->img_offset_begin = ((begin_distance.y * tan(angle) - begin_distance.y * tan(ray->begin_angle)) * base_y);
 		ray->img_offset_last = cub3d->player->x;
 	}
-	printf("ray calcing offset:ray->img_offset_begin=%lf, ray->img_offset_last=%lf\n",ray->img_offset_begin, ray->img_offset_last );
+	//printf("ray calcing offset:ray->img_offset_begin=%lf, ray->img_offset_last=%lf\n",ray->img_offset_begin, ray->img_offset_last );
 	//
 	if (ray->x != 0)
 		ray->img_offset_begin = 0;
@@ -262,7 +262,7 @@ static int	calc_x_len(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 
 int	fire_ray(t_cub3d *cub3d, t_ray *ray, size_t i, t_cub3d_type angle, int tmp)
 {
-	printf("fire_ray test No.1, i=%zu, ray=%p , tmp=%d\n", i, ray, tmp);
+	//printf("fire_ray test No.1, i=%zu, ray=%p , tmp=%d\n", i, ray, tmp);
 	//int tmp = 0;
 	/*
 	ray->x = i;
@@ -356,7 +356,7 @@ int	fire_ray(t_cub3d *cub3d, t_ray *ray, size_t i, t_cub3d_type angle, int tmp)
 	//printf("fire_ray test No.3\n");
 	//calc_x_len(cub3d, &(cub3d->rays[i]), angle);
 
-	printf("ray No.2 x=%d, y=%d,dist_x=%d,dist_y=%d, ray->begin_angle=%lf, ray->last_angle=%lf, angle=%lf,begin=%d,last_x =%d ,ray->img_offset_begin=%lf , ray->wall_img->width=%d, tmp=%d, begin_distance.x=%d, begin_distance.y=%d, ray->img_offset_last=%lf, ray->x_len=%d, ray->base_angle=%lf\n",ray->map_point.x, ray->map_point.y,ray->distance.x,ray->distance.y,  ray->begin_angle * 180 / M_PI, ray->last_angle * 180 / M_PI, angle * 180 / M_PI, ray->begin_x, 0, ray->img_offset_begin, ray->wall_img->width,tmp, ray->distance.x, ray->distance.y, ray->img_offset_last, 0, ray->base_angle * 180 / M_PI);
+	//printf("ray No.2 x=%d, y=%d,dist_x=%d,dist_y=%d, ray->begin_angle=%lf, ray->last_angle=%lf, angle=%lf,begin=%d,last_x =%d ,ray->img_offset_begin=%lf , ray->wall_img->width=%d, tmp=%d, begin_distance.x=%d, begin_distance.y=%d, ray->img_offset_last=%lf, ray->x_len=%d, ray->base_angle=%lf\n",ray->map_point.x, ray->map_point.y,ray->distance.x,ray->distance.y,  ray->begin_angle * 180 / M_PI, ray->last_angle * 180 / M_PI, angle * 180 / M_PI, ray->begin_x, 0, ray->img_offset_begin, ray->wall_img->width,tmp, ray->distance.x, ray->distance.y, ray->img_offset_last, 0, ray->base_angle * 180 / M_PI);
 
 	//ray->x_len = 200;
 	return (tmp + 1);

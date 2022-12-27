@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/27 16:18:15 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/27 18:30:45 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 	int	y;
 	int	wall_flag;
 	t_point	img_point;
-	t_cub3d_type offset = (ray->distance.x / tan(angle)) / 2 - WALL_LEN;
+	//t_cub3d_type offset = (ray->distance.x / tan(angle)) / 2 - WALL_LEN;
 	t_cub3d_type z = 0;
 	t_cub3d_type ratio = 0;
 	t_cub3d_type tan_val;
@@ -56,12 +56,12 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 		//z = ray->begin_distance.y + (tmp_x * WALL_LEN / ray->wall_img->width);
 
 	double world_height = z * WALL_LEN / BASE_ZY;
-	offset = (z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2);
+	//offset = (z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2);
 	double offset_win = (z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2) * WIN_HEIGHT / world_height;
 	ratio = ray->wall_img->height / world_height;
 	//far_height = z * WALL_LEN / RATIO_Z;
-	if (x >=0 && x <= 350)
-		printf("x = %d, tmp_x=%lf,tmp_angle=%lf, ray->begin_angle=%lf,ray->base_angle=%lf,ray->img_offset_begin=%lf,ray->img_offset_last=%lf, img_x_offset=%d ,z=%lf,world_height=%lf,  offset=%lf,offset_win=%lf  \n", x, tmp_x,tmp_angle * 180 / M_PI,ray->begin_angle * 360 / M_PI, ray->base_angle * 360 / M_PI, ray->img_offset_begin,ray->img_offset_last, img_x_offset, z,world_height, offset, offset_win);
+	//if (x >=0 && x <= 350)
+		//printf("x = %d, tmp_x=%lf,angle=%lf,tmp_angle=%lf, ray->begin_angle=%lf,ray->base_angle=%lf,ray->img_offset_begin=%lf,ray->img_offset_last=%lf, img_x_offset=%d ,z=%lf,world_height=%lf,  offset=%lf,offset_win=%lf  \n", x, tmp_x,angle * 180 / M_PI,tmp_angle * 180 / M_PI,ray->begin_angle * 360 / M_PI, ray->base_angle * 360 / M_PI, ray->img_offset_begin,ray->img_offset_last, img_x_offset, z,world_height, offset, offset_win);
 	wall_flag = false;
 	while (y < WIN_HEIGHT)
 	{
@@ -115,9 +115,9 @@ int	update_image_per_wall(t_cub3d *cub3d, t_ray *ray, int offset)
 	//j = 
 
 	i = 0;
-	double tan_val = fabs(tan(ray->base_angle));
-	double z = ray->last_distance.y / tan_val;
-	printf("update_image_per_wall No.1 offset=%d, img_offset_begin=%lf,ray->base_angle=%lf, ray->last_distance.y=%d, z=%lf \n", offset, ray->img_offset_begin, ray->base_angle * 180 / M_PI, ray->last_distance.y, z);
+	//double tan_val = fabs(tan(ray->base_angle));
+	//double z = ray->last_distance.y / tan_val;
+	//printf("update_image_per_wall No.1 offset=%d, img_offset_begin=%lf,ray->base_angle=%lf, ray->last_distance.y=%d, z=%lf \n", offset, ray->img_offset_begin, ray->base_angle * 180 / M_PI, ray->last_distance.y, z);
 	while (i + offset < WIN_WIDTH)
 	{
 		angle = cub3d->player->dir.radian + cub3d->angles[i + offset].radian;
@@ -196,12 +196,12 @@ int	update_image(t_cub3d *cub3d)
 		//cub3d->rays[j].next_i = i;
 		//j = i;
 		//cub3d->rays[j].cur_angle = angle;
-		printf("\nfire renew i=%d, j=%d, angle=n%lf\n", i, j, angle * 180 / M_PI);
-		printf("No.1 angle =%lf,cub3d->rays[j].last_angle=%lf i=%d, j=%d\n", angle,cub3d->rays[j].last_angle, i, j);
+		//printf("\nfire renew i=%d, j=%d, angle=n%lf\n", i, j, angle * 180 / M_PI);
+		//printf("No.1 angle =%lf,cub3d->rays[j].last_angle=%lf i=%d, j=%d\n", angle,cub3d->rays[j].last_angle, i, j);
 		tmp = fire_ray(cub3d, &(cub3d->rays[j]), i, angle, tmp);
 		//i = update_image_per_wall();
 		i = update_image_per_wall(cub3d, &cub3d->rays[j], i);
-		printf("No.2 angle =%lf,cub3d->rays[j].last_angle=%lf i=%d, j=%d\n", angle,cub3d->rays[j].last_angle, i, j);
+		//printf("No.2 angle =%lf,cub3d->rays[j].last_angle=%lf i=%d, j=%d\n", angle,cub3d->rays[j].last_angle, i, j);
 		j++;
 			//printf("No.2 angle =%lf,cub3d->rays[j].last_angle=%lf i=%ld, j=%ld\n", angle,cub3d->rays[j].last_angle, i, j);
 		//}
