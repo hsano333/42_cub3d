@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/27 14:15:14 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/27 15:46:34 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 	if (ray->begin_distance.y == ray->last_distance.y || tan_val == NAN)
 		z = ray->begin_distance.y;
 	else
-		z = ray->begin_distance.y + (tmp_x * WALL_LEN / ray->wall_img->width);
+		z = ray->begin_distance.x / tan(tmp_angle);
+		//z = ray->begin_distance.y + (tmp_x * WALL_LEN / ray->wall_img->width);
 
 	double world_height = z * WALL_LEN / BASE_ZY;
 	offset = (z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2);
