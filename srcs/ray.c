@@ -6,19 +6,77 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/27 18:31:34 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/28 15:46:43 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ray.h"
 #include "angle_utils.h"
+#include "map_utils.h"
 
-static	t_point search_wall(t_ray *ray)
+static void	set_map_dir(t_cub3d *cub3d, t_ray *ray, t_point map, t_point next_map)
 {
-	t_point	point;
-	point.x = ray->x;
-	point.y = 1;
-	return (point);
+	int	diff_x;
+	int	diff_y;
+
+	diff_x = next_map.x - map.x;
+	diff_y = next_map.y - map.y;
+
+	printf("next_map.x=%d, next_map.y=%d,   map.x=%d, map.y=%d \n", next_map.x, next_map.y, map.x, map.y);
+	if (diff_y == -1)
+	{
+		printf("south\n");
+		ray->wall_dir = SOUTH_WALL;
+		ray->wall_img = cub3d->walls->south;
+	}
+	else if (diff_y == 1)
+	{
+		printf("north\n");
+		ray->wall_dir = NORTH_WALL;
+		ray->wall_img = cub3d->walls->north;
+	}
+	else if (diff_x == 1)
+	{
+		printf("west\n");
+		ray->wall_dir = WEST_WALL;
+		ray->wall_img = cub3d->walls->west;
+	}
+	else if (diff_x == -1)
+	{
+		printf("east\n");
+		ray->wall_dir = EAST_WALL;
+		ray->wall_img = cub3d->walls->east;
+	}
+}
+
+static	t_point search_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle, t_point map)
+{
+	t_cub3d_type	y_dist;
+	t_cub3d_type	x_dist;
+	t_point		next;
+
+	printf("search wall No.1 map.x=%d, map.y=%d, angle=%lf\n", map.x, map.y, angle * 180 / M_PI);
+	if (angle < M_PI / 2 || angle > M_PI * 3 / 2)
+		y_dist = cub3d->player->world_y - map.y * WALL_LEN;
+	else
+		//y_dist = cub3d->player->world_y - (map.y + 1) * WALL_LEN;
+		y_dist = (map.y + 1) * WALL_LEN - cub3d->player->world_y;
+		//y_dist = (map.y + 1) * WALL_LEN - cub3d->player.world_y;
+	if (angle < M_PI)
+		x_dist = cub3d->player->world_x - map.x * WALL_LEN;
+	else
+		//x_dist = cub3d->player->world_x - (map.x + 1) * WALL_LEN;
+		x_dist = (map.x + 1) * WALL_LEN - cub3d->player->world_x;
+	printf("search wall No.2 x_dist=%lf, y_dist=%lf, y_dist*tan(an)=%lf\n", x_dist, y_dist, y_dist * tan(angle));
+	next = next_map_mass(angle, x_dist, y_dist, map);
+	printf("search wall No.3 next:map.x=%d, map.y=%d, angle=%lf\n", next.x, next.y, angle * 180 / M_PI);
+	if (cub3d->map[next.y][next.x].obj == WALL || cub3d->map[next.y][next.x].obj >= DOOR)
+	{
+		set_map_dir(cub3d, ray, map, next);
+		return (next);
+	}
+	//printf("search wall No.4 next.x=%d, next.y=%d\n", next.x, next.y);
+	return (search_wall(cub3d, ray, angle, next));
 }
 
 #define FIRST 0
@@ -99,7 +157,7 @@ int	is_next_wall(t_ray *ray, t_cub3d_type angle)
 	return (false);
 }
 
-static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
+static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle, t_cub3d_type pre_last_angle)
 {
 	t_point	begin_distance;
 	t_point	last_distance;
@@ -129,15 +187,15 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 	//ray->last_angle = distance_to_angle((double)last_distance.x / last_distance.y, ray->begin_angle);
 	//ray->begin_angle = distance_to_angle((double)begin_distance.x / begin_distance.y, angle);
 	//ray->last_angle = distance_to_angle((double)last_distance.x / last_distance.y, angle);
-	if (ray->x == 0)
+	if (isnan(pre_last_angle))
 		ray->begin_angle = distance_to_angle((double)begin_distance.x / begin_distance.y, angle, RORATE_PLUS);
 	else
-		ray->begin_angle = ray[-1].last_angle;
+		ray->begin_angle = pre_last_angle;
 	ray->last_angle = distance_to_angle((double)last_distance.x / last_distance.y, angle, RORATE_MINUS);
-	if (ray->x == 0)
+	if (isnan(pre_last_angle))
 		ray->base_angle = angle;
 	else
-		ray->base_angle = ray[-1].last_angle;
+		ray->base_angle = pre_last_angle;
 	//ray->x_len = (fabs(ray->last_angle - ray->begin_angle) * 180 / M_PI) * (WIN_WIDTH + 1) / FOV;
 	//ray->x_len = (int)((fabs(ray->last_angle - angle) * 180 / M_PI) * (WIN_WIDTH - 1) / FOV);
 	//while (i < WIN_WIDTH && is_next_wall(ray, angle))
@@ -260,7 +318,7 @@ static int	calc_x_len(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 }
 */
 
-int	fire_ray(t_cub3d *cub3d, t_ray *ray, size_t i, t_cub3d_type angle, int tmp)
+int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle, t_cub3d_type pre_last_angle)
 {
 	//printf("fire_ray test No.1, i=%zu, ray=%p , tmp=%d\n", i, ray, tmp);
 	//int tmp = 0;
@@ -272,92 +330,31 @@ int	fire_ray(t_cub3d *cub3d, t_ray *ray, size_t i, t_cub3d_type angle, int tmp)
 	ray->wall_img = cub3d->walls->north;
 	return (get_next_index(&(cub3d->rays[i])));
 	*/
-
 	//ray->x = get_next_index(&(cub3d->rays[i]));
-	ray->map_point = search_wall(ray);
+	//printf("\nsearch wall start i=%zu, angle=%lf\n", i, angle * 180 / M_PI);
+	for(int k = 0; k<= 6;k++)
+	{
+		for(int j = 0; j<= 6;j++)
+		{
+			printf("%d", cub3d->map[k][j].obj);
+		}
+		printf("\n");
+	}
+
+			//cub3d->map[i][j] = map_cell;
+	ray->map_point = search_wall(cub3d, ray, convert_positive_radian(angle), get_player_map_point(cub3d));
+	//set_map_dir(cub3d, ray);
+	printf("searched map x=%d, y=%d, angle=%lf\n", ray->map_point.x, ray->map_point.y, angle * 180 / M_PI);
+	//set_wall();
+
+
 	//test
-	ray->x = i;
-	if (tmp == 7)
-	{
-		ray->map_point.x = 7;
-		ray->map_point.y = 1;
-		ray->wall_dir = SOUTH_WALL;
-		ray->wall_img = cub3d->walls->south;
-	}
-	else if (tmp == 6)
-	{
-		ray->map_point.x = 6;
-		ray->map_point.y = 1;
-		ray->wall_dir = SOUTH_WALL;
-		ray->wall_img = cub3d->walls->south;
-	}
-	else if (tmp == 5)
-	{
-		ray->map_point.x = 4;
-		ray->map_point.y = 3;
-		ray->wall_dir = SOUTH_WALL;
-		ray->wall_img = cub3d->walls->south;
-	}
-	else if (tmp == 4)
-	{
-		ray->map_point.x = 3;
-		ray->map_point.y = 2;
-		ray->wall_dir = SOUTH_WALL;
-		ray->wall_img = cub3d->walls->south;
-	}
-	else if (tmp == 3)
-	{
-		ray->map_point.x = 3;
-		ray->map_point.y = 2;
-		ray->wall_dir = WEST_WALL;
-		ray->wall_img = cub3d->walls->west;
-	}
-	else if (tmp == 2)
-	{
-		ray->map_point.x = 2;
-		ray->map_point.y = 1;
-		ray->wall_dir = SOUTH_WALL;
-		ray->wall_img = cub3d->walls->south;
-	}
-	else if (tmp == 1)
-	{
-		/*
-		ray->map_point.x = 1;
-		ray->map_point.y = 2;
-		ray->wall_dir = EAST_WALL;
-		ray->wall_img = cub3d->walls->east;
-		*/
-		//
-		ray->map_point.x = 1;
-		ray->map_point.y = 2;
-		ray->wall_dir = EAST_WALL;
-		ray->wall_img = cub3d->walls->east;
-	}
-	else if (tmp == 0)
-	{
-		ray->map_point.x = 1;
-		ray->map_point.y = 3;
-		ray->wall_dir = EAST_WALL;
-		ray->wall_img = cub3d->walls->east;
-		//
-		/*
-		ray->map_point.x = 0;
-		ray->map_point.y = 1;
-		ray->wall_dir = SOUTH_WALL;
-		ray->wall_img = cub3d->walls->south;
-		*/
-	}
-	//tmp++;
-	//if (tmp > 7 || ray->last_x == 800)
-	//if (tmp > 4 || ray->last_x == 800)
-		//tmp = 0;
-	//printf("fire_ray test No.2\n");
-	ray->distance = get_distance_from_wall(cub3d, ray, angle);
-	//printf("fire_ray test No.3\n");
-	//calc_x_len(cub3d, &(cub3d->rays[i]), angle);
+	//ray->x = i;
+		//ray->map_point.x = 7;
+		//ray->map_point.y = 1;
+		//ray->wall_dir = SOUTH_WALL;
+		//ray->wall_img = cub3d->walls->south;
 
-	//printf("ray No.2 x=%d, y=%d,dist_x=%d,dist_y=%d, ray->begin_angle=%lf, ray->last_angle=%lf, angle=%lf,begin=%d,last_x =%d ,ray->img_offset_begin=%lf , ray->wall_img->width=%d, tmp=%d, begin_distance.x=%d, begin_distance.y=%d, ray->img_offset_last=%lf, ray->x_len=%d, ray->base_angle=%lf\n",ray->map_point.x, ray->map_point.y,ray->distance.x,ray->distance.y,  ray->begin_angle * 180 / M_PI, ray->last_angle * 180 / M_PI, angle * 180 / M_PI, ray->begin_x, 0, ray->img_offset_begin, ray->wall_img->width,tmp, ray->distance.x, ray->distance.y, ray->img_offset_last, 0, ray->base_angle * 180 / M_PI);
-
-	//ray->x_len = 200;
-	return (tmp + 1);
+	ray->distance = get_distance_from_wall(cub3d, ray, angle, pre_last_angle);
+	return (true);
 }

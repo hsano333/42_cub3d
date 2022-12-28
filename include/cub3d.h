@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/28 02:49:10 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/28 06:14:16 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef enum e_map_obj
 	E_PLAYER,
 	W_PLAYER,
 	SPACE,
+	DOOR,
 	N_DOOR,
 	S_DOOR,
 	E_DOOR,
@@ -134,6 +135,8 @@ typedef struct s_player
 	int	map_y; // >= 0
 	int	x; // > 0 && < MAP_SPACE
 	int	y; // > 0 && < MAP_SPACE
+	t_point	map;
+	t_point	mass;
 	int	world_x; // map_x * MAP_SPACE + x
 	int	world_y; // map_y * MAP_SPACE + y
 	t_angle	dir; //north:0 west:90 south:180 east:270
