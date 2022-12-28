@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 02:50:57 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/28 15:17:03 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/28 16:06:23 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	calc_angles(t_cub3d *cub3d)
 		//cub3d->angles[i].degree = FOV / 2 - (FOV * ((double)i / (WIN_WIDTH - 1)));
 		ratio = (double)(WIN_WIDTH / 2 - i) / BASE_ZX;
 		cub3d->angles[i].radian = atan(ratio);
-		//if (cub3d->angles[i].radian < 0)
-			//cub3d->angles[i].radian += 2 * M_PI;
+		if (cub3d->angles[i].radian < 0)
+			cub3d->angles[i].radian += 2 * M_PI;
 		//else if (cub3d->angles[i].degree >= 360)
 			//cub3d->angles[i].degree -= 360;
 		cub3d->angles[i].degree = cub3d->angles[i].radian * 180 / M_PI;
@@ -107,7 +107,8 @@ t_cub3d	*init(int argc, char **argv)
 	cub3d->map[1][2] = map_cell;
 	cub3d->map[2][1] = map_cell;
 	cub3d->map[3][1] = map_cell;
-	cub3d->map[2][3] = map_cell;
+	cub3d->map[2][4] = map_cell;
+	cub3d->map[1][4] = map_cell;
 	//cub3d->map[2][5] = map_cell;
 	return (cub3d);
 }

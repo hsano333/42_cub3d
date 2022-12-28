@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/28 15:25:24 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/28 16:57:08 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int	update_image(t_cub3d *cub3d)
 	cub3d->player->map_y = 4;
 	cub3d->player->map.x = 2;
 	cub3d->player->map.y = 4;
-	cub3d->player->x = 200;
+	cub3d->player->x = 20;
 	cub3d->player->y = 0;
 	cub3d->player->world_x = cub3d->player->map.x * WALL_LEN + cub3d->player->x;
 	cub3d->player->world_y = cub3d->player->map.y * WALL_LEN + cub3d->player->y;
