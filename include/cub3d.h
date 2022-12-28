@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/27 14:13:10 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/28 02:49:10 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ typedef struct s_cub3d
 	t_wall_imgs	*walls;
 	t_wall_imgs	*trans_walls;
 	t_player	*player;
-	t_ray		rays[WIN_WIDTH * 360 / FOV];
+	//t_ray		rays[WIN_WIDTH * 360 / FOV];
 	t_angle	angles[WIN_WIDTH * 360 / FOV];
 	int		lock;
 }	t_cub3d;
