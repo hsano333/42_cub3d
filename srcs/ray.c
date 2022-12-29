@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/29 12:04:52 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/29 12:45:59 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,25 @@ static void	set_map_dir(t_cub3d *cub3d, t_ray *ray, t_point map, t_point next_ma
 	{
 		//printf("south\n");
 		ray->wall_dir = SOUTH_WALL;
-		ray->wall_img = cub3d->walls->south;
+		ray->wall_img = cub3d->walls->north;
 	}
 	else if (diff_y == 1)
 	{
 		//printf("north\n");
 		ray->wall_dir = NORTH_WALL;
-		ray->wall_img = cub3d->walls->north;
+		ray->wall_img = cub3d->walls->south;
 	}
 	else if (diff_x == 1)
 	{
 		//printf("west\n");
 		ray->wall_dir = WEST_WALL;
-		ray->wall_img = cub3d->walls->west;
+		ray->wall_img = cub3d->walls->east;
 	}
 	else if (diff_x == -1)
 	{
 		//printf("east\n");
 		ray->wall_dir = EAST_WALL;
-		ray->wall_img = cub3d->walls->east;
+		ray->wall_img = cub3d->walls->west;
 	}
 }
 
