@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/28 17:31:32 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/29 05:41:24 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ int	is_next_wall(t_ray *ray, t_cub3d_type angle)
 	return (false);
 }
 
-static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle, t_cub3d_type pre_last_angle)
+static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 {
 	t_point	begin_distance;
 	t_point	last_distance;
@@ -188,12 +188,10 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 	//ray->begin_angle = distance_to_angle((double)begin_distance.x / begin_distance.y, angle);
 	//ray->last_angle = distance_to_angle((double)last_distance.x / last_distance.y, angle);
 	//if (isnan(pre_last_angle))
-		ray->begin_angle = distance_to_angle((double)begin_distance.x / begin_distance.y, angle, RORATE_PLUS);
+	ray->begin_angle = distance_to_angle((double)begin_distance.x / begin_distance.y, angle, RORATE_PLUS);
 	//else
 		//ray->begin_angle = pre_last_angle;
 	ray->last_angle = distance_to_angle((double)last_distance.x / last_distance.y, angle, RORATE_MINUS);
-	if (isnan(pre_last_angle))
-		ray->base_angle = angle;
 	ray->base_angle = angle;
 	//else
 		//ray->base_angle = pre_last_angle;
@@ -319,7 +317,7 @@ static int	calc_x_len(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 }
 */
 
-int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle, t_cub3d_type pre_last_angle)
+int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 {
 	printf("\nfire_ray test No.1, , angle=%lf \n",  angle * 180 / M_PI);
 	//int tmp = 0;
@@ -357,7 +355,7 @@ int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle, t_cub3d_type pre_la
 		//ray->wall_dir = SOUTH_WALL;
 		//ray->wall_img = cub3d->walls->south;
 
-	ray->distance = get_distance_from_wall(cub3d, ray, angle, pre_last_angle);
+	ray->distance = get_distance_from_wall(cub3d, ray, angle);
 	printf("ray No.3 ray->img_offset_begin=%lf, ray->img_offset_last=%lf\n", ray->img_offset_begin, ray->img_offset_last);
 	return (true);
 }

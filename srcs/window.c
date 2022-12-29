@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/28 16:57:08 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/29 05:41:52 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int	update_image(t_cub3d *cub3d)
 	//t_point		map_point;
 	//t_cub3d_type	z;
 	t_cub3d_type	angle;
-	t_cub3d_type	pre_last_angle;
+	//t_cub3d_type	pre_last_angle;
 
 	//map_point.x = 0;
 	i = 0;
@@ -154,12 +154,12 @@ int	update_image(t_cub3d *cub3d)
 	cub3d->player->world_x = cub3d->player->map.x * WALL_LEN + cub3d->player->x;
 	cub3d->player->world_y = cub3d->player->map.y * WALL_LEN + cub3d->player->y;
 	cub3d->player->dir.degree = 0;
-	cub3d->player->dir.radian = 0 * M_PI / 180;
+	cub3d->player->dir.radian = cub3d->player->dir.degree * M_PI / 180;
 	ft_memset(&ray, 0, sizeof(ray));
 	
 	//cub3d->rays[j].last_angle = (cub3d->player->dir.radian + cub3d->angles[0].radian) + 1;
 	ray.last_angle = (cub3d->player->dir.radian + cub3d->angles[0].radian) + 1;
-	pre_last_angle = NAN;
+	//pre_last_angle = NAN;
 	printf("\nstart\n");
 	while (i < WIN_WIDTH)
 	{
@@ -168,8 +168,8 @@ int	update_image(t_cub3d *cub3d)
 			angle -= 360 * M_PI / 180;
 		//else if (angle < 0)
 			//angle += 360 * M_PI / 180;
-		fire_ray(cub3d, &ray, angle, pre_last_angle);
-		pre_last_angle = ray.last_angle;
+		fire_ray(cub3d, &ray, angle);
+		//pre_last_angle = ray.last_angle;
 		i = update_image_per_wall(cub3d, &ray, i);
 		j++;
 	}
