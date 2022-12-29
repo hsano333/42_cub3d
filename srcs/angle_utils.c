@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 07:27:31 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/29 07:11:07 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/29 12:05:13 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_cub3d_type	distance_to_angle(t_cub3d_type val, t_cub3d_type angle, t_rotate_mo
 		//tmp1 += 2 * M_PI;
 	//if (tmp1 > M_PI)
 	//tmp2 = atan(val) + M_PI;
-	printf("distance to angle angle=%lf, tmp1 = %lf, tmp2=%lf\n",angle * 180 / M_PI, tmp1 * 180 / M_PI, tmp2 * 180 / M_PI);
+	//printf("distance to angle angle=%lf, tmp1 = %lf, tmp2=%lf\n",angle * 180 / M_PI, tmp1 * 180 / M_PI, tmp2 * 180 / M_PI);
 	//tmp2 = fabs(tmp1 - M_PI);
 	//diff1 = fabs(angle - tmp1);
 	if (mode == RORATE_PLUS)

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/29 08:46:42 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/29 12:05:34 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 
 	tan_val = (tan(ray->base_angle));
 	if (ray->begin_distance.y == ray->last_distance.y || tan_val == NAN || tan(ray->base_angle) == NAN)
-		z = ray->begin_distance.y;
+		z = fabs(ray->begin_distance.y);
 	else
-		z = ray->last_distance.y / tan_val;
-	ratio = fabs(z / BASE_ZX);
+		z = fabs(ray->last_distance.y / tan_val);
+	ratio = z / BASE_ZX;
 	img_point.x = (int)((((x - img_x_offset) * ratio) + ray->img_offset_begin) * ray->wall_img->width / WALL_LEN);
-	//printf("No.1 img_point.x=%d,ray->wall_img->width=%d, x=%d,img_x_offset=%d,ratio=%lf, ray->img_offset_begin=%lf, ray->begin_distance.y=%d, ray->base_angle = %lf, tan_val=%lf, z=%lf \n ", img_point.x, ray->wall_img->width, x, img_x_offset, ratio, ray->img_offset_begin, ray->begin_distance.y, ray->base_angle * 180 / M_PI, tan_val, z);
+	//if (x - img_x_offset < 10)
+		//printf("No.1 img_point.x=%d,ray->wall_img->width=%d, x=%d,img_x_offset=%d,ratio=%lf, ray->img_offset_begin=%lf, ray->begin_distance.y=%d, ray->base_angle = %lf, tan_val=%lf, z=%lf \n ", img_point.x, ray->wall_img->width, x, img_x_offset, ratio, ray->img_offset_begin, ray->begin_distance.y, ray->base_angle * 180 / M_PI, tan_val, z);
 	if (img_point.x >= ray->wall_img->width)
 		return (true);
 	//printf("No.2 img_point.x=%d,ray->wall_img->width=%d, x=%d,img_x_offset=%d,ratio=%lf, ray->img_offset_begin=%lf \n ", img_point.x, ray->wall_img->width, x, img_x_offset, ratio, ray->img_offset_begin);
@@ -53,14 +54,16 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 	tmp_angle = tmp_x * ((ray->last_angle - ray->base_angle) / (ray->wall_img->width - ray->img_offset_begin * ray->wall_img->width / WALL_LEN)) * (tmp_x -  ray->img_offset_begin * ray->wall_img->width / WALL_LEN) / ray->wall_img->width +  ray->base_angle;
 	tan_val = (tan(tmp_angle));
 	if (ray->begin_distance.y == ray->last_distance.y || tan_val == NAN)
-		z = ray->begin_distance.y;
+		z = fabs(ray->begin_distance.y);
 	else
-		z = ray->begin_distance.x / tan(angle);
+		z = fabs(ray->begin_distance.x / tan(angle));
 
 	double world_height = z * WALL_LEN / BASE_ZY;
+	//double tmp1 = z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2;
 	double offset_win = (z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2) * WIN_HEIGHT / world_height;
 	ratio = ray->wall_img->height / world_height;
 	wall_flag = false;
+	//printf("y: x=%d,img_x_offset=%d, z=%lf,  world_height=%lf, offset_win=%lf, ratio=%lf, tmp1=%lf \n",x, img_x_offset, z,world_height, offset_win, ratio, tmp1);
 	while (y < WIN_HEIGHT)
 	{
 		win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
@@ -79,24 +82,42 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 			img_addr = ray->wall_img->addr + (ray->wall_img->sl * img_point.y);
 			wall_flag = true;
 			win_img_addr[x] = img_addr[img_point.x];
+			/*
+			if (y <= 5 && x == 5)
+			{
+				if (!(0 <= img_point.x && img_point.x < ray->wall_img->width))
+					printf("valid x: x=%d, test img_point.x=%d,  y=%d, test img_point.y=%d \n", x, img_point.x, y, img_point.y);
+				if (!(0 <= img_point.y && img_point.y < ray->wall_img->height))
+					printf("valid y: x=%d, test img_point.x=%d,  y=%d, test img_point.y=%d \n", x, img_point.x, y, img_point.y);
+			}
+			*/
 		}
 		else if (wall_flag)
 		{
 			win_img_addr[x] = 65535 * 255;
+			/*
 			if (y == 5)
 			{
-				/*
 				if (!(0 <= img_point.x && img_point.x < ray->wall_img->width))
 					printf("invalid x: x=%d, test img_point.x=%d,  y=%d, test img_point.y=%d \n", x, img_point.x, y, img_point.y);
 				if (!(0 <= img_point.y && img_point.y < ray->wall_img->height))
 					printf("invalid y: x=%d, test img_point.x=%d,  y=%d, test img_point.y=%d \n", x, img_point.x, y, img_point.y);
-					*/
 			}
+			*/
 			//if (y == 100)
 				//printf("blank x=%d, img_point.x=%d, img_point.y=%d\n", x, img_point.x, img_point.y);
 		}
 		else
 		{
+			/*
+			if (y == 5)
+			{
+				if (!(0 <= img_point.x && img_point.x < ray->wall_img->width))
+					printf("invalid x: x=%d, test img_point.x=%d,  y=%d, test img_point.y=%d \n", x, img_point.x, y, img_point.y);
+				if (!(0 <= img_point.y && img_point.y < ray->wall_img->height))
+					printf("invalid y: x=%d, test img_point.x=%d,  y=%d, test img_point.y=%d \n", x, img_point.x, y, img_point.y);
+			}
+			*/
 			win_img_addr[x] = 255;
 		}
 		y++;
@@ -121,7 +142,7 @@ int	update_image_per_wall(t_cub3d *cub3d, t_ray *ray, int offset)
 			break ;
 		i++;
 	}
-	printf("i=%d\n", i);
+	//printf("i=%d\n", i);
 	return (i + offset);
 }
 
@@ -149,7 +170,7 @@ int	update_image(t_cub3d *cub3d)
 	cub3d->player->map_y = 4;
 	cub3d->player->map.x = 2;
 	cub3d->player->map.y = 4;
-	cub3d->player->x = 20;
+	cub3d->player->x = 200;
 	cub3d->player->y = 0;
 	cub3d->player->world_x = cub3d->player->map.x * WALL_LEN + cub3d->player->x;
 	cub3d->player->world_y = cub3d->player->map.y * WALL_LEN + cub3d->player->y;
@@ -160,7 +181,7 @@ int	update_image(t_cub3d *cub3d)
 	//cub3d->rays[j].last_angle = (cub3d->player->dir.radian + cub3d->angles[0].radian) + 1;
 	ray.last_angle = (cub3d->player->dir.radian + cub3d->angles[0].radian) + 1;
 	//pre_last_angle = NAN;
-	printf("\nstart\n");
+	//printf("\nstart\n");
 	while (i < WIN_WIDTH)
 	{
 		angle = (cub3d->player->dir.radian + cub3d->angles[i].radian);
@@ -175,5 +196,6 @@ int	update_image(t_cub3d *cub3d)
 	}
 	mlx_put_image_to_window(cub3d->mlx, cub3d->window, \
 		   	cub3d->image->img, 0, 0);
+	//error_and_end_game(NULL, "cub3D:end\n");
 	return (true);
 }
