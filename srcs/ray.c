@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/29 05:41:24 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/29 06:03:40 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,8 +224,9 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 		ray->img_offset_begin = ((begin_distance.y * tan(angle) - begin_distance.y * tan(ray->begin_angle)) * base_y);
 		ray->img_offset_last = cub3d->player->x;
 	}
-	//printf("ray calcing offset:ray->img_offset_begin=%lf, ray->img_offset_last=%lf\n",ray->img_offset_begin, ray->img_offset_last );
-	//
+	printf("\nray No.1 angle=%lf, ray calcing offset:ray->img_offset_begin=%lf, ray->img_offset_last=%lf\n",angle * 180 / M_PI, ray->img_offset_begin, ray->img_offset_last );
+	printf("ray No.2ray->begin_angle=%lf, ray->base_angle=%lf, ray->last_angle=%lf, \n", ray->begin_angle * 180 / M_PI, ray->base_angle * 180 / M_PI, ray->last_angle * 180 / M_PI); 
+	printf("begin_distance.x=%d, begin_distance.y=%d, last_distance.x=%d, last_distance.y=%d\n", begin_distance.x, begin_distance.y, last_distance.x, last_distance.y);
 	if (ray->x != 0)
 		ray->img_offset_begin = 0;
 	//if (ray->last_x < WIN_WIDTH)
@@ -236,7 +237,6 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 		//ray->img_offset_begin -= WALL_LEN;
 	//if (ray->last_x >= WIN_WIDTH)
 		//ray->last_x = WIN_WIDTH;
-	//printf("last 0:i=%ld, angle=%lf, degree=%lf, begin_angle=%lf, last_angle=%lf, last_distance.x=%d, last_distance.x=%d, begin_x=%d, last_x=%d,, ray->x_len=%d\n", i, angle, angle*180 / M_PI, ray->begin_angle * 180 / M_PI, ray->last_angle * 180 / M_PI ,last_distance.x, last_distance.y, ray->begin_x, ray->last_x, ray->x_len);
 	//ray->img_offset_begin = (int)(nearbyintl(ray->wall_img->width * (x - ray->begin_x) / (ray->last_x - ray->begin_x)));
 	/*
 	if (ray->begin_angle < 0)

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/29 05:41:52 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/29 08:32:47 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 	y = z;
 	y = 0;
 
-	tan_val = fabs(tan(ray->base_angle));
+	tan_val = (tan(ray->base_angle));
 	if (ray->begin_distance.y == ray->last_distance.y || tan_val == NAN || tan(ray->base_angle) == NAN)
 		z = ray->begin_distance.y;
 	else
 		z = ray->last_distance.y / tan_val;
-	ratio = z / BASE_ZX;
+	ratio = fabs(z / BASE_ZX);
 	img_point.x = (int)((((x - img_x_offset) * ratio) + ray->img_offset_begin) * ray->wall_img->width / WALL_LEN);
 	//printf("No.1 img_point.x=%d,ray->wall_img->width=%d, x=%d,img_x_offset=%d,ratio=%lf, ray->img_offset_begin=%lf, ray->begin_distance.y=%d, ray->base_angle = %lf, tan_val=%lf, z=%lf \n ", img_point.x, ray->wall_img->width, x, img_x_offset, ratio, ray->img_offset_begin, ray->begin_distance.y, ray->base_angle * 180 / M_PI, tan_val, z);
 	if (img_point.x >= ray->wall_img->width)
@@ -121,7 +121,7 @@ int	update_image_per_wall(t_cub3d *cub3d, t_ray *ray, int offset)
 			break ;
 		i++;
 	}
-	//printf("i=%d\n", i);
+	printf("i=%d\n", i);
 	return (i + offset);
 }
 
@@ -153,7 +153,7 @@ int	update_image(t_cub3d *cub3d)
 	cub3d->player->y = 0;
 	cub3d->player->world_x = cub3d->player->map.x * WALL_LEN + cub3d->player->x;
 	cub3d->player->world_y = cub3d->player->map.y * WALL_LEN + cub3d->player->y;
-	cub3d->player->dir.degree = 0;
+	cub3d->player->dir.degree = 180;
 	cub3d->player->dir.radian = cub3d->player->dir.degree * M_PI / 180;
 	ft_memset(&ray, 0, sizeof(ray));
 	
@@ -166,8 +166,8 @@ int	update_image(t_cub3d *cub3d)
 		angle = (cub3d->player->dir.radian + cub3d->angles[i].radian);
 		if (angle > 360 * M_PI / 180)
 			angle -= 360 * M_PI / 180;
-		//else if (angle < 0)
-			//angle += 360 * M_PI / 180;
+		else if (angle < 0)
+			angle += 360 * M_PI / 180;
 		fire_ray(cub3d, &ray, angle);
 		//pre_last_angle = ray.last_angle;
 		i = update_image_per_wall(cub3d, &ray, i);
