@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/29 12:45:59 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/29 18:10:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,25 @@ static void	set_map_dir(t_cub3d *cub3d, t_ray *ray, t_point map, t_point next_ma
 	//printf("next_map.x=%d, next_map.y=%d,   map.x=%d, map.y=%d \n", next_map.x, next_map.y, map.x, map.y);
 	if (diff_y == -1)
 	{
-		//printf("south\n");
+		printf("south\n");
 		ray->wall_dir = SOUTH_WALL;
 		ray->wall_img = cub3d->walls->north;
 	}
 	else if (diff_y == 1)
 	{
-		//printf("north\n");
+		printf("north\n");
 		ray->wall_dir = NORTH_WALL;
 		ray->wall_img = cub3d->walls->south;
 	}
 	else if (diff_x == 1)
 	{
-		//printf("west\n");
+		printf("west\n");
 		ray->wall_dir = WEST_WALL;
 		ray->wall_img = cub3d->walls->east;
 	}
 	else if (diff_x == -1)
 	{
-		//printf("east\n");
+		printf("east\n");
 		ray->wall_dir = EAST_WALL;
 		ray->wall_img = cub3d->walls->west;
 	}
@@ -208,7 +208,6 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 	//ray->last_x = --i;
 	ray->begin_x = ray->x;
 	//ray->last_x = ray->x + ray->x_len;
-	//printf("ray calcing:ray->x_len=%d,last=%d ,last_angle=%lf, angle=%lf, last_angle_test=%lf\n", ray->x_len,ray->last_x,  ray->last_angle * 180 / M_PI, angle * 180 / M_PI, atan((double)last_distance.x / last_distance.y) * 180 / M_PI);
 	//double base_y = (begin_distance.y * tan(ray->last_angle) - begin_distance.y * tan(ray->begin_angle)) * ray->wall_img->width / (WALL_LEN * WALL_LEN);
 	//double base_x = (begin_distance.x / tan(ray->last_angle) - begin_distance.x / tan(ray->begin_angle)) * ray->wall_img->width / (WALL_LEN * WALL_LEN);
 	//double base_x = (begin_distance.x / tan(ray->last_angle) - begin_distance.x / tan(ray->begin_angle)) * ray->wall_img->width / (WALL_LEN * WALL_LEN);
@@ -226,9 +225,9 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 		ray->img_offset_begin = ((begin_distance.y * tan(angle) - begin_distance.y * tan(ray->begin_angle)) * base_y);
 		ray->img_offset_last = cub3d->player->x;
 	}
-	//printf("\nray No.1 angle=%lf, ray calcing offset:ray->img_offset_begin=%lf, ray->img_offset_last=%lf\n",angle * 180 / M_PI, ray->img_offset_begin, ray->img_offset_last );
-	//printf("ray No.2ray->begin_angle=%lf, ray->base_angle=%lf, ray->last_angle=%lf, \n", ray->begin_angle * 180 / M_PI, ray->base_angle * 180 / M_PI, ray->last_angle * 180 / M_PI); 
-	//printf("begin_distance.x=%d, begin_distance.y=%d, last_distance.x=%d, last_distance.y=%d\n", begin_distance.x, begin_distance.y, last_distance.x, last_distance.y);
+	printf("\nray No.1 angle=%lf, ray calcing offset:ray->img_offset_begin=%lf, ray->img_offset_last=%lf\n",angle * 180 / M_PI, ray->img_offset_begin, ray->img_offset_last );
+	printf("ray No.2 ray->begin_angle=%lf, ray->base_angle=%lf, ray->last_angle=%lf, \n", ray->begin_angle * 180 / M_PI, ray->base_angle * 180 / M_PI, ray->last_angle * 180 / M_PI); 
+	printf("ray No.3 begin_distance.x=%d, begin_distance.y=%d, last_distance.x=%d, last_distance.y=%d\n", begin_distance.x, begin_distance.y, last_distance.x, last_distance.y);
 	if (ray->x != 0)
 		ray->img_offset_begin = 0;
 	//if (ray->last_x < WIN_WIDTH)
@@ -348,7 +347,7 @@ int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 	//ray->map_point = search_wall(cub3d, ray, convert_positive_radian(angle), get_player_map_point(cub3d));
 	ray->map_point = search_wall(cub3d, ray, angle, get_player_map_point(cub3d));
 	//set_map_dir(cub3d, ray);
-	//printf("ray No.2 searched map x=%d, y=%d, angle=%lf\n", ray->map_point.x, ray->map_point.y, angle * 180 / M_PI);
+	printf("ray No.2 searched map x=%d, y=%d, angle=%lf\n", ray->map_point.x, ray->map_point.y, angle * 180 / M_PI);
 	//set_wall();
 
 

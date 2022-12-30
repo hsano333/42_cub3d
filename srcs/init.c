@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 02:50:57 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/29 12:07:42 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/30 08:59:09 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	calc_angles(t_cub3d *cub3d)
 		//else if (cub3d->angles[i].degree >= 360)
 			//cub3d->angles[i].degree -= 360;
 		cub3d->angles[i].degree = cub3d->angles[i].radian * 180 / M_PI;
+		//printf("init angles cub3d->angles[%d].degree=%lf\n", i, cub3d->angles[i].degree);
 		i++;
 	}
 }
@@ -104,6 +105,7 @@ t_cub3d	*init(int argc, char **argv)
 			cub3d->map[i][j] = map_cell;
 	}
 	map_cell.obj = WALL;
+	/*
 	cub3d->map[1][2] = map_cell;
 	cub3d->map[2][1] = map_cell;
 	//cub3d->map[2][2] = map_cell;
@@ -114,5 +116,6 @@ t_cub3d	*init(int argc, char **argv)
 	cub3d->map[4][3] = map_cell;
 	cub3d->map[5][3] = map_cell;
 	//cub3d->map[2][5] = map_cell;
+	*/
 	return (cub3d);
 }
