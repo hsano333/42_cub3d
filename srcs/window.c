@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/31 16:29:20 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/31 16:56:53 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,21 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 		z = fabs(r * cos(cub3d->player->dir.radian - angle));
 	ratio = z / BASE_ZX;
 	img_point.x = (int)((((x - img_x_offset) * ratio) + ray->img_offset_begin) * ray->wall_img->width / WALL_LEN);
+
+
+	//test
+	///*  OK
+	tan_val = (tan(ray->base_angle));
+	if (ray->begin_distance.y == ray->last_distance.y || tan_val == NAN || tan(ray->base_angle) == NAN)
+		z = fabs(ray->begin_distance.y);
+	else
+		z = fabs(ray->last_distance.y / tan_val);
+	ratio = z / BASE_ZX;
+	img_point.x = (int)((((x - img_x_offset) * ratio) + ray->img_offset_begin) * ray->wall_img->width / WALL_LEN);
+	//*/
+
+
+
 	if (img_point.x >= ray->wall_img->width - 20 || x - img_x_offset < 20)
 	{
 	printf("x=%d,img_point.x=%d,tmp_x=%lf, tmp_y=%lf, r=%lf, z=%lf, angle=%lf, player_dir=%lf\n",x,img_point.x, tmp_x, tmp_y, r, z, angle * 180 / M_PI, cub3d->player->dir.radian * 180 / M_PI);
@@ -233,11 +248,11 @@ int	update_image(t_cub3d *cub3d)
 	j = 0;
 
 
-	cub3d->player->map_x = 2;
+	cub3d->player->map_x = 3;
 	cub3d->player->map_y = 3;
-	cub3d->player->map.x = 2;
+	cub3d->player->map.x = 3;
 	cub3d->player->map.y = 3;
-	cub3d->player->x = 0;
+	cub3d->player->x = 200;
 	cub3d->player->y = 200;
 	cub3d->player->world_x = cub3d->player->map.x * WALL_LEN + cub3d->player->x;
 	cub3d->player->world_y = cub3d->player->map.y * WALL_LEN + cub3d->player->y;
