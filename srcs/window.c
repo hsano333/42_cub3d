@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/30 14:27:06 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/31 15:53:13 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 		//z = fabs(r * cos(angle - cub3d->player->dir.radian));
 		//z = fabs(ray->begin_distance.y);
 	else if (ray->begin_distance.x == ray->last_distance.x)
-		z = fabs(r * cos(angle - cub3d->player->dir.radian));
+		z = fabs(r * sin(angle - cub3d->player->dir.radian - M_PI / 2));
+		//z = fabs(r * cos(angle - cub3d->player->dir.radian));
 		//z = fabs(r * cos(M_PI / 2 - (angle - cub3d->player->dir.radian)));
 		//z = fabs(r * sin(angle - cub3d->player->dir.radian));
 		//z = fabs(ray->begin_distance.x);
@@ -111,22 +112,28 @@ int	update_image_per_x(t_cub3d *cub3d, int x, int img_x_offset, t_ray *ray, t_cu
 
 	double world_height = z * WALL_LEN / BASE_ZY;
 	//double tmp1 = z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2;
-	double offset_win =fabs((z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2) * WIN_HEIGHT / world_height);
+	//double offset_win =fabs((z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2) * WIN_HEIGHT / world_height);
+	double offset_win = ((z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2) * WIN_HEIGHT / world_height);
 	ratio = ray->wall_img->height / world_height;
 	wall_flag = false;
-	//printf("y: x=%d,img_x_offset=%d, z=%lf,  world_height=%lf, offset_win=%lf, ratio=%lf, tmp1=%lf \n",x, img_x_offset, z,world_height, offset_win, ratio, tmp1);
+	printf("y: x=%d,img_x_offset=%d, z=%lf,  world_height=%lf, offset_win=%lf, ratio=%lf, tmp1= \n",x, img_x_offset, z,world_height, offset_win, ratio);
 	while (y < WIN_HEIGHT)
 	{
 		win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
+		/*
 		if (y < offset_win)
 		{
 			win_img_addr[x] = 255 + 256 * 255;
 			y++;
 			continue;
 		}
-		img_point.y = y / WIN_HEIGHT * world_height - offset_win;
+		*/
+		//img_point.y = y / WIN_HEIGHT * world_height - offset_win;
 		//y = img_point.y * WIN_HEIGHT / world_height  + offset_win;
+		//if (ratio <= 1)
 		img_point.y = (y - offset_win) * world_height / WIN_HEIGHT / 2;
+		//else
+			//img_point.y = y;
 
 		if (0 <= img_point.y && img_point.y < ray->wall_img->height && 0 <= img_point.x && img_point.x < ray->wall_img->width)
 		{
@@ -220,9 +227,9 @@ int	update_image(t_cub3d *cub3d)
 	j = 0;
 
 
-	cub3d->player->map_x = 3;
+	cub3d->player->map_x = 1;
 	cub3d->player->map_y = 3;
-	cub3d->player->map.x = 3;
+	cub3d->player->map.x = 1;
 	cub3d->player->map.y = 3;
 	cub3d->player->x = 200;
 	cub3d->player->y = 200;
