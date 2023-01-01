@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/30 15:47:28 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/01 07:37:31 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,36 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 		//ray->begin_angle = pre_last_angle;
 	ray->last_angle = distance_to_angle((double)last_distance.x / last_distance.y, angle, RORATE_MINUS);
 	ray->base_angle = angle;
+
+	/*
+	int tmp;
+	//if (cub3d->player->dir.radian >= M_PI * 7 / 4 || cub3d->player->dir.radian < M_PI / 4)
+	//{
+//
+	//}
+	if (cub3d->player->dir.radian >= M_PI  / 4 && cub3d->player->dir.radian < M_PI * 3 / 4)
+	{
+		tmp = begin_distance.x;
+		begin_distance.x = begin_distance.y;
+		begin_distance.y = tmp;
+		tmp = last_distance.x;
+		last_distance.x = last_distance.y;
+		last_distance.y = tmp;
+	}
+	//else if (cub3d->player->dir.radian >= M_PI * 3 / 4 || cub3d->player->dir.radian < M_PI * 5 / 4)
+	//{
+	//}
+	else if (cub3d->player->dir.radian >= M_PI * 5 / 4 && cub3d->player->dir.radian < M_PI * 7 / 4)
+	{
+		tmp = begin_distance.x;
+		begin_distance.x = begin_distance.y;
+		begin_distance.y = tmp;
+		tmp = last_distance.x;
+		last_distance.x = last_distance.y;
+		last_distance.y = tmp;
+
+	}
+	*/
 	//else
 		//ray->base_angle = pre_last_angle;
 	//ray->x_len = (fabs(ray->last_angle - ray->begin_angle) * 180 / M_PI) * (WIN_WIDTH + 1) / FOV;
@@ -215,7 +245,6 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 	double base_x = (begin_distance.x / tan(ray->last_angle) - begin_distance.x / tan(ray->begin_angle)) / WALL_LEN;
 	double base_y = (begin_distance.y * tan(ray->last_angle) - begin_distance.y * tan(ray->begin_angle)) / WALL_LEN;
 	if (begin_distance.x == last_distance.x)
-	//if (fabs(angle - 0) <= DBL_EPSILON || fabs(angle - M_PI) <= DBL_EPSILON)
 	{
 		ray->img_offset_begin = ((begin_distance.x / tan(angle) - begin_distance.x / tan(ray->begin_angle)) * base_x);
 		ray->img_offset_last = cub3d->player->y;
