@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/01 07:37:31 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/01 17:20:38 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,36 +195,45 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 	ray->last_angle = distance_to_angle((double)last_distance.x / last_distance.y, angle, RORATE_MINUS);
 	ray->base_angle = angle;
 
-	/*
-	int tmp;
-	//if (cub3d->player->dir.radian >= M_PI * 7 / 4 || cub3d->player->dir.radian < M_PI / 4)
-	//{
-//
-	//}
-	if (cub3d->player->dir.radian >= M_PI  / 4 && cub3d->player->dir.radian < M_PI * 3 / 4)
+	//int tmp;
+	ray->is_front_wall = false;
+	if (cub3d->player->dir.radian >= M_PI * 7 / 4 || cub3d->player->dir.radian < M_PI / 4)
 	{
-		tmp = begin_distance.x;
-		begin_distance.x = begin_distance.y;
-		begin_distance.y = tmp;
-		tmp = last_distance.x;
-		last_distance.x = last_distance.y;
-		last_distance.y = tmp;
+		if (ray->wall_dir == NORTH_WALL || ray->wall_dir == SOUTH_WALL)
+			ray->is_front_wall = true;
+//
+	}
+	else if (cub3d->player->dir.radian >= M_PI  / 4 && cub3d->player->dir.radian < M_PI * 3 / 4)
+	{
+		if (ray->wall_dir == EAST_WALL || ray->wall_dir == WEST_WALL)
+			ray->is_front_wall = true;
+		//tmp = begin_distance.x;
+		//begin_distance.x = begin_distance.y;
+		//begin_distance.y = tmp;
+		//tmp = last_distance.x;
+		//last_distance.x = last_distance.y;
+		//last_distance.y = tmp;
 	}
 	//else if (cub3d->player->dir.radian >= M_PI * 3 / 4 || cub3d->player->dir.radian < M_PI * 5 / 4)
 	//{
 	//}
-	else if (cub3d->player->dir.radian >= M_PI * 5 / 4 && cub3d->player->dir.radian < M_PI * 7 / 4)
+	else if (cub3d->player->dir.radian >= M_PI * 3 / 4 && cub3d->player->dir.radian < M_PI * 5 / 4)
 	{
-		tmp = begin_distance.x;
-		begin_distance.x = begin_distance.y;
-		begin_distance.y = tmp;
-		tmp = last_distance.x;
-		last_distance.x = last_distance.y;
-		last_distance.y = tmp;
+		if (ray->wall_dir == NORTH_WALL || ray->wall_dir == SOUTH_WALL)
+			ray->is_front_wall = true;
+		//tmp = begin_distance.x;
+		//begin_distance.x = begin_distance.y;
+		//begin_distance.y = tmp;
+		//tmp = last_distance.x;
+		//last_distance.x = last_distance.y;
+		//last_distance.y = tmp;
 
 	}
-	*/
-	//else
+	else
+	{
+		if (ray->wall_dir == EAST_WALL || ray->wall_dir == WEST_WALL)
+			ray->is_front_wall = true;
+	}
 		//ray->base_angle = pre_last_angle;
 	//ray->x_len = (fabs(ray->last_angle - ray->begin_angle) * 180 / M_PI) * (WIN_WIDTH + 1) / FOV;
 	//ray->x_len = (int)((fabs(ray->last_angle - angle) * 180 / M_PI) * (WIN_WIDTH - 1) / FOV);
