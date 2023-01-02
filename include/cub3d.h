@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/02 12:53:20 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/02 19:18:26 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ typedef struct s_ray
 	//t_cub3d_type	cur_angle;
 	t_cub3d_type	begin_angle;
 	t_cub3d_type	last_angle;
-	t_cub3d_type	base_angle;
+	t_cub3d_type	start_angle;
+	t_cub3d_type	stop_angle;
 	t_cub3d_type	img_offset_begin;
 	t_cub3d_type	img_offset_last;
 	int		wall_pixel;

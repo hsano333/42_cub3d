@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 05:49:47 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/29 08:52:37 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/02 19:35:08 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,13 @@ t_cub3d_type	convert_positive_radian(t_cub3d_type radian)
 	if (radian < 0)
 		return (radian + 2 * M_PI);
 	return (radian);
+}
+
+t_point	get_wall_distance_from_player(t_cub3d *cub3d, t_point map_point, t_point offset)
+{
+	t_point distance;
+
+	distance.x = ((int)((cub3d->player->map_x - (map_point.x + offset.x))) * WALL_LEN + cub3d->player->x);
+	distance.y = ((int)((cub3d->player->map_y - (map_point.y + offset.y))) * WALL_LEN + cub3d->player->y);
+	return (distance);
 }
