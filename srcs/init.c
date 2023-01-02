@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 02:50:57 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/30 08:59:09 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/02 19:00:21 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,17 +105,14 @@ t_cub3d	*init(int argc, char **argv)
 			cub3d->map[i][j] = map_cell;
 	}
 	map_cell.obj = WALL;
-	/*
 	cub3d->map[1][2] = map_cell;
-	cub3d->map[2][1] = map_cell;
-	//cub3d->map[2][2] = map_cell;
-	//cub3d->map[3][2] = map_cell;
-	cub3d->map[3][1] = map_cell;
-	cub3d->map[2][4] = map_cell;
 	cub3d->map[1][4] = map_cell;
+	cub3d->map[2][1] = map_cell;
+	cub3d->map[2][4] = map_cell;
+	cub3d->map[2][5] = map_cell;
+	cub3d->map[3][1] = map_cell;
 	cub3d->map[4][3] = map_cell;
 	cub3d->map[5][3] = map_cell;
-	//cub3d->map[2][5] = map_cell;
-	*/
+	cub3d->map[5][5] = map_cell;
 	return (cub3d);
 }
