@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/01 17:20:38 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/02 14:58:35 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,11 +257,17 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 	{
 		ray->img_offset_begin = ((begin_distance.x / tan(angle) - begin_distance.x / tan(ray->begin_angle)) * base_x);
 		ray->img_offset_last = cub3d->player->y;
+		ray->base_distance.x = begin_distance.x;
+		ray->base_distance.y = begin_distance.x / tan(angle);
+		//ray->wall_view_len = ray->last_distance.y - ray->base_distance.y;
 	}
 	else
 	{
 		ray->img_offset_begin = ((begin_distance.y * tan(angle) - begin_distance.y * tan(ray->begin_angle)) * base_y);
 		ray->img_offset_last = cub3d->player->x;
+		ray->base_distance.x = begin_distance.y / tan(angle);
+		ray->base_distance.y = begin_distance.y;
+		//ray->wall_view_len = ray->last_distance.x - ray->base_distance.x;
 	}
 	printf("\nray No.1 angle=%lf, ray calcing offset:ray->img_offset_begin=%lf, ray->img_offset_last=%lf\n",angle * 180 / M_PI, ray->img_offset_begin, ray->img_offset_last );
 	printf("ray No.2 ray->begin_angle=%lf, ray->base_angle=%lf, ray->last_angle=%lf, \n", ray->begin_angle * 180 / M_PI, ray->base_angle * 180 / M_PI, ray->last_angle * 180 / M_PI); 
@@ -360,6 +366,7 @@ int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 {
 	//printf("\nfire_ray test No.1, , angle=%lf \n",  angle * 180 / M_PI);
 	//int tmp = 0;
+	ray->x = 1;
 	/*
 	ray->x = i;
 	ray->angle = cub3d->player->dir + cub3d->angles[i];
