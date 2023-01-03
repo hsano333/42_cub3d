@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/02 19:18:26 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/03 17:47:07 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define RATIO_Z (300)
 # define BASE_ZX (400)
 # define BASE_ZY (300)
+# define D_EQUAL 0.001
 # include <unistd.h>
 # include <stdio.h>
 # include <stdbool.h>
@@ -135,10 +136,10 @@ typedef struct s_ray
 
 typedef struct s_player
 {
-	int	map_x;  // >= 0
-	int	map_y; // >= 0
-	int	x; // > 0 && < MAP_SPACE
-	int	y; // > 0 && < MAP_SPACE
+	//int	map_x;  // >= 0
+	//int	map_y; // >= 0
+	//int	x; // > 0 && < MAP_SPACE
+	//int	y; // > 0 && < MAP_SPACE
 	t_point	map;
 	t_point	mass;
 	int	world_x; // map_x * MAP_SPACE + x
