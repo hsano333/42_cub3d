@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 07:27:31 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/04 03:44:29 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/04 11:39:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,14 @@ t_cub3d_type	distance_to_angle(t_cub3d_type val, t_cub3d_type angle, t_rotate_mo
 int	is_in_range_fov(t_cub3d *cub3d, t_cub3d_type angle)
 {
        angle -= cub3d->player->dir.radian;
-       printf("is_in_range_fov check\n");
+       //printf("is_in_range_fov check\n");
        if (angle < 0)
                angle += 2 * M_PI;
        if (angle > M_PI && angle >= cub3d->angles[WIN_WIDTH - 1].radian)
                return (true);
        else if (angle < M_PI && angle <= cub3d->angles[0].radian)
                return (true);
-       printf("is_in_range_fov is false\n");
+       //printf("is_in_range_fov is false\n");
        return (false);
 }
 

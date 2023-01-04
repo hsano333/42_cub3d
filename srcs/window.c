@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/04 03:57:58 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/04 11:39:10 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ double		update_image_per_x(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle
 	double max_len =  last_base_len - begin_base_len;
 	double diff_len =  cur_base_len - begin_base_len ;
 	double ratio_image =  diff_len / max_len;
-	double tmp_angle =angle - cub3d->player->dir.radian - M_PI / 2; 
+	//double tmp_angle =angle - cub3d->player->dir.radian - M_PI / 2; 
 	img_point.x = (int)(((ratio_image)) * ray->wall_img->width);
-	printf(" img_point.x=%d, ray->is_front_wall=%d, ratio_image=%lf, tmp_angle=%lf\n", img_point.x, ray->is_front_wall, ratio_image, tmp_angle*180 / M_PI);
-	printf("x=%d, z=%lf,diff_len=%lf,max_len=%lf,last_base_len=%lf,begin_base_len=%lf,cur_base_len=%lf  \n",x, z, diff_len, max_len,last_base_len,begin_base_len,cur_base_len);
-	printf("angle=%lf,ray->begin_angle=%lf,ray->last_angle=%lf,cub3d->player->dir.radian=%lf \n", angle * 180 / M_PI,ray->begin_angle*180/M_PI,ray->last_angle*180/M_PI, cub3d->player->dir.radian*180/M_PI);
-	printf("r=%lf,tmp_angle=%lf, angle=%lf,player_dir=%lf, cos=%lf, sin=%lf,tan=%lf\n",r,tmp_angle * 180 / M_PI, angle * 180 / M_PI,cub3d->player->dir.radian * 180 / M_PI, cos(tmp_angle), sin(tmp_angle), tan(tmp_angle));
+	//printf(" img_point.x=%d, ray->is_front_wall=%d, ratio_image=%lf, tmp_angle=%lf\n", img_point.x, ray->is_front_wall, ratio_image, tmp_angle*180 / M_PI);
+	//printf("x=%d, z=%lf,diff_len=%lf,max_len=%lf,last_base_len=%lf,begin_base_len=%lf,cur_base_len=%lf  \n",x, z, diff_len, max_len,last_base_len,begin_base_len,cur_base_len);
+	//printf("angle=%lf,ray->begin_angle=%lf,ray->last_angle=%lf,cub3d->player->dir.radian=%lf \n", angle * 180 / M_PI,ray->begin_angle*180/M_PI,ray->last_angle*180/M_PI, cub3d->player->dir.radian*180/M_PI);
+	//printf("r=%lf,tmp_angle=%lf, angle=%lf,player_dir=%lf, cos=%lf, sin=%lf,tan=%lf\n",r,tmp_angle * 180 / M_PI, angle * 180 / M_PI,cub3d->player->dir.radian * 180 / M_PI, cos(tmp_angle), sin(tmp_angle), tan(tmp_angle));
 	old_x += ratio;
 
 
@@ -167,8 +167,8 @@ int	update_image(t_cub3d *cub3d)
 
 	//cub3d->player->map_x = 5;
 	//cub3d->player->map_y = 1;
-	cub3d->player->map.x = 5;
-	cub3d->player->map.y = 1;
+	cub3d->player->map.x = 3;
+	cub3d->player->map.y = 3;
 	//cub3d->player->x = 200;
 	//cub3d->player->y = 200;
 	cub3d->player->mass.x = 200;
@@ -181,7 +181,7 @@ int	update_image(t_cub3d *cub3d)
 	
 	ray.last_angle = (cub3d->player->dir.radian + cub3d->angles[0].radian) + 1;
 	ray.x = 0;
-	printf("\nstart,player point.x=%d, y=%d\n", cub3d->player->map.x, cub3d->player->map.y);
+	//printf("\nstart,player point.x=%d, y=%d\n", cub3d->player->map.x, cub3d->player->map.y);
 	while (i < WIN_WIDTH)
 	{
 		angle = (cub3d->player->dir.radian + cub3d->angles[i].radian);

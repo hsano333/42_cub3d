@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/04 04:09:09 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/04 11:38:19 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,22 +84,23 @@ static t_point	get_offset(t_ray *ray, int mode)
 
 static	t_point search_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle, t_point map)
 {
-	//t_cub3d_type	y_dist;
-	//t_cub3d_type	x_dist;
-	t_point		next;
+
+	t_cub3d_type    y_dist;
+	t_cub3d_type    x_dist;
+	t_point         next;
+
+	if (angle < M_PI / 2 || angle > M_PI * 3 / 2)
+		y_dist = cub3d->player->world_y - map.y * WALL_LEN;
+	else
+		y_dist = (map.y + 1) * WALL_LEN - cub3d->player->world_y;
+	if (angle < M_PI && angle > 0)
+		x_dist = cub3d->player->world_x - map.x * WALL_LEN;
+	else
+		x_dist = (map.x + 1) * WALL_LEN - cub3d->player->world_x;
+	next = next_map_mass(angle, x_dist, y_dist, map);
 
 
-
-	//int x_diff;
-	//int y_diff;
-
-	//if (cos(angle) >= 0)
-	//double cos = x * cos(angle);
-	//double sin = y * sin(angle);
-
-	//if (fabs(cos - x) - fabs(sin - y) > 0)
-
-	next = next_map_mass(angle, cub3d->player->mass, cub3d->player->map);
+	//next = next_map_mass(angle, cub3d->player->mass, cub3d->player->map);
 	//printf("search_wall No.1 angle=%lf,next:x=%d, y=%d, cur:x=%d, y=%d\n",angle * 180 / M_PI, next.x, next.y, cub3d->player->map.x, cub3d->player->map.y);
 	if (cub3d->map[next.y][next.x].obj == WALL || cub3d->map[next.y][next.x].obj >= DOOR)
 	{
@@ -150,7 +151,7 @@ t_cub3d_type	get_stop_angle(t_cub3d *cub3d, t_cub3d_type angle, t_point wall_poi
 
 int	is_next_wall(t_ray *ray, t_cub3d_type angle)
 {
-	printf("is_next_wall No.1check angle=%lf\n", angle * 180 / M_PI);
+	//printf("is_next_wall No.1check angle=%lf\n", angle * 180 / M_PI);
 	if (ray->begin_angle >= ray->last_angle && angle <= ray->last_angle)
 		return (true);
 	else if (ray->begin_angle < ray->last_angle)
@@ -158,7 +159,7 @@ int	is_next_wall(t_ray *ray, t_cub3d_type angle)
 		if (angle > ray->begin_angle && angle <= ray->last_angle)
 			return (true);
 	}
-	printf("is_next_wall No.2 false\n");
+	//printf("is_next_wall No.2 false\n");
 	/*
 	if (ray->begin_angle >= ray->last_angle && angle <= ray->last_angle)
 		return (true);
@@ -194,7 +195,7 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 		ray->stop_angle -= 2 * M_PI;
 	
 	//ray->stop_angle = get_stop_angle(cub3d, ray->last_angle, ray->map_point);
-	printf("start_angle=%lf, stop_angle=%lf, ray->begin_angle=%lf, ray->last_angle=%lf\n", ray->start_angle * 180 / M_PI, ray->stop_angle * 180 / M_PI, ray->begin_angle * 180 / M_PI, ray->last_angle * 180 / M_PI);
+	//printf("start_angle=%lf, stop_angle=%lf, ray->begin_angle=%lf, ray->last_angle=%lf\n", ray->start_angle * 180 / M_PI, ray->stop_angle * 180 / M_PI, ray->begin_angle * 180 / M_PI, ray->last_angle * 180 / M_PI);
 
 	ray->is_front_wall = false;
 	if (cub3d->player->dir.radian >= M_PI * 7 / 4 || cub3d->player->dir.radian < M_PI / 4)
@@ -248,6 +249,6 @@ int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 	//printf("fire_ray No.1 angle=%lf\n", angle * 180 / M_PI);
 	ray->map_point = search_wall(cub3d, ray, angle, get_player_map_point(cub3d));
 	ray->distance = get_distance_from_wall(cub3d, ray, angle);
-	printf("fire map_point.x=%d, y=%d, distance.x=%d, y=%d\n", ray->map_point.x, ray->map_point.y, ray->distance.x, ray->distance.y);
+	//printf("fire map_point.x=%d, y=%d, distance.x=%d, y=%d\n", ray->map_point.x, ray->map_point.y, ray->distance.x, ray->distance.y);
 	return (true);
 }
