@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/03 18:46:49 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/04 03:57:58 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ double		update_image_per_x(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle
 	}
 	r = sqrt(pow(tmp_x, 2) + pow(tmp_y, 2));
 	//printf("\ncub3d->angles[i].degree=%lf\n", cub3d->angles[0].degree);
-	double begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian);
+	//double begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian);
+	double begin_base_len = tan(ray->start_angle - cub3d->player->dir.radian);
 	double last_base_len = tan(ray->last_angle - cub3d->player->dir.radian);
 	double cur_base_len = tan(angle - cub3d->player->dir.radian);
 	/*
@@ -121,6 +122,8 @@ static int	calc_wall_pixel(t_cub3d *cub3d, t_ray *ray, int offset)
 	while (i + offset < WIN_WIDTH)
 	{
 		angle = cub3d->player->dir.radian + cub3d->angles[i + offset].radian;
+		if (angle >= 2 * M_PI)
+			angle -= 2 * M_PI;
 		i++;
 		if (is_next_wall(ray, angle))
 			break ;
