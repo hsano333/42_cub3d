@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/03 17:47:07 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/04 14:02:44 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ typedef enum e_wall_dir
 typedef struct s_ray
 {
 	int		x;
+	//int		i;
 	t_wall_dir	wall_dir;
 	//t_cub3d_type	cur_angle;
 	t_cub3d_type	begin_angle;

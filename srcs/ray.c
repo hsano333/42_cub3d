@@ -6,11 +6,12 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/04 11:38:19 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/04 20:17:23 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <float.h>
+#include "map_utils.h"
 #include "ray.h"
 #include "angle_utils.h"
 #include "map_utils.h"
@@ -98,10 +99,6 @@ static	t_point search_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle, t_poi
 	else
 		x_dist = (map.x + 1) * WALL_LEN - cub3d->player->world_x;
 	next = next_map_mass(angle, x_dist, y_dist, map);
-
-
-	//next = next_map_mass(angle, cub3d->player->mass, cub3d->player->map);
-	//printf("search_wall No.1 angle=%lf,next:x=%d, y=%d, cur:x=%d, y=%d\n",angle * 180 / M_PI, next.x, next.y, cub3d->player->map.x, cub3d->player->map.y);
 	if (cub3d->map[next.y][next.x].obj == WALL || cub3d->map[next.y][next.x].obj >= DOOR)
 	{
 		//printf("set_map, search No.2 end \n");
@@ -112,63 +109,65 @@ static	t_point search_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle, t_poi
 }
 
 //static t_cub3d_point	get_stop_angle(t_cub3d *cub3d, t_ray *ray, t_point wall_point, t_cub3d_type angle)
-t_cub3d_type	get_stop_angle(t_cub3d *cub3d, t_cub3d_type angle, t_point wall_point)
+t_cub3d_type	get_stop_angle(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 {
-	t_point		point;
-	//t_cub3d_type	angle;
-	//t_cub3d_type	tmp_last_angle;
-	t_cub3d_type	tmp_start_angle;
-	t_point		offset;
-	t_point		last_distance;
-	t_ray		ray;
-
-	point.x = 0;
-	point.y = 0;
-
-	//angle = ray.last_angle;
-	tmp_start_angle = angle;
-		//printf("get_stop_angle No.0\n");
-	while (1)
+	const t_cub3d_type	sub_angle = (t_cub3d_type)1 * M_PI / 180;
+	int	i;
+	int	over_flag;
+	////int	i;
+//
+	//i = ray->i;
+	over_flag = false;
+	if (!is_in_range_fov(cub3d, angle))
+		angle = cub3d->angles[WIN_WIDTH - 1].radian + cub3d->player->dir.radian;
+	if (angle >= 2 * M_PI)
+		angle -= 2 * M_PI;
+	if (ray->start_angle < ray->last_angle)
+		over_flag = true;
+	i = 0;
+	//printf("loop No.0 angle=%lf, sub_angle=%lf, start_angle=%lf, over_flag=%d\n", angle * 180 / M_PI, sub_angle * 180 / M_PI, ray->start_angle * 180 / M_PI, over_flag);
+	while (!is_collision_wall(cub3d, ray, angle, cub3d->player->map))
 	{
-		//printf("get_stop_angle No.1\n");
-		point = search_wall(cub3d, &ray, angle, get_player_map_point(cub3d));
-		if (point.x == wall_point.x && point.y == wall_point.y)
-			return (tmp_start_angle);
-		//printf("infinite?angle=%lf,  point.x=%d, point.y=%d,wall.x=%d, wall.y=%d\n",angle,point.x, point.y, wall_point.x, wall_point.y);
-		//printf("infinite?\n");
-		//point = search_wall(cub3d, ray, angle, get_player_map_point(cub3d));
-		//if (point.x == ray->map_point.x && point.y == ray->map_point.y)
-			//break ;
-		offset = get_offset(&ray, FIRST);
-		last_distance = get_wall_distance_from_player(cub3d, point, offset);
-		tmp_start_angle = distance_to_angle((double)last_distance.x / last_distance.y, angle, RORATE_PLUS);
-		angle = tmp_start_angle + 1 *M_PI / 180;
-		if (angle >= 2 * M_PI)
-			angle += 2 * M_PI;
+		i++;
+		//printf("temp loop No.1, angle=%lf,fabs(ray->start_angle=%lf, i=%d, angle=%lf,diff_angle=%lf \n",ray->start_angle * 180 / M_PI,  angle * 180 / M_PI, i, angle, (ray->start_angle - angle) * 180 / M_PI);
+		angle += sub_angle;
+		if (angle > 2 * M_PI)
+			angle -= 2 * M_PI;
+		//printf("temp loop No.2, angle=%lf,fabs(ray->start_angle=%lf, i=%d, angle=%lf,diff_angle=%lf \n",ray->start_angle * 180 / M_PI,  angle * 180 / M_PI, i, angle, (ray->start_angle - angle) * 180 / M_PI);
+		if (!over_flag && angle > ray->start_angle)
+		{
+			angle = ray->start_angle - sub_angle / 10;
+			if (angle < 0)
+				angle += 2 * M_PI;
+			//printf("temp loop end, angle=%lf, i=%d, start_angle=%lf,diff_angle=%lf \n", angle * 180 / M_PI, i, ray->start_angle, (ray->start_angle - angle) * 180 / M_PI);
+			return (angle);
+		}
 	}
-	return (tmp_start_angle);
+	//printf("loop end i=%d, angle=%lf, added_angle=%lf\n", i,angle * 180 / M_PI, sub_angle * i);
+	return (angle);
 }
 
-int	is_next_wall(t_ray *ray, t_cub3d_type angle)
+int	is_next_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 {
 	//printf("is_next_wall No.1check angle=%lf\n", angle * 180 / M_PI);
-	if (ray->begin_angle >= ray->last_angle && angle <= ray->last_angle)
-		return (true);
-	else if (ray->begin_angle < ray->last_angle)
+	if (ray->start_angle >= ray->stop_angle && angle <= ray->stop_angle)
 	{
-		if (angle > ray->begin_angle && angle <= ray->last_angle)
+		if (is_collision_wall(cub3d, ray, angle, cub3d->player->map))
+			return (false);
+		else
 			return (true);
 	}
-	//printf("is_next_wall No.2 false\n");
-	/*
-	if (ray->begin_angle >= ray->last_angle && angle <= ray->last_angle)
-		return (true);
-	else if (ray->begin_angle < ray->last_angle)
+	else if (ray->start_angle < ray->stop_angle)
 	{
-		if (angle > ray->begin_angle && angle <= ray->last_angle)
-			return (true);
+		if (angle > ray->start_angle && angle <= ray->stop_angle)
+		{
+			if (is_collision_wall(cub3d, ray, angle, cub3d->player->map))
+				return (false);
+			else
+				return (true);
+		}
+
 	}
-	*/
 	return (false);
 }
 
@@ -187,14 +186,8 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 	ray->begin_angle = distance_to_angle((double)begin_distance.x / begin_distance.y, angle, RORATE_PLUS);
 	ray->last_angle = distance_to_angle((double)last_distance.x / last_distance.y, angle, RORATE_MINUS);
 	ray->start_angle = angle;
-	if (is_in_range_fov(cub3d, angle))
-		ray->stop_angle = ray->last_angle;
-	else
-		ray->stop_angle = cub3d->angles[WIN_WIDTH - 1].radian + cub3d->player->dir.radian;
-	if (ray->stop_angle >= 2 * M_PI)
-		ray->stop_angle -= 2 * M_PI;
-	
-	//ray->stop_angle = get_stop_angle(cub3d, ray->last_angle, ray->map_point);
+	//printf("\nray->map_point:x=%d, y=%d,ray->start_angle=%lf, ray->last_angle=%lf\n", ray->map_point.x, ray->map_point.y, ray->start_angle * 180 / M_PI,ray->last_angle * 180 / M_PI);
+	ray->stop_angle = get_stop_angle(cub3d, ray, ray->last_angle);
 	//printf("start_angle=%lf, stop_angle=%lf, ray->begin_angle=%lf, ray->last_angle=%lf\n", ray->start_angle * 180 / M_PI, ray->stop_angle * 180 / M_PI, ray->begin_angle * 180 / M_PI, ray->last_angle * 180 / M_PI);
 
 	ray->is_front_wall = false;

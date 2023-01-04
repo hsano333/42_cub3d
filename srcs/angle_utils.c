@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 07:27:31 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/04 11:39:28 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/04 19:27:51 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,6 @@ t_cub3d_type	distance_to_angle(t_cub3d_type val, t_cub3d_type angle, t_rotate_mo
 {
 	t_cub3d_type	tmp1;
 	t_cub3d_type	tmp2;
-	//t_cub3d_type	diff1;
-	//t_cub3d_type	diff2;
-
-	//while (angle > M_PI)
-		//angle -= M_PI * 2;
 
 	tmp1 = atan(val);
 	if (tmp1 < 0)
@@ -70,14 +65,6 @@ t_cub3d_type	distance_to_angle(t_cub3d_type val, t_cub3d_type angle, t_rotate_mo
 	}
 	else
 		tmp2 = tmp1 + M_PI;
-
-	//if (tmp1 < 0)
-		//tmp1 += 2 * M_PI;
-	//if (tmp1 > M_PI)
-	//tmp2 = atan(val) + M_PI;
-	//printf("distance to angle angle=%lf, tmp1 = %lf, tmp2=%lf\n",angle * 180 / M_PI, tmp1 * 180 / M_PI, tmp2 * 180 / M_PI);
-	//tmp2 = fabs(tmp1 - M_PI);
-	//diff1 = fabs(angle - tmp1);
 	if (mode == RORATE_PLUS)
 	{
 		if (tmp1 >= angle)
@@ -92,7 +79,6 @@ t_cub3d_type	distance_to_angle(t_cub3d_type val, t_cub3d_type angle, t_rotate_mo
 	if (angle > tmp1)
 		return (tmp1);
 	return (tmp2);
-
 }
 
 int	is_in_range_fov(t_cub3d *cub3d, t_cub3d_type angle)
