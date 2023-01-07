@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 08:42:00 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 08:43:01 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,6 @@ static void	calc_ray_to_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 	ray->begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian);
 	ray->last_base_len = tan(ray->last_angle - cub3d->player->dir.radian);
 	ray->max_len =  ray->last_base_len - ray->begin_base_len;
-	//return (begin_distance);
 }
 
 int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)

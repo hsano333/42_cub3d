@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 08:38:44 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 08:52:36 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,17 +149,17 @@ int	update_image(t_cub3d *cub3d)
 	j = 0;
 
 
+	/*
 	cub3d->player->map.x = 3;
 	cub3d->player->map.y = 3;
 	cub3d->player->mass.x = 200;
 	cub3d->player->mass.y = 200;
+	*/
 	cub3d->player->world_x = cub3d->player->map.x * WALL_LEN + cub3d->player->mass.x;
 	cub3d->player->world_y = cub3d->player->map.y * WALL_LEN + cub3d->player->mass.y;
 	cub3d->player->dir.radian = cub3d->player->dir.degree * M_PI / 180;
 	ft_memset(&ray, 0, sizeof(ray));
 	
-	//ray.last_angle = (cub3d->player->dir.radian + cub3d->angles[0].radian) + 1;
-	//ray.x = 0;
 	while (i < WIN_WIDTH)
 	{
 		angle = (cub3d->player->dir.radian + cub3d->angles[i].radian);
