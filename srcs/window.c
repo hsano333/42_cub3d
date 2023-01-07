@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 08:20:38 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 08:38:44 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,9 @@ double		update_image_per_x(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle
 	}
 	r = sqrt(pow(tmp_x, 2) + pow(tmp_y, 2));
 	z = fabs(r * sin(angle - cub3d->player->dir.radian - M_PI / 2));
-	double begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian);
-	double last_base_len = tan(ray->last_angle - cub3d->player->dir.radian);
 	double cur_base_len = tan(angle - cub3d->player->dir.radian);
-	double diff_len =  cur_base_len - begin_base_len;
-	double max_len =  last_base_len - begin_base_len;
-	double ratio_image =  diff_len / max_len;
+	double diff_len =  cur_base_len - ray->begin_base_len;
+	double ratio_image =  diff_len / ray->max_len;
 	img_point.x = (int)(((ratio_image)) * (ray->wall_img->width));
 	if (ray->is_adjacent_wall)
 	{
@@ -161,8 +158,8 @@ int	update_image(t_cub3d *cub3d)
 	cub3d->player->dir.radian = cub3d->player->dir.degree * M_PI / 180;
 	ft_memset(&ray, 0, sizeof(ray));
 	
-	ray.last_angle = (cub3d->player->dir.radian + cub3d->angles[0].radian) + 1;
-	ray.x = 0;
+	//ray.last_angle = (cub3d->player->dir.radian + cub3d->angles[0].radian) + 1;
+	//ray.x = 0;
 	while (i < WIN_WIDTH)
 	{
 		angle = (cub3d->player->dir.radian + cub3d->angles[i].radian);

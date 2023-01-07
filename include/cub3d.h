@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 08:18:38 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 08:40:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,27 +108,28 @@ typedef enum e_wall_dir
 
 typedef struct s_ray
 {
-	int		x;
-	//int		i;
+	//int		x;
 	t_wall_dir	wall_dir;
-	//t_cub3d_type	cur_angle;
 	t_cub3d_type	begin_angle;
 	t_cub3d_type	last_angle;
 	t_cub3d_type	start_angle;
 	t_cub3d_type	stop_angle;
-	t_cub3d_type	img_offset_begin;
-	t_cub3d_type	img_offset_last;
+	t_cub3d_type	begin_base_len;
+	t_cub3d_type	last_base_len;
+	//t_cub3d_type	img_offset_begin;
+	//t_cub3d_type	img_offset_last;
+	t_cub3d_type	max_len;
 	int		wall_pixel;
-	int		begin_x;
-	t_point		distance;
+	//int		begin_x;
+	//t_point		distance;
 	t_point		map_point;
 	t_point		begin_distance;
-	t_point		base_distance;
+	//t_point		base_distance;
 	t_point		last_distance;
 	t_image		*wall_img;
-	t_cub3d_type	ratio;
-	int		next_i;
-	int		is_front_wall;
+	//t_cub3d_type	ratio;
+	//int		next_i;
+	//int		is_front_wall;
 	int		is_adjacent_wall;
 }	t_ray;
 
