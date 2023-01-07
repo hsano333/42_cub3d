@@ -10,7 +10,7 @@ LIBFTNAME	:= libft.a
 LIBFT		:= $(LIBFTDIR)/$(LIBFTNAME)
 
 SRCDIR	:= ./srcs/
-SRC	:= init.c arg.c hook.c mouse.c key.c close.c window.c wall.c affine.c ray.c angle_utils.c map_utils.c calc_texture_mapping.c ray_utils.c
+SRC	:= init.c arg.c hook.c mouse.c key.c close.c window.c wall.c affine.c ray.c angle_utils.c map_utils.c calc_texture_mapping.c
 ENTRY	:= main.c
 ENTRYBONUS	:= main_bonus.c
 ifdef WITH_BONUS
