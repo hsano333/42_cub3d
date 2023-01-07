@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 08:12:59 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 17:49:57 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 01:23:19 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,4 @@ t_point			get_player_map_point(t_cub3d *cub3d);
 int				is_collision_wall(t_cub3d *cub3d, t_ray *ray \
 				, t_cub3d_type angle, t_point src_map);
 t_cub3d_type	convert_positive_radian(t_cub3d_type radian);
-t_wall_dir	get_wall_direction(t_point old, t_point cur);
 #endif

@@ -6,13 +6,14 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 05:49:47 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 17:48:50 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 01:25:15 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map_utils.h"
 #include <float.h>
 #include <stdlib.h>
+#define F_NEAR (0.0001)
 
 t_point	add_map_point(t_point point, int x, int y)
 {
