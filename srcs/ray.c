@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 02:53:39 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 02:55:57 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,5 @@ int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 		if (ray->map_point.x - cub3d->player->map.x == 0)
 			ray->is_adjacent_wall = true;
 	}
-	//if (((fabs(ray->map_point.x - cub3d->player->map.x) == 1) && (fabs(ray->map_point.y - cub3d->player->map.y) == 0)) || ((fabs(ray->map_point.x - cub3d->player->map.x) == 0) && (fabs(ray->map_point.y - cub3d->player->map.y) == 1)))
-		//ray->is_adjacent_wall = true;
 	return (true);
 }

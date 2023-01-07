@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 02:40:57 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 02:55:36 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 static int	calc_wall_pixel(t_cub3d *cub3d, t_ray *ray, int offset)
 {
 	int		i;
-	doubler	angle;
+	double	angle;
 
 	i = 0;
 	while (i + offset < WIN_WIDTH)
