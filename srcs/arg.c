@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 06:03:23 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/16 08:05:56 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 23:41:52 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static void	allocate_memmory_wall(t_cub3d *cub3d)
 void	load_map_and_img(t_cub3d *cub3d, int argc, char **argv)
 {
 	//test
-	argc=argc;
-	argv=argv;
+	argc=(int)argc;
+	argv=(char **)argv;
 
 	cub3d->image->width = WIN_WIDTH;
 	cub3d->image->height = WIN_HEIGHT;

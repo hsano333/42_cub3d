@@ -6,14 +6,13 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 14:44:57 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 23:49:25 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "mlx.h"
 #include "affine.h"
-#include "projective_trans.h"
 #include "ray.h"
 #include "close.h"
 #include "libft_mem.h"
@@ -161,14 +160,6 @@ int	update_image(t_cub3d *cub3d)
 
 	i = 0;
 	j = 0;
-
-
-	/*
-	cub3d->player->map.x = 3;
-	cub3d->player->map.y = 3;
-	cub3d->player->mass.x = 200;
-	cub3d->player->mass.y = 200;
-	*/
 	cub3d->player->world_x = cub3d->player->map.x * WALL_LEN + cub3d->player->mass.x;
 	cub3d->player->world_y = cub3d->player->map.y * WALL_LEN + cub3d->player->mass.y;
 	cub3d->player->dir.radian = cub3d->player->dir.degree * M_PI / 180;

@@ -6,13 +6,12 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:50:19 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/11 08:50:38 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 23:42:26 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MOUSE_H
-#define MOUSE_H
+# define MOUSE_H
 
 int	hook_mouse_hook(int key, int x, int y, void *cub3d_v);
 #endif
-
