@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 01:06:47 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 01:20:11 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,20 @@ t_cub3d_type	get_stop_angle(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 		}
 	}
 	return (angle);
+}
+
+static t_point	get_wall_distance_from_player(t_cub3d *cub3d \
+										, t_point map_point, t_point offset)
+{
+	t_point	distance;
+	size_t	world_x;
+	size_t	world_y;
+
+	world_x = map_point.x + offset.x * WALL_LEN;
+	world_y = map_point.y + offset.y * WALL_LEN;
+	distance.x = (int)(cub3d->player->map.x + cub3d->player->mass.x - world_x);
+	distance.y = (int)(cub3d->player->map.y + cub3d->player->mass.y - world_y);
+	return (distance);
 }
 
 static void	calc_ray_to_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
