@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 02:59:13 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 03:11:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 #include "angle_utils.h"
 #include "map_utils.h"
 #include "libft_mem.h"
+#include "ray_utils.h"
 #define FIRST 0
 #define LAST 1
 
+/*
 static void	set_map_dir(t_cub3d *cub3d, t_ray *ray \
 							, t_point map, t_point next_map)
 {
@@ -47,6 +49,7 @@ static void	set_map_dir(t_cub3d *cub3d, t_ray *ray \
 		ray->wall_img = cub3d->walls->west;
 	}
 }
+*/
 
 static t_point	get_offset(t_ray *ray, int mode)
 {
@@ -77,6 +80,7 @@ static t_point	get_offset(t_ray *ray, int mode)
 	return (point);
 }
 
+/*
 static t_point	search_wall(t_cub3d *cub3d, t_ray *ray
 							, t_cub3d_type angle, t_point map)
 {
@@ -101,6 +105,7 @@ static t_point	search_wall(t_cub3d *cub3d, t_ray *ray
 	}
 	return (search_wall(cub3d, ray, angle, next));
 }
+*/
 
 t_cub3d_type	get_stop_angle(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 {
