@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 08:43:01 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 13:17:04 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,9 @@ int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 	ray->map_point = search_wall(cub3d, ray, angle, get_player_map_point(cub3d));
 	calc_ray_to_wall(cub3d, ray, angle);
 	ray->is_adjacent_wall = false;
+	//printf("fire_ray No.1 map:x=%d, y=%d, mass:x=%d, y=%d, wall_point:x=%d, y=%d\n", cub3d->player->map.x, cub3d->player->map.y, cub3d->player->mass.x, cub3d->player->mass.y, ray->map_point.x, ray->map_point.y);
 	if (((fabs(ray->map_point.x - cub3d->player->map.x) == 1) && (fabs(ray->map_point.y - cub3d->player->map.y) == 0)) || ((fabs(ray->map_point.x - cub3d->player->map.x) == 0) && (fabs(ray->map_point.y - cub3d->player->map.y) == 1)))
 		ray->is_adjacent_wall = true;
+	//printf("fire_ray No.2 is_flag = %d, %d, map:x=%d, y=%d, mass:x=%d, y=%d, wall_point:x=%d, y=%d\n",ray->is_adjacent_wall, ray->is_adjacent_wall, cub3d->player->map.x, cub3d->player->map.y, cub3d->player->mass.x, cub3d->player->mass.y, ray->map_point.x, ray->map_point.y);
 	return (true);
 }
