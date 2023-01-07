@@ -6,12 +6,14 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 00:59:08 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 01:44:59 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 17:49:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ray_utils.h"
 #include <math.h>
+#include "ray_utils.h"
+#include "map_utils.h"
+#define F_NEAR (0.0001)
 
 static void	set_map_dir(t_cub3d *cub3d, t_ray *ray \
 						, t_point map, t_point next_map)
@@ -44,7 +46,7 @@ static t_point	which_mass(double angle, double x, double y, t_point map)
 {
 	double	y_dist;
 
-	y_dist_angle = y * fabs(tan(angle));
+	y_dist = y * fabs(tan(angle));
 	if (angle <= M_PI / 2)
 	{
 		if ((x >= y_dist || fabs(x - y * tan(angle)) < F_NEAR))
@@ -80,7 +82,7 @@ static t_point	next_map_mass(double angle, double x_dist \
 		return (add_map_point(map, 0, 1));
 	else if (fabs(angle - (M_PI * 3 / 2)) <= D_EQUAL)
 		return (add_map_point(map, 1, 0));
-	return (which_mass(angle, x_dist, y_dist, map, y_dist_angle));
+	return (which_mass(angle, x_dist, y_dist, map));
 }
 
 t_point	search_wall(t_cub3d *cub3d \
