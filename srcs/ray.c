@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 02:55:57 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 02:59:13 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "ray.h"
 #include "angle_utils.h"
 #include "map_utils.h"
+#include "libft_mem.h"
 #define FIRST 0
 #define LAST 1
 
