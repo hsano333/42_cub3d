@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 05:49:47 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 19:15:50 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 03:51:28 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,60 +24,12 @@ t_point	add_map_point(t_point point, int x, int y)
 
 t_point	get_point(int x, int y)
 {
-	t_point point;
+	t_point	point;
 
 	point.x = x;
 	point.y = y;
 	return (point);
 }
-
-t_point get_player_map_point(t_cub3d *cub3d)
-{
-	t_point point;
-
-	point.x = cub3d->player->map.x;
-	point.y = cub3d->player->map.y;
-	return (point);
-}
-
-/*
-t_point next_map_mass(t_cub3d_type angle, t_cub3d_type x_dist, t_cub3d_type y_dist, t_point map)
-{
-
-	if (fabs(angle - 0) <= D_EQUAL)
-		return (add_map_point(map, 0, -1));
-	else if (fabs(angle - (M_PI / 2)) <= D_EQUAL)
-		return (add_map_point(map, -1, 0));
-	else if (fabs(angle - (M_PI)) <= D_EQUAL)
-		return (add_map_point(map, 0, 1));
-	else if (fabs(angle - (M_PI * 3 / 2)) <= D_EQUAL)
-		return (add_map_point(map, 1, 0));
-	if (angle <= M_PI / 2)
-	{
-		if ((x_dist >= y_dist * fabs(tan(angle)) || fabs(x_dist - y_dist * tan(angle)) < F_NEAR) && tan(angle) != NAN)
-			return (add_map_point(map, 0, -1));
-		else
-			return (add_map_point(map, -1, 0));
-	}
-	else if (angle <= M_PI)
-	{
-		if (x_dist <= y_dist * fabs(tan(angle)) || fabs(x_dist - y_dist * fabs(tan(angle))) <= F_NEAR)
-			return (add_map_point(map, -1, 0));
-		else
-			return (add_map_point(map, 0, 1));
-	}
-	else if (angle <= M_PI * 3 / 2)
-	{
-		if (x_dist >= y_dist * fabs(tan(angle)) || fabs(x_dist - y_dist * fabs(tan(angle))) <= F_NEAR)
-			return (add_map_point(map, 0, 1));
-		else
-			return (add_map_point(map, 1, 0));
-	}
-	if (x_dist <= y_dist * fabs(tan(angle)) || fabs(x_dist - y_dist * fabs(tan(angle))) <= F_NEAR)
-		return (add_map_point(map, 1, 0));
-	return (add_map_point(map, 0, -1));
-}
-*/
 
 t_cub3d_type	convert_positive_radian(t_cub3d_type radian)
 {
@@ -86,41 +38,45 @@ t_cub3d_type	convert_positive_radian(t_cub3d_type radian)
 	return (radian);
 }
 
-t_point	get_wall_distance_from_player(t_cub3d *cub3d, t_point map_point, t_point offset)
+t_point	get_wall_distance_from_player(t_cub3d *cub3d \
+									, t_point map_point, t_point offset)
 {
-	t_point distance;
+	t_point	distance;
+	size_t	world_x;
+	size_t	world_y;
 
-	distance.x = ((int)((cub3d->player->map.x - (map_point.x + offset.x))) * WALL_LEN + cub3d->player->mass.x);
-	distance.y = ((int)((cub3d->player->map.y - (map_point.y + offset.y))) * WALL_LEN + cub3d->player->mass.y);
+	world_x = (map_point.x + offset.x) * WALL_LEN;
+	world_y = (map_point.y + offset.y) * WALL_LEN;
+	distance.x = (int)(cub3d->player->map.x + cub3d->player->mass.x - world_x);
+	distance.y = (int)(cub3d->player->map.y + cub3d->player->mass.y - world_y);
 	return (distance);
 }
 
-
-/*
-int	is_collision_wall(t_cub3d *cub3d, t_ray * ray, t_cub3d_type angle, t_point src_map)
+void	set_map_dir(t_cub3d *cub3d, t_ray *ray \
+						, t_point map, t_point next_map)
 {
-	t_cub3d_type    y_dist;
-	t_cub3d_type    x_dist;
-	t_point         next;
+	t_point	diff;
 
-	if (angle < M_PI / 2 || angle > M_PI * 3 / 2)
-		y_dist = cub3d->player->world_y - src_map.y * WALL_LEN;
-	else
-		y_dist = (src_map.y + 1) * WALL_LEN - cub3d->player->world_y;
-	if (angle < M_PI && angle > 0)
-		x_dist = cub3d->player->world_x - src_map.x * WALL_LEN;
-	else
-		x_dist = (src_map.x + 1) * WALL_LEN - cub3d->player->world_x;
-	next = next_map_mass(angle, x_dist, y_dist, src_map);
-	//printf("angle=%lf, next:x=%d, y=%d, x_dist=%lf, y_dist=%lf\n",angle * 180 / M_PI, next.x, next.y, x_dist, y_dist);
-	if (ray->map_point.x == next.x && ray->map_point.y == next.y)
+	diff.x = next_map.x - map.x;
+	diff.y = next_map.y - map.y;
+	if (diff.y == -1)
 	{
-		if (get_wall_direction(src_map, next) == ray->wall_dir)
-			return (true);
-		return (false);
+		ray->wall_dir = SOUTH_WALL;
+		ray->wall_img = cub3d->walls->north;
 	}
-	else if (cub3d->map[next.y][next.x].obj == WALL || cub3d->map[next.y][next.x].obj >= DOOR)
-		return (false);
-	return (is_collision_wall(cub3d, ray, angle, next));
+	else if (diff.y == 1)
+	{
+		ray->wall_dir = NORTH_WALL;
+		ray->wall_img = cub3d->walls->south;
+	}
+	else if (diff.x == 1)
+	{
+		ray->wall_dir = WEST_WALL;
+		ray->wall_img = cub3d->walls->east;
+	}
+	else if (diff.x == -1)
+	{
+		ray->wall_dir = EAST_WALL;
+		ray->wall_img = cub3d->walls->west;
+	}
 }
-*/

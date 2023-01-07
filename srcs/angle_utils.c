@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 07:27:31 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/04 19:27:51 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 03:55:25 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_cub3d_type	near_angle(t_cub3d_type angle, t_cub3d_type a, t_cub3d_type b)
 		diff2[2] = diff2[1];
 	else
 		diff2[2] = diff2[0];
-	//printf("angle=%lf, a =%lf,b=%lf, diff1=%lf, diff2=%lf\n", angle* 180 / M_PI, a* 180 / M_PI, b * 180 / M_PI, diff1[2], diff2[2]);
 	if (diff1[2] > diff2[2])
 		return (b);
 	return (a);
@@ -52,7 +51,8 @@ t_angle	get_radian_per_len(int len)
 	return (tmp);
 }
 
-t_cub3d_type	distance_to_angle(t_cub3d_type val, t_cub3d_type angle, t_rotate_mode mode)
+t_cub3d_type	distance_to_angle(t_cub3d_type val \
+					, t_cub3d_type angle, t_rotate_mode mode)
 {
 	t_cub3d_type	tmp1;
 	t_cub3d_type	tmp2;
@@ -83,15 +83,12 @@ t_cub3d_type	distance_to_angle(t_cub3d_type val, t_cub3d_type angle, t_rotate_mo
 
 int	is_in_range_fov(t_cub3d *cub3d, t_cub3d_type angle)
 {
-       angle -= cub3d->player->dir.radian;
-       //printf("is_in_range_fov check\n");
-       if (angle < 0)
-               angle += 2 * M_PI;
-       if (angle > M_PI && angle >= cub3d->angles[WIN_WIDTH - 1].radian)
-               return (true);
-       else if (angle < M_PI && angle <= cub3d->angles[0].radian)
-               return (true);
-       //printf("is_in_range_fov is false\n");
-       return (false);
+	angle -= cub3d->player->dir.radian;
+	if (angle < 0)
+		angle += 2 * M_PI;
+	if (angle > M_PI && angle >= cub3d->angles[WIN_WIDTH - 1].radian)
+		return (true);
+	else if (angle < M_PI && angle <= cub3d->angles[0].radian)
+		return (true);
+	return (false);
 }
-

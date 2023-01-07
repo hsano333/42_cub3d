@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 07:04:07 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/20 18:01:00 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 03:56:23 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,15 @@ int	expose_win_hook(void *p)
 
 	cub3d = p;
 	mlx_put_image_to_window(cub3d->mlx, cub3d->window, \
-		   	cub3d->image->img, 0, 0);
+								cub3d->image->img, 0, 0);
 	return (true);
 }
-
 
 static	int	unlock(t_cub3d *cub3d)
 {
 	cub3d->lock = false;
 	return (true);
 }
-
 
 void	init_mlx_hook(t_cub3d *cub3d)
 {
