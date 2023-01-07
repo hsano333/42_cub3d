@@ -6,15 +6,14 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 08:08:57 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/18 08:54:42 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 23:40:00 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wall.h"
 #include <stdio.h>
+#include "wall.h"
 #include "close.h"
 #include "libft_mem.h"
-
 
 t_image	*load_wall_img(t_cub3d *cub3d, char *path)
 {
