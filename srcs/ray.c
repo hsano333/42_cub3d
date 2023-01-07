@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/04 20:17:23 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 08:12:32 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,8 +229,9 @@ static t_point	get_distance_from_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type a
 		ray->base_distance.x = begin_distance.y / tan(angle);
 		ray->base_distance.y = begin_distance.y;
 	}
-	if (ray->x != 0)
-		ray->img_offset_begin = 0;
+	//printf("ray->img_offset_begin=%lf, ray->img_offset_last=%lf, base_x=%lf, base_y=%lf\n", ray->img_offset_begin, ray->img_offset_last, base_x, base_y);
+	//if (ray->x != 0)
+		//ray->img_offset_begin = 0;
 	if (ray->last_angle < 0)
 		ray->last_angle += (double)(360 * M_PI / 180);
 	return (begin_distance);
@@ -242,6 +243,9 @@ int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 	//printf("fire_ray No.1 angle=%lf\n", angle * 180 / M_PI);
 	ray->map_point = search_wall(cub3d, ray, angle, get_player_map_point(cub3d));
 	ray->distance = get_distance_from_wall(cub3d, ray, angle);
+	ray->is_adjacent_wall = false;
+	if (((fabs(ray->map_point.x - cub3d->player->map.x) == 1) && (fabs(ray->map_point.y - cub3d->player->map.y) == 0)) || ((fabs(ray->map_point.x - cub3d->player->map.x) == 0) && (fabs(ray->map_point.y - cub3d->player->map.y) == 1)))
+		ray->is_adjacent_wall = true;
 	//printf("fire map_point.x=%d, y=%d, distance.x=%d, y=%d\n", ray->map_point.x, ray->map_point.y, ray->distance.x, ray->distance.y);
 	return (true);
 }

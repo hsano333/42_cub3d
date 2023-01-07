@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/04 14:02:44 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 08:06:48 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ typedef struct s_ray
 	t_cub3d_type	ratio;
 	int		next_i;
 	int		is_front_wall;
+	int		is_adjacent_wall;
 }	t_ray;
 
 typedef struct s_player

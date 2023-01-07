@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/04 20:18:17 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 08:11:23 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,29 +48,58 @@ double		update_image_per_x(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle
 	r = sqrt(pow(tmp_x, 2) + pow(tmp_y, 2));
 	//printf("\ncub3d->angles[i].degree=%lf\n", cub3d->angles[0].degree);
 	//double begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian);
-	double begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian);
-	double last_base_len = tan(ray->last_angle - cub3d->player->dir.radian);
-	double cur_base_len = tan(angle - cub3d->player->dir.radian);
-	/*
-	if (ray->is_front_wall)
-	{
-		begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian);
-		last_base_len = tan(ray->last_angle - cub3d->player->dir.radian);
-		cur_base_len = tan(angle - cub3d->player->dir.radian);
-	}
-	else
-	{
-		begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian - M_PI / 2);
-		last_base_len = tan(ray->last_angle - cub3d->player->dir.radian - M_PI / 2);
-		cur_base_len = tan(angle - cub3d->player->dir.radian - M_PI / 2);
-	}
-	*/
+	z = fabs(r * sin(angle - cub3d->player->dir.radian - M_PI / 2));
+	//double base_angle;
 
+	//base_angle = ray->begin_angle - cub3d->player->dir.radian;
+	double begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian);
+	//if (ray->begin_angle - cub3d->player->dir.radian > M_PI / 2)
+		//begin_base_len = fabs(begin_base_len);
+	double last_base_len = tan(ray->last_angle - cub3d->player->dir.radian);
+	//if (ray->last_angle - cub3d->player->dir.radian > M_PI / 2)
+		//last_base_len = fabs(last_base_len);
+	double cur_base_len = tan(angle - cub3d->player->dir.radian);
+	//if (angle - cub3d->player->dir.radian > M_PI / 2)
+		//cur_base_len = fabs(cur_base_len);
+	if (z < BASE_ZX / 2)
+	{
+		//base_angle = ray->begin_angle - cub3d->player->dir.radian - M_PI / 2;
+		//begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian - M_PI / 2);
+		//last_base_len = tan(ray->last_angle - cub3d->player->dir.radian - M_PI / 2);
+		//cur_base_len = tan(angle - cub3d->player->dir.radian - M_PI / 2);
+		;
+
+	}
+	double diff_len =  cur_base_len - begin_base_len;
 	double max_len =  last_base_len - begin_base_len;
-	double diff_len =  cur_base_len - begin_base_len ;
-	double ratio_image =  diff_len / max_len;
 	//double tmp_angle =angle - cub3d->player->dir.radian - M_PI / 2; 
-	img_point.x = (int)(((ratio_image)) * ray->wall_img->width);
+	double ratio_image =  diff_len / max_len;
+	img_point.x = (int)(((ratio_image)) * (ray->wall_img->width));
+	//if (z < BASE_ZX / 2 )
+	if (ray->is_adjacent_wall)
+	{
+
+		if (ray->wall_dir == NORTH_WALL)
+			img_point.x = (int)(cub3d->player->mass.x - cub3d->player->mass.y * tan(angle) ) / 2;
+		else if (ray->wall_dir == SOUTH_WALL)
+			img_point.x = (int)(cub3d->player->mass.x - cub3d->player->mass.y * tan(angle - M_PI)) / 2;
+		else if (ray->wall_dir == EAST_WALL)
+			img_point.x = (int)(cub3d->player->mass.x - cub3d->player->mass.y * tan(angle - M_PI * 3 / 2)) / 2;
+		else if (ray->wall_dir == WEST_WALL)
+			img_point.x = (int)(cub3d->player->mass.x - cub3d->player->mass.y * tan(angle - M_PI / 2)) / 2;
+	}
+	//img_point.x = (int)(cub3d->player->mass.x - cub3d->player->mass.y * tan(angle) ) / 2;
+	//img_point.x = (int)(((ratio_image)) * (ray->wall_img->width - ray->img_offset_begin / 2));
+	//img_point.x = (int)(((ratio_image)) * ray->wall_img->width + (ray->img_offset_begin) / 2);
+	//img_point.x = (int)(((ratio_image)) * ray->wall_img->width + (ray->img_offset_begin) / 2);
+	//img_point.x = (int)(((ratio_image)) * ray->wall_img->width);
+	//if (img_point.x < 0 || img_point.x >= 200)
+	{
+		//printf("x=%d, img_point.x=%d, angle=%lf,ray->begin_angle=%lf,ray->last_angle=%lf, player_angle=%lf , ray->img_offset_begin=%lf \n", x, img_point.x, angle * 180 / M_PI, ray->begin_angle * 180 / M_PI, ray->last_angle * 180 / M_PI, cub3d->player->dir.radian * 180 / M_PI, ray->img_offset_begin);
+		//printf("begin_base_len=%lf, last_base_len=%lf, cur_base_len=%lf\n", begin_base_len, last_base_len, cur_base_len);
+		//printf("ratio_image=%lf, diff_len=%lf, max_len=%lf,\n", ratio_image, diff_len, max_len);
+		//printf("z=%lf, tmp_angle=%lf, r=%lf, \n",z, tmp_angle * 180 / M_PI, r);
+	}
 	//printf(" img_point.x=%d, ray->is_front_wall=%d, ratio_image=%lf, tmp_angle=%lf\n", img_point.x, ray->is_front_wall, ratio_image, tmp_angle*180 / M_PI);
 	//printf("x=%d, z=%lf,diff_len=%lf,max_len=%lf,last_base_len=%lf,begin_base_len=%lf,cur_base_len=%lf  \n",x, z, diff_len, max_len,last_base_len,begin_base_len,cur_base_len);
 	//printf("angle=%lf,ray->begin_angle=%lf,ray->last_angle=%lf,cub3d->player->dir.radian=%lf \n", angle * 180 / M_PI,ray->begin_angle*180/M_PI,ray->last_angle*180/M_PI, cub3d->player->dir.radian*180/M_PI);
@@ -79,7 +108,6 @@ double		update_image_per_x(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle
 
 
 	//0 180 OK
-	z = fabs(r * sin(angle - cub3d->player->dir.radian - M_PI / 2));
 
 	win_img_addr = NULL;
 	img_addr = NULL;
@@ -165,8 +193,8 @@ int	update_image(t_cub3d *cub3d)
 	j = 0;
 
 
-	//cub3d->player->map_x = 5;
-	//cub3d->player->map_y = 1;
+	//cub3d->player->map.x = 5;
+	//cub3d->player->map.y = 1;
 	cub3d->player->map.x = 3;
 	cub3d->player->map.y = 3;
 	//cub3d->player->x = 200;
