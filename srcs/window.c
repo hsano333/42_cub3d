@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 08:52:36 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 10:54:17 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ double		update_image_per_x(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle
 	double diff_len =  cur_base_len - ray->begin_base_len;
 	double ratio_image =  diff_len / ray->max_len;
 	img_point.x = (int)(((ratio_image)) * (ray->wall_img->width));
-	if (ray->is_adjacent_wall)
+	if (ray->is_adjacent_wall && r <= BASE_ZX / 2)
 	{
+		//printf("ray->is_adjacent_wall No.1, angle=%lf\n", angle);
 
 		if (ray->wall_dir == NORTH_WALL)
 			img_point.x = (int)(cub3d->player->mass.x - cub3d->player->mass.y * tan(angle) ) / 2;
