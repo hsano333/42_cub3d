@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:46:39 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 09:52:30 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 09:54:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	change_player_place(t_cub3d *cub3d, int x, int y)
 	size_t	tmp_point_y;
 	t_point	tmp_map_point;
 
-	printf("change No.1 map:x=%d, y=%d, mass:x=%d, y=%d\n", cub3d->player->map.x, cub3d->player->map.y, cub3d->player->mass.x, cub3d->player->mass.y);
+	//printf("change No.1 map:x=%d, y=%d, mass:x=%d, y=%d\n", cub3d->player->map.x, cub3d->player->map.y, cub3d->player->mass.x, cub3d->player->mass.y);
 	tmp_point_x = cub3d->player->world_x + x;
 	tmp_point_y = cub3d->player->world_y + y;
 	tmp_map_point.x = (int)(tmp_point_x / MAP_SPACE);
@@ -49,7 +49,7 @@ static void	change_player_place(t_cub3d *cub3d, int x, int y)
 	//else if (tmp_point.x < 0)
 		//tmp_point.x += MAP_SPACE;
 	//cub3d->player->mass.y += y;
-	printf("change No.2 map:x=%d, y=%d, mass:x=%d, y=%d\n", cub3d->player->map.x, cub3d->player->map.y, cub3d->player->mass.x, cub3d->player->mass.y);
+	//printf("change No.2 map:x=%d, y=%d, mass:x=%d, y=%d\n", cub3d->player->map.x, cub3d->player->map.y, cub3d->player->mass.x, cub3d->player->mass.y);
 
 }
 
