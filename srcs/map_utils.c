@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 05:49:47 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 03:09:34 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 19:15:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_point get_player_map_point(t_cub3d *cub3d)
 	return (point);
 }
 
+/*
 t_point next_map_mass(t_cub3d_type angle, t_cub3d_type x_dist, t_cub3d_type y_dist, t_point map)
 {
 
@@ -76,6 +77,7 @@ t_point next_map_mass(t_cub3d_type angle, t_cub3d_type x_dist, t_cub3d_type y_di
 		return (add_map_point(map, 1, 0));
 	return (add_map_point(map, 0, -1));
 }
+*/
 
 t_cub3d_type	convert_positive_radian(t_cub3d_type radian)
 {
@@ -93,23 +95,6 @@ t_point	get_wall_distance_from_player(t_cub3d *cub3d, t_point map_point, t_point
 	return (distance);
 }
 
-t_wall_dir	get_wall_direction(t_point old, t_point cur)
-{
-	int	diff_x;
-	int	diff_y;
-
-	diff_x = cur.x - old.x;
-	diff_y = cur.y - old.y;
-
-	if (diff_y == -1)
-		return (SOUTH_WALL);
-	else if (diff_y == 1)
-		return (NORTH_WALL);
-	else if (diff_x == 1)
-		return (WEST_WALL);
-	return (EAST_WALL);
-	return (false);
-}
 
 /*
 int	is_collision_wall(t_cub3d *cub3d, t_ray * ray, t_cub3d_type angle, t_point src_map)
