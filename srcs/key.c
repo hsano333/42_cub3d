@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:46:39 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 13:16:33 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 13:52:14 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ int	key_hook(int key, void *cub3d)
 		;
 	else if (key == W_KEY)
 		change_player_point(cub3d, 0, -(MAP_SPACE / MOVE_STEP));
+	else if (key == S_KEY)
+		change_player_point(cub3d, 0, (MAP_SPACE / MOVE_STEP));
 	else if (key == A_KEY)
 		change_player_point(cub3d, -(MAP_SPACE / MOVE_STEP), 0);
-	else if (key == S_KEY)
-		change_player_point(cub3d, (MAP_SPACE / MOVE_STEP), 0);
 	else if (key == D_KEY)
-		change_player_point(cub3d, 0, (MAP_SPACE / MOVE_STEP));
+		change_player_point(cub3d, (MAP_SPACE / MOVE_STEP), 0);
 	else
 		printf("not defined key=%d\n", key);
 	//printf("press key=%d\n", key);

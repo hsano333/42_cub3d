@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 12:12:02 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/07 14:44:57 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,31 @@ double		update_image_per_x(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle
 	double diff_len =  cur_base_len - ray->begin_base_len;
 	double ratio_image =  diff_len / ray->max_len;
 	img_point.x = (int)(((ratio_image)) * (ray->wall_img->width));
-	if (ray->is_adjacent_wall && r <= BASE_ZX)
+	//if (ray->is_adjacent_wall && r <= BASE_ZX)
+	if (ray->is_adjacent_wall)
 	{
-		//printf("ray->is_adjacent_wall No.1, angle=%lf\n", angle);
+		//printf("ray->is_adjacent_wall No.1, angle=%lf, ray->wall_dir=%d\n", angle, ray->wall_dir);
 
 		if (ray->wall_dir == NORTH_WALL)
-			img_point.x = (int)(cub3d->player->mass.x - cub3d->player->mass.y * tan(angle) ) / 2;
+		{
+			//printf("north\n");
+			img_point.x = (int)(((MAP_SPACE - cub3d->player->mass.x) - (MAP_SPACE - cub3d->player->mass.y) * tan(angle - M_PI)) / 2);
+		}
 		else if (ray->wall_dir == SOUTH_WALL)
-			img_point.x = (int)(cub3d->player->mass.x - cub3d->player->mass.y * tan(angle - M_PI)) / 2;
+		{
+			img_point.x = (int)((cub3d->player->mass.x - cub3d->player->mass.y * tan(angle)) / 2);
+			//printf("south\n");
+		}
 		else if (ray->wall_dir == EAST_WALL)
-			img_point.x = (int)(cub3d->player->mass.x - cub3d->player->mass.y * tan(angle - M_PI * 3 / 2)) / 2;
+		{
+			//printf("east\n");
+			img_point.x = (int)((MAP_SPACE - cub3d->player->mass.y) - (cub3d->player->mass.x) * tan(angle - M_PI * 1 / 2)) / 2;
+		}
 		else if (ray->wall_dir == WEST_WALL)
-			img_point.x = (int)(cub3d->player->mass.x - cub3d->player->mass.y * tan(angle - M_PI / 2)) / 2;
+		{
+			//printf("west\n");
+			img_point.x = (int)(cub3d->player->mass.y - (MAP_SPACE - cub3d->player->mass.x) * tan(angle - M_PI * 3 / 2)) / 2;
+		}
 	}
 	old_x += ratio;
 
