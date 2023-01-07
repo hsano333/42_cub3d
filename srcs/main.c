@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 12:17:51 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 01:24:46 by hsano            ###   ########.fr       */
+/*   Updated: 2022/12/11 12:17:55 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "window.h"
 #include "close.h"
 
-int	main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	t_cub3d	*cub3d;
 
