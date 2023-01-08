@@ -25,6 +25,8 @@ int	main(int argc, char **argv)
 	cub3d = init(argc, argv);
 	if (!cub3d)
 		exit(1);
+	parse_map_main(cub3d, argv);
 	mlx_loop(cub3d->mlx);
 	close_cub3d(cub3d);
+	exit_game(cub3d);
 }
