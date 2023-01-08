@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 06:03:23 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 23:41:52 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 07:29:13 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ void	load_map_and_img(t_cub3d *cub3d, int argc, char **argv)
 	cub3d->walls->west = load_wall_img(cub3d, "image/west.xpm");
 	cub3d->walls->east = load_wall_img(cub3d, "image/east.xpm");
 	cub3d->walls->south = load_wall_img(cub3d, "image/south.xpm");
-	cub3d->walls->sprite = load_wall_img(cub3d, "image/east.xpm");
+	cub3d->walls->sprite = load_wall_img(cub3d, "image/door.xpm");
 
 	cub3d->trans_walls->north = load_wall_img(cub3d, "image/north.xpm");
 	cub3d->trans_walls->west = load_wall_img(cub3d, "image/west.xpm");
 	cub3d->trans_walls->east = load_wall_img(cub3d, "image/east.xpm");
 	cub3d->trans_walls->south = load_wall_img(cub3d, "image/south.xpm");
-	cub3d->trans_walls->sprite = load_wall_img(cub3d, "image/east.xpm");
+	cub3d->trans_walls->sprite = load_wall_img(cub3d, "image/door.xpm");
 }

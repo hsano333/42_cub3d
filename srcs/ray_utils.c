@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 00:59:08 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 03:46:03 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 16:34:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,15 @@ t_point	search_wall(t_cub3d *cub3d \
 	else
 		x_dist = (map.x + 1) * WALL_LEN - cub3d->player->world_x;
 	next = next_map_mass(angle, x_dist, y_dist, map);
-	//printf("map->x=%d, map->y=%d, next.x=%d, next.y=%d\n", map.x, map.y, next.x, next.y);
 	if (cub3d->map[next.y][next.x].obj == WALL \
-					|| cub3d->map[next.y][next.x].obj >= DOOR)
+					|| (cub3d->map[next.y][next.x].obj >= DOOR && cub3d->map[next.y][next.x].state == CLOSE))
 	{
 		set_map_dir(cub3d, ray, map, next);
+		if (cub3d->map[next.y][next.x].obj >= DOOR)
+		{
+			ray->wall_img = cub3d->walls->sprite;
+			ray->is_door = true;
+		}
 		return (next);
 	}
 	return (search_wall(cub3d, ray, angle, next));

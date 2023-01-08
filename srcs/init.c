@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 02:50:57 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 14:47:04 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 16:36:23 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 #include "arg.h"
 #include "hook.h"
 #include "unistd.h"
-
 
 void	calc_angles(t_cub3d *cub3d)
 {
@@ -115,6 +114,8 @@ t_cub3d	*init(int argc, char **argv)
 	cub3d->map[4][3] = map_cell;
 	cub3d->map[5][3] = map_cell;
 	cub3d->map[5][5] = map_cell;
+	map_cell.obj = DOOR;
+	cub3d->map[1][3] = map_cell;
 	cub3d->player->map.x = 3;
 	cub3d->player->map.y = 3;
 	*/

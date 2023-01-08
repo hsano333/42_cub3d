@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 22:16:19 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/08 16:33:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,11 @@ typedef struct s_const_angle
 	t_cub3d_type radian;
 } t_angle;
 
-typedef struct s_point
-{
-	int x;
-	// int	x_len;
-	int y;
-	// int	y_len;
-	int z;
-	// int	z_len;
-} t_point;
+typedef struct s_point {
+	int	x;
+	int	y;
+	int	z;
+}	t_point;
 
 typedef struct s_image
 {
@@ -125,21 +121,22 @@ typedef enum e_wall_dir
 
 typedef struct s_ray
 {
-	t_wall_dir wall_dir;
-	t_cub3d_type begin_angle;
-	t_cub3d_type last_angle;
-	t_cub3d_type start_angle;
-	t_cub3d_type stop_angle;
-	t_cub3d_type begin_base_len;
-	t_cub3d_type last_base_len;
-	t_cub3d_type max_len;
-	int wall_pixel;
-	t_point map_point;
-	t_point begin_distance;
-	t_point last_distance;
-	t_image *wall_img;
-	int is_adjacent_wall;
-} t_ray;
+	t_wall_dir	wall_dir;
+	t_cub3d_type	begin_angle;
+	t_cub3d_type	last_angle;
+	t_cub3d_type	start_angle;
+	t_cub3d_type	stop_angle;
+	t_cub3d_type	begin_base_len;
+	t_cub3d_type	last_base_len;
+	t_cub3d_type	max_len;
+	int		wall_pixel;
+	t_point		map_point;
+	t_point		begin_distance;
+	t_point		last_distance;
+	t_image		*wall_img;
+	int		is_adjacent_wall;
+	int		is_door;
+}	t_ray;
 
 typedef struct s_player
 {
