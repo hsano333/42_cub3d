@@ -96,6 +96,7 @@ t_point	search_wall(t_cub3d *cub3d \
 	else
 		x_dist = (map.x + 1) * WALL_LEN - cub3d->player->world_x;
 	next = next_map_mass(angle, x_dist, y_dist, map);
+	//printf("map->x=%d, map->y=%d, next.x=%d, next.y=%d\n", map.x, map.y, next.x, next.y);
 	if (cub3d->map[next.y][next.x].obj == WALL \
 					|| cub3d->map[next.y][next.x].obj >= DOOR)
 	{

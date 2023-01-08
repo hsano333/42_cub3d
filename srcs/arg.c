@@ -16,6 +16,7 @@
 #include "close.h"
 #include "wall.h"
 
+/*
 static void	allocate_memmory_map(t_cub3d *cub3d)
 {
 	int	i;
@@ -30,6 +31,7 @@ static void	allocate_memmory_map(t_cub3d *cub3d)
 		i++;
 	}
 }
+*/
 
 static void	allocate_memmory_wall(t_cub3d *cub3d)
 {
@@ -49,7 +51,7 @@ void	load_map_and_img(t_cub3d *cub3d, int argc, char **argv)
 
 	cub3d->image->width = WIN_WIDTH;
 	cub3d->image->height = WIN_HEIGHT;
-	allocate_memmory_map(cub3d);
+	//allocate_memmory_map(cub3d);
 	allocate_memmory_wall(cub3d);
 
 	//test

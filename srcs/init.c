@@ -88,6 +88,7 @@ t_cub3d	*init(int argc, char **argv)
 	init_mlx_hook(cub3d);
 
 	//test
+	/*
 	size_t	i = 0;
 	size_t	j = 0;
 	t_map	map_cell;
@@ -116,6 +117,7 @@ t_cub3d	*init(int argc, char **argv)
 	cub3d->map[5][5] = map_cell;
 	cub3d->player->map.x = 3;
 	cub3d->player->map.y = 3;
+	*/
 	cub3d->player->mass.x = 200;
 	cub3d->player->mass.y = 200;
 	return (cub3d);

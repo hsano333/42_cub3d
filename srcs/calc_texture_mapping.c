@@ -31,13 +31,13 @@ void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle)
 	y = 0;
 	if (ray->begin_distance.y == ray->last_distance.y)
 	{
-		tmp_x = fabs(ray->begin_distance.y * tan(angle));
-		tmp_y = fabs(ray->begin_distance.y);
+		tmp_x = (t_cub3d_type)fabs((double)ray->begin_distance.y * tan(angle));
+		tmp_y = (t_cub3d_type)fabs((double)ray->begin_distance.y);
 	}
 	else if (ray->begin_distance.x == ray->last_distance.x)
 	{
-		tmp_x = fabs(ray->begin_distance.x);
-		tmp_y = fabs(ray->begin_distance.x / tan(angle));
+		tmp_x = (t_cub3d_type)fabs((double)ray->begin_distance.x);
+		tmp_y = (t_cub3d_type)fabs((double)ray->begin_distance.x / tan(angle));
 	}
 	r = sqrt(pow(tmp_x, 2) + pow(tmp_y, 2));
 	z = fabs(r * sin(angle - cub3d->player->dir.radian - M_PI / 2));
