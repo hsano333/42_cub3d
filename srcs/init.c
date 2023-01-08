@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 02:50:57 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 07:57:33 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 13:53:05 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 #include "arg.h"
 #include "hook.h"
 #include "unistd.h"
-
 
 void	calc_angles(t_cub3d *cub3d)
 {

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 07:41:17 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 13:57:12 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,8 @@ typedef struct s_const_angle
 
 typedef struct s_point {
 	int	x;
-	//int	x_len;
 	int	y;
-	//int	y_len;
 	int	z;
-	//int	z_len;
 }	t_point;
 
 typedef struct s_image
