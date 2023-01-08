@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:53:34 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 15:00:14 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 07:18:44 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle)
 	t_cub3d_type	tmp_x;
 	t_cub3d_type	tmp_y;
 	t_cub3d_type	r;
+	double		img_x_ratio;
+	double		img_y_ratio;
+
+	img_x_ratio = (double)ray->wall_img->width / WALL_LEN;
+	img_y_ratio = (double)ray->wall_img->height / WALL_LEN;
 
 	y = z;
 	y = 0;
@@ -48,13 +53,13 @@ void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle)
 	if (ray->is_adjacent_wall)
 	{
 		if (ray->wall_dir == NORTH_WALL)
-			img_point.x = (int)(((MAP_SPACE - cub3d->player->mass.x) - (MAP_SPACE - cub3d->player->mass.y) * tan(angle - M_PI)) / 2);
+			img_point.x = (int)(((MAP_SPACE - cub3d->player->mass.x) - (MAP_SPACE - cub3d->player->mass.y) * tan(angle - M_PI)) * img_x_ratio);
 		else if (ray->wall_dir == SOUTH_WALL)
-			img_point.x = (int)((cub3d->player->mass.x - cub3d->player->mass.y * tan(angle)) / 2);
+			img_point.x = (int)((cub3d->player->mass.x - cub3d->player->mass.y * tan(angle)) * img_x_ratio);
 		else if (ray->wall_dir == EAST_WALL)
-			img_point.x = (int)((MAP_SPACE - cub3d->player->mass.y) - (cub3d->player->mass.x) * tan(angle - M_PI * 1 / 2)) / 2;
+			img_point.x = (int)(((MAP_SPACE - cub3d->player->mass.y) - (cub3d->player->mass.x) * tan(angle - M_PI * 1 / 2)) * img_x_ratio);
 		else if (ray->wall_dir == WEST_WALL)
-			img_point.x = (int)(cub3d->player->mass.y - (MAP_SPACE - cub3d->player->mass.x) * tan(angle - M_PI * 3 / 2)) / 2;
+			img_point.x = (int)((cub3d->player->mass.y - (MAP_SPACE - cub3d->player->mass.x) * tan(angle - M_PI * 3 / 2)) * img_x_ratio);
 	}
 	//old_x += ratio;
 
@@ -71,7 +76,7 @@ void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle)
 	while (y < WIN_HEIGHT)
 	{
 		win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
-		img_point.y = (y - offset_win) * world_height / WIN_HEIGHT / 2;
+		img_point.y = (y - offset_win) * world_height / WIN_HEIGHT  * img_y_ratio;
 
 		if (0 <= img_point.y && img_point.y <= ray->wall_img->height && 0 <= img_point.x && img_point.x <= ray->wall_img->width)
 		{
