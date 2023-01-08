@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 02:50:57 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 13:53:05 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 15:30:23 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,7 @@ t_cub3d	*init(int argc, char **argv)
 	cub3d->player->map.y = 3;
 	cub3d->player->mass.x = 200;
 	cub3d->player->mass.y = 200;
+	map_cell.obj = N_PLAYER;
+	cub3d->map[3][3] = map_cell;
 	return (cub3d);
 }
