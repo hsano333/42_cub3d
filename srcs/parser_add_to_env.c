@@ -15,7 +15,6 @@
 // おかしい行の文字列と行番号を追加
 int add_info_err_buf(t_parser *parser, int type, int error_num)
 {
-    // ブロッキングエラー？
     //  bitを立てる
     parser->blocking_err_flag |= (1 << error_num);
     if (type <= TYPE_C)

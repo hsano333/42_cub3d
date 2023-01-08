@@ -194,7 +194,7 @@ int check_map_surrounded_with_floodfill(t_parser *parser, t_cub3d *env)
     // free filled map
     free_ptrarr((void **)filled_map);
     if (!is_surrounded)
-        //error check
+        // error check
         return (1);
 
     return (0);
@@ -219,9 +219,7 @@ int add_map_to_env(t_parser *parser, t_cub3d *env)
     {
         if (check_map[i](parser, env))
             return (-1);
-        printf("%d\n", i);
     }
-    printf("after\n");
     update_player_position(env, parser->map_buf);
     return (0);
 }

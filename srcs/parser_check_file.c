@@ -39,15 +39,12 @@ static int check_extention(char *file)
     ret = 0;
     if (file)
     {
-        //.の位置 rchrで良いのでは
-        // dot = c3d_find_last_c_occurence(file, '.');
         dot = ft_strrchr(file, '.');
         tmp = dot + 1;
         // cubかどうか
         if (dot == 0 || ft_strncmp(tmp, "cub", 4) != 0)
             // bitを立てる
             return (ret | (1 << ERR_EXTENTION));
-        // printf("%s\n", tmp);
 
         return (0);
     }

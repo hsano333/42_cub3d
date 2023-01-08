@@ -73,8 +73,6 @@ int get_map_obj_nbr(char c)
             return (i);
         i++;
     }
-    // 何でもない場合はどうする？
-    // 壁で良い
     return (1);
 }
 
