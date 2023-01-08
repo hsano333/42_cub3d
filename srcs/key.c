@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:46:39 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 03:52:43 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 08:34:18 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	change_player_point(t_cub3d *cub3d, int x, int y)
 	cub3d->player->map.y = (int)(tmp_point_y / MAP_SPACE);
 	cub3d->player->mass.x = (int)(tmp_point_x % MAP_SPACE);
 	cub3d->player->mass.y = (int)(tmp_point_y % MAP_SPACE);
+	//printf("map:x=%d, y=%d, mass:x=%d, y=%d\n",cub3d->player->map.x, cub3d->player->map.y,cub3d->player->mass.x, cub3d->player->mass.y );
 }
 
 int	key_hook(int key, void *cub3d)

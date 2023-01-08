@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 09:06:43 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 07:41:17 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef struct s_ray
 	t_point		last_distance;
 	t_image		*wall_img;
 	int		is_adjacent_wall;
+	int		is_door;
 }	t_ray;
 
 typedef struct s_player

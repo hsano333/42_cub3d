@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 00:59:08 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 03:46:03 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 07:40:59 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,11 @@ t_point	search_wall(t_cub3d *cub3d \
 					|| cub3d->map[next.y][next.x].obj >= DOOR)
 	{
 		set_map_dir(cub3d, ray, map, next);
+		if (cub3d->map[next.y][next.x].obj >= DOOR)
+		{
+			ray->wall_img = cub3d->walls->sprite;
+			ray->is_door = true;
+		}
 		return (next);
 	}
 	return (search_wall(cub3d, ray, angle, next));

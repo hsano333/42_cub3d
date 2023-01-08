@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:53:34 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 07:18:44 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 08:33:15 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,18 @@ void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle)
 	double diff_len =  cur_base_len - ray->begin_base_len;
 	double ratio_image =  diff_len / ray->max_len;
 	img_point.x = (int)(((ratio_image)) * (ray->wall_img->width));
-	if (ray->is_adjacent_wall)
+	//if (ray->is_adjacent_wall)
 	{
+		if (ray->wall_dir == SOUTH_WALL)
+			img_point.x = (int)((ray->begin_distance.x - ray->begin_distance.y * tan(angle)) * img_x_ratio);
+		else if (ray->wall_dir == NORTH_WALL)
+			img_point.x = (int)((-ray->begin_distance.x + ray->begin_distance.y * tan(angle - M_PI)) * img_x_ratio);
+			//img_point.x = (int)(((ray->begin_distance.x) - (MAP_SPACE - cub3d->player->mass.y) * tan(angle - M_PI)) * img_x_ratio);
+		else if (ray->wall_dir == EAST_WALL)
+			img_point.x = (int)((-ray->begin_distance.y - (ray->begin_distance.x) * tan(angle - M_PI * 1 / 2)) * img_x_ratio);
+		else if (ray->wall_dir == WEST_WALL)
+			img_point.x = (int)((ray->begin_distance.y + (ray->begin_distance.x) * tan(angle - M_PI * 3 / 2)) * img_x_ratio);
+		/*
 		if (ray->wall_dir == NORTH_WALL)
 			img_point.x = (int)(((MAP_SPACE - cub3d->player->mass.x) - (MAP_SPACE - cub3d->player->mass.y) * tan(angle - M_PI)) * img_x_ratio);
 		else if (ray->wall_dir == SOUTH_WALL)
@@ -60,6 +70,7 @@ void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle)
 			img_point.x = (int)(((MAP_SPACE - cub3d->player->mass.y) - (cub3d->player->mass.x) * tan(angle - M_PI * 1 / 2)) * img_x_ratio);
 		else if (ray->wall_dir == WEST_WALL)
 			img_point.x = (int)((cub3d->player->mass.y - (MAP_SPACE - cub3d->player->mass.x) * tan(angle - M_PI * 3 / 2)) * img_x_ratio);
+			*/
 	}
 	//old_x += ratio;
 
