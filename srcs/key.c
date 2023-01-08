@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:46:39 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 08:34:18 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/08 14:33:48 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "key.h"
 #include "close.h"
 #include "stdio.h"
+#include "door.h"
 #include <math.h>
 
 static void	change_player_dir(t_cub3d *cub3d, int added_angle)
@@ -36,7 +37,7 @@ static int	is_invalid_point(t_cub3d *cub3d, size_t x, size_t y)
 	if (tmp_map_point.x < 0 || tmp_map_point.y < 0)
 		return (true);
 	if (cub3d->map[tmp_map_point.y][tmp_map_point.x].obj == WALL \
-		|| cub3d->map[tmp_map_point.y][tmp_map_point.x].obj >= DOOR)
+		|| (cub3d->map[tmp_map_point.y][tmp_map_point.x].obj >= DOOR && cub3d->map[tmp_map_point.y][tmp_map_point.x].state == CLOSE))
 		return (true);
 	tmp_mass_point.x = (int)(x % MAP_SPACE);
 	tmp_mass_point.y = (int)(y % MAP_SPACE);
@@ -45,7 +46,7 @@ static int	is_invalid_point(t_cub3d *cub3d, size_t x, size_t y)
 	if (tmp_mass_point.y == 0)
 		tmp_map_point.y -= 1;
 	if (cub3d->map[tmp_map_point.y][tmp_map_point.x].obj == WALL \
-			|| cub3d->map[tmp_map_point.y][tmp_map_point.x].obj >= DOOR)
+			|| (cub3d->map[tmp_map_point.y][tmp_map_point.x].obj >= DOOR && cub3d->map[tmp_map_point.y][tmp_map_point.x].state == CLOSE))
 		return (true);
 	return (false);
 }
@@ -88,6 +89,8 @@ int	key_hook(int key, void *cub3d)
 		change_player_point(cub3d, -(MAP_SPACE / MOVE_STEP), 0);
 	else if (key == D_KEY)
 		change_player_point(cub3d, (MAP_SPACE / MOVE_STEP), 0);
+	else if (key == SPACE_KEY)
+		open_and_close_door(cub3d);
 	else
 		printf("not defined key=%d\n", key);
 	return (true);
