@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 16:33:50 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/09 12:27:01 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,9 @@ typedef enum e_map_obj
 
 typedef enum e_door_state
 {
+	OTHER = 0,
 	OPEN,
-	CLOSE,
+	CLOSE = 100,
 } t_door_state;
 
 typedef struct s_map
@@ -117,6 +118,7 @@ typedef enum e_wall_dir
 	SOUTH_WALL,
 	EAST_WALL,
 	WEST_WALL,
+	NOT,
 } t_wall_dir;
 
 typedef struct s_ray
@@ -134,7 +136,7 @@ typedef struct s_ray
 	t_point		begin_distance;
 	t_point		last_distance;
 	t_image		*wall_img;
-	int		is_adjacent_wall;
+	//int		is_adjacent_wall;
 	int		is_door;
 }	t_ray;
 
@@ -165,6 +167,7 @@ typedef struct s_cub3d
 
 	t_color floor;
 	t_color ceiling;
+	int	door_change_flag;
 } t_cub3d;
 
 typedef struct s_door

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 12:17:51 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 03:51:37 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/09 15:59:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	main(int argc, char **argv)
 	if (!cub3d)
 		exit(1);
 	parse_map_main(cub3d, argv);
+	cub3d->map[2][3].obj = DOOR;
+	cub3d->map[2][3].state = OPEN;
 	mlx_loop(cub3d->mlx);
 	close_cub3d(cub3d);
 	exit_game(cub3d);

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 02:55:36 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/09 16:03:59 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	update_image_per_wall(t_cub3d *cub3d, t_ray *ray, int offset)
 
 	i = 0;
 	ray->wall_pixel = calc_wall_pixel(cub3d, ray, offset);
+	//printf("ray->wall_pixel=%d\n", ray->wall_pixel);
 	while (i < ray->wall_pixel)
 	{
 		angle = cub3d->player->dir.radian + cub3d->angles[i + offset].radian;
@@ -54,6 +55,7 @@ int	update_image_per_wall(t_cub3d *cub3d, t_ray *ray, int offset)
 			break ;
 		i++;
 	}
+	//printf("i=%d, offset=%d, retun_val=%d\n", i, offset, i+offset);
 	return (i + offset);
 }
 
@@ -82,5 +84,6 @@ int	update_image(t_cub3d *cub3d)
 	}
 	mlx_put_image_to_window(cub3d->mlx, cub3d->window \
 								, cub3d->image->img, 0, 0);
+	cub3d->door_change_flag = false;
 	return (true);
 }

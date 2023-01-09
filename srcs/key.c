@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:46:39 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/09 07:58:09 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/09 16:04:41 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ int	key_hook(int key, void *cub3d)
 	else if (key == D_KEY)
 		change_player_point(cub3d, cos(angle) * step, -sin(angle) * step);
 	else if (key == SPACE_KEY)
-		open_and_close_door(cub3d);
-	else
-		printf("not defined key=%d\n", key);
+		((t_cub3d *)cub3d)->door_change_flag = true;
 	return (true);
 }
