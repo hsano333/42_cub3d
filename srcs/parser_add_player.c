@@ -14,7 +14,6 @@
 
 void set_player_dir(t_player *player, char orient)
 {
-    // orient 方向
     if (orient == 'N' || orient == 'S')
     {
         if (orient == 'N')
@@ -37,7 +36,6 @@ int update_player_position(t_cub3d *env, char **map)
     int x;
 
     y = -1;
-    printf("update_player\n");
     while (map[++y])
     {
         x = -1;
@@ -51,8 +49,6 @@ int update_player_position(t_cub3d *env, char **map)
                 printf("player: %d\n", env->player->map.y);
 
                 set_player_dir(env->player, map[y][x]);
-                // ここはどうするか後で考える
-                // map[y][x] = '0';
                 env->map[y][x].obj = 0;
                 return (0);
             }

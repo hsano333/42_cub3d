@@ -17,6 +17,7 @@ void pick_line_set_type(int fd, t_parser *parser)
 
     parser->line = get_next_line(fd);
     parser->gnl_cnt++;
+    printf("parser-line: %s\n", parser->line);
     while (check_type(parser->line, &parser->type) == TYPE_USELESS)
     {
         free(parser->line);
