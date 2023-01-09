@@ -64,7 +64,7 @@ void parse_color(t_parser *parser, char *line, int type)
 {
     int i;
 
-    if ((parser->info_buf_flag & (1 << type)) == 0)
+    if (!(parser->info_buf_flag & (1 << type)))
     {
         i = 0;
         while (*line && *line != '\n')
