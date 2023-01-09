@@ -1,0 +1,18 @@
+
+SO ./img/so_wall.xpm
+NO ./img/no_wall.xpm
+
+WE ./img/we_wall.xpm
+EA ./img/ea_wall.xpm
+
+F 255,244,11
+C 225,224,255
+B ./img/ea_wall.xpm
+A 225,224,255
+
+011110
+100001
+100S01
+100001
+100001
+011110
