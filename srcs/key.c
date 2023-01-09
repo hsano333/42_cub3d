@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:46:39 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 14:33:48 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/09 07:58:09 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ static void	change_player_point(t_cub3d *cub3d, int x, int y)
 
 int	key_hook(int key, void *cub3d)
 {
+	double	angle;
+	const	double	step = MAP_SPACE / MOVE_STEP;
+
+	cub3d = (t_cub3d *)cub3d;
+	angle = ((t_cub3d *)cub3d)->player->dir.radian;
 	if (((t_cub3d *)cub3d)->lock)
 		return (false);
 	if (key == ESC)
@@ -82,13 +87,13 @@ int	key_hook(int key, void *cub3d)
 	else if (key == ARROW_DOWN)
 		;
 	else if (key == W_KEY)
-		change_player_point(cub3d, 0, -(MAP_SPACE / MOVE_STEP));
+		change_player_point(cub3d, -sin(angle) * step, -cos(angle) * step);
 	else if (key == S_KEY)
-		change_player_point(cub3d, 0, (MAP_SPACE / MOVE_STEP));
+		change_player_point(cub3d, sin(angle) * step, cos(angle) * step);
 	else if (key == A_KEY)
-		change_player_point(cub3d, -(MAP_SPACE / MOVE_STEP), 0);
+		change_player_point(cub3d, -cos(angle) * step, sin(angle) * step);
 	else if (key == D_KEY)
-		change_player_point(cub3d, (MAP_SPACE / MOVE_STEP), 0);
+		change_player_point(cub3d, cos(angle) * step, -sin(angle) * step);
 	else if (key == SPACE_KEY)
 		open_and_close_door(cub3d);
 	else
