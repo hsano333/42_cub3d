@@ -55,7 +55,7 @@ void print_parser(t_parser parser)
     for (size_t i = 0; parser.err_buf[i][0]; i++)
     {
         printf("err_buf: %d\n", parser.err_buf[i][0]);
-        printf("err_buf: %d\n", tab[parser.err_buf[i][1]]);
+        printf("err_buf: %s\n", tab[parser.err_buf[i][1]]);
     }
 }
 
