@@ -38,7 +38,11 @@ int load_texture(t_cub3d *env, char *path, t_image **wall)
         return (-1);
     (*wall)->img = mlx_xpm_file_to_image(env->mlx, path, &((*wall)->width), &((*wall)->height));
     if (!(*wall)->img)
+    {
+        free(*wall);
+        *wall = NULL;
         return (-1);
+    }
     // error_and_end_game(env, NULL);
     (*wall)->addr = mlx_get_data_addr((*wall)->img, &((*wall)->bpp), &((*wall)->sl), &((*wall)->endian));
 

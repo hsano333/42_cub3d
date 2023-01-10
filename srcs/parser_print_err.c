@@ -85,10 +85,5 @@ void print_parse_err_exit(t_parser *parser, t_cub3d *env)
     i = -1;
     while (++i < ERR_GIBBER)
         if ((parser->blocking_err_flag >> i) & 1)
-        {
-            // clear_cub3d(env);
-            close_cub3d(env);
-            // exit(1);
-        }
-    // c3d_add_to_env_exit(parser, env);
+            add_to_env_exit(parser, env);
 }

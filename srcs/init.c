@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 02:50:57 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/10 21:06:47 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/10 22:16:14 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ t_cub3d *init(int argc, char **argv)
 	cub3d = init_minilibx();
 	calc_angles(cub3d);
 	parse_map_main(cub3d, argv);
+
 	// load_map_and_img(cub3d, argc, argv);
 	init_mlx_hook(cub3d);
 
