@@ -15,6 +15,7 @@
 
 void putstr_err(const char *err_type, const char *err_message)
 {
+    ft_putstr_fd("Error\n", STDERR_FILENO);
     // putstrにする
     if (err_type)
         write(STDERR_FILENO, err_type, ft_strlen((char *)err_type));

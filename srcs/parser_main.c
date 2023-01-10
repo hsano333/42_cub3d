@@ -125,7 +125,6 @@ char **freetab_index(char **tab, int index, int opt)
     {
         while (++i < index)
         {
-            printf("free\n");
             free(tab[i]);
             tab[i] = NULL;
         }
