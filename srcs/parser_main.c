@@ -152,18 +152,11 @@ void parse_map_main(t_cub3d *env, char **argv)
         print_file_err_exit(parser.blocking_err_flag);
     else if (fill_parser_buf(&parser, fd))
         print_parse_err_exit(&parser, env);
+    else if (add_to_env(&parser, env))
+        print_parse_err_exit(&parser, env);
 
     // print parser
     print_parser(parser);
-
-    /*
-    else if (c3d_init(env))
-        c3d_add_to_env_exit(&parser, env);
-    */
-
-    // cpy
-    if (add_to_env(&parser, env))
-        print_parse_err_exit(&parser, env);
 
     // print env
     print_env(env);
