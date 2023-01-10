@@ -34,10 +34,12 @@ int load_texture(t_cub3d *env, char *path, t_image **wall)
         return (-1);
     *wall = (t_image *)ft_calloc(sizeof(t_image), 1);
     if (!(*wall))
-        error_and_end_game(env, NULL);
+        // error_and_end_game(env, NULL);
+        return (-1);
     (*wall)->img = mlx_xpm_file_to_image(env->mlx, path, &((*wall)->width), &((*wall)->height));
     if (!(*wall)->img)
-        error_and_end_game(env, NULL);
+        return (-1);
+    // error_and_end_game(env, NULL);
     (*wall)->addr = mlx_get_data_addr((*wall)->img, &((*wall)->bpp), &((*wall)->sl), &((*wall)->endian));
 
     return (0);
@@ -72,6 +74,7 @@ int add_path_to_env(t_parser *parser, t_cub3d *env)
 
     allocate_memmory_wall(env);
     load_test_ret = load_textures(parser, env);
+    printf("load return : %d\n", load_test_ret);
     if (load_test_ret)
         return (add_info_err_buf(parser, load_test_ret, ERR_TX_PATH));
     return (0);
