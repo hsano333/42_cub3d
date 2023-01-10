@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 02:50:57 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/09 12:34:45 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/10 21:06:47 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,33 @@
 #include "hook.h"
 #include "unistd.h"
 
-void	calc_angles(t_cub3d *cub3d)
+void calc_angles(t_cub3d *cub3d)
 {
-	int	i;
-	double	ratio;
+	int i;
+	double ratio;
 
 	i = 0;
-	//while (i < WIN_WIDTH * 360 / FOV)
+	// while (i < WIN_WIDTH * 360 / FOV)
 	i = 0;
 	while (i < WIN_WIDTH)
 	{
-		//cub3d->angles[i].degree = FOV / 2 - (FOV * ((double)i / (WIN_WIDTH - 1)));
-		//cub3d->angles[i].degree = FOV / 2 - (FOV * ((double)i / (WIN_WIDTH - 1)));
+		// cub3d->angles[i].degree = FOV / 2 - (FOV * ((double)i / (WIN_WIDTH - 1)));
+		// cub3d->angles[i].degree = FOV / 2 - (FOV * ((double)i / (WIN_WIDTH - 1)));
 		ratio = (double)(WIN_WIDTH / 2 - i) / BASE_ZX;
 		cub3d->angles[i].radian = atan(ratio);
 		if (cub3d->angles[i].radian < 0)
 			cub3d->angles[i].radian += 2 * M_PI;
-		//else if (cub3d->angles[i].degree >= 360)
-			//cub3d->angles[i].degree -= 360;
+		// else if (cub3d->angles[i].degree >= 360)
+		// cub3d->angles[i].degree -= 360;
 		cub3d->angles[i].degree = cub3d->angles[i].radian * 180 / M_PI;
-		//printf("init angles cub3d->angles[%d].degree=%lf\n", i, cub3d->angles[i].degree);
+		// printf("init angles cub3d->angles[%d].degree=%lf\n", i, cub3d->angles[i].degree);
 		i++;
 	}
 }
 
-t_cub3d	*init_minilibx(void)
+t_cub3d *init_minilibx(void)
 {
-	t_cub3d	*cub3d;
+	t_cub3d *cub3d;
 
 	cub3d = ft_calloc(sizeof(t_cub3d), 1);
 	if (!cub3d)
@@ -75,23 +75,24 @@ t_cub3d	*init_minilibx(void)
 	return (cub3d);
 }
 
-t_cub3d	*init(int argc, char **argv)
+t_cub3d *init(int argc, char **argv)
 {
-	t_cub3d	*cub3d;
+	t_cub3d *cub3d;
 
 	if (argc != 2)
 		error_and_end_game(NULL, "cub3D:invalid argument\n");
 	cub3d = init_minilibx();
 	calc_angles(cub3d);
-	load_map_and_img(cub3d, argc, argv);
+	parse_map_main(cub3d, argv);
+	// load_map_and_img(cub3d, argc, argv);
 	init_mlx_hook(cub3d);
 
-	//test
+	// test
 	/*
 	size_t	i = 0;
 	size_t	j = 0;
 	t_map	map_cell;
-	
+
 	map_cell.obj = EMPTY;
 	map_cell.obj = WALL;
 	map_cell.state = CLOSE;

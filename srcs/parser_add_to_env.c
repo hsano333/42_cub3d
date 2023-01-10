@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../include/all.h"
+#include "../include/close.h"
+#include "mlx.h"
 
 // おかしい行の文字列と行番号を追加
 int add_info_err_buf(t_parser *parser, int type, int error_num)
@@ -26,92 +28,74 @@ int add_info_err_buf(t_parser *parser, int type, int error_num)
     return (-1);
 }
 
-/*
-int load_texture(t_c3d *env, t_mlx *mlx, int i, t_img *img)
+int load_texture(t_cub3d *env, char *path, t_image **wall)
 {
-    int *tex;
-    char *path;
-    int x;
-    int y;
-
-    tex = env->textures[i];
-    path = env->tex_paths[i];
-    img->mlx_img = mlx_xpm_file_to_image(mlx->mlx_ptr, path, &img->x, &img->y);
-    if (!img->mlx_img)
+    if (!path)
         return (-1);
-    img->addr = (int *)mlx_get_data_addr(img->mlx_img, &img->bpp, &img->line_len, &img->endian);
-    y = 0;
-    while (y < img->y)
-    {
-        x = 0;
-        while (x < img->x)
-        {
-            tex[img->x * y + x] = img->addr[img->x * y + x];
-            ++x;
-        }
-        ++y;
-    }
+    *wall = (t_image *)ft_calloc(sizeof(t_image), 1);
+    if (!(*wall))
+        error_and_end_game(env, NULL);
+    (*wall)->img = mlx_xpm_file_to_image(env->mlx, path, &((*wall)->width), &((*wall)->height));
+    if (!(*wall)->img)
+        error_and_end_game(env, NULL);
+    (*wall)->addr = mlx_get_data_addr((*wall)->img, &((*wall)->bpp), &((*wall)->sl), &((*wall)->endian));
+
     return (0);
 }
 
-int load_textures(t_c3d *env, t_mlx *mlx)
+int load_textures(t_parser *parser, t_cub3d *env)
 {
-    t_img img[_TEX_NBR];
-    int i;
-    int j;
-
-    i = -1;
-    j = 0;
-    while (++i < _TEX_NBR)
-    {
-        if (load_texture(env, mlx, i, &img[i]))
-            break;
-    }
-    while (j < i)
-    {
-        mlx_destroy_image(mlx->mlx_ptr, img[j].mlx_img);
-        j++;
-    }
-    if (i != _TEX_NBR)
+    if (load_texture(env, parser->info_buf[0], &(env->walls->north)))
+        return (-1);
+    if (load_texture(env, parser->info_buf[1], &(env->walls->south)))
+        return (-1);
+    if (load_texture(env, parser->info_buf[2], &(env->walls->west)))
+        return (-1);
+    if (load_texture(env, parser->info_buf[3], &(env->walls->east)))
         return (-1);
     return (0);
 }
 
-int add_path_to_env(t_parser *parser, t_c3d *env)
+static void allocate_memmory_wall(t_cub3d *cub3d)
 {
-    int i;
+    cub3d->walls = (t_wall_imgs *)ft_calloc(sizeof(t_wall_imgs), 1);
+    if (!cub3d->walls)
+        error_and_end_game(cub3d, NULL);
+    cub3d->trans_walls = (t_wall_imgs *)ft_calloc(sizeof(t_wall_imgs), 1);
+    if (!cub3d->trans_walls)
+        error_and_end_game(cub3d, NULL);
+}
+
+int add_path_to_env(t_parser *parser, t_cub3d *env)
+{
     int load_test_ret;
 
-    i = -1;
-    while (++i < _TEX_NBR)
-        env->tex_paths[i] = parser->info_buf[i];
-    load_test_ret = load_textures(env, &(env->mlx));
+    allocate_memmory_wall(env);
+    load_test_ret = load_textures(parser, env);
     if (load_test_ret)
         return (add_info_err_buf(parser, load_test_ret, ERR_TX_PATH));
     return (0);
 }
-*/
 
 // t_envにする
 int add_to_env(t_parser *parser, t_cub3d *env)
 {
 
     // テストではmlxはやらない
-    /*
 
     int i;
-    int((*add_to_env[3])(t_parser * parser, t_c3d * env));
-    add_to_env[0] = &c3d_add_path_to_env;
-    add_to_env[1] = &c3d_add_color_to_env;
-    add_to_env[2] = &c3d_add_map_to_env;
+    int((*add_to_env[3])(t_parser * parser, t_cub3d * env));
+    add_to_env[0] = &add_path_to_env;
+    add_to_env[1] = &add_color_to_env;
+    add_to_env[2] = &add_map_to_env;
     i = -1;
     while (++i < 3)
     {
         if (add_to_env[i](parser, env))
             return (parser->blocking_err_flag);
     }
-    */
 
+    /*
     int i;
     int((*add_to_env[2])(t_parser * parser, t_cub3d * env));
 
@@ -123,5 +107,6 @@ int add_to_env(t_parser *parser, t_cub3d *env)
         if (add_to_env[i](parser, env))
             return (parser->blocking_err_flag);
     }
+    */
     return (0);
 }
