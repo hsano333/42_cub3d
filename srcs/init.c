@@ -122,5 +122,6 @@ t_cub3d *init(int argc, char **argv)
 	*/
 	cub3d->player->mass.x = 200;
 	cub3d->player->mass.y = 200;
+	cub3d->walls->sprite = load_wall_img(cub3d, "image/door.xpm");
 	return (cub3d);
 }
