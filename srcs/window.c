@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/09 16:03:59 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/11 08:22:44 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include "libft_mem.h"
 #include <float.h>
 #include "calc_texture_mapping.h"
+#include "door.h"
+#include "libft_mem.h"
 
 static int	calc_wall_pixel(t_cub3d *cub3d, t_ray *ray, int offset)
 {
@@ -44,7 +46,6 @@ int	update_image_per_wall(t_cub3d *cub3d, t_ray *ray, int offset)
 
 	i = 0;
 	ray->wall_pixel = calc_wall_pixel(cub3d, ray, offset);
-	//printf("ray->wall_pixel=%d\n", ray->wall_pixel);
 	while (i < ray->wall_pixel)
 	{
 		angle = cub3d->player->dir.radian + cub3d->angles[i + offset].radian;
@@ -55,7 +56,6 @@ int	update_image_per_wall(t_cub3d *cub3d, t_ray *ray, int offset)
 			break ;
 		i++;
 	}
-	//printf("i=%d, offset=%d, retun_val=%d\n", i, offset, i+offset);
 	return (i + offset);
 }
 
@@ -71,7 +71,7 @@ int	update_image(t_cub3d *cub3d)
 	cub3d->player->world_y = cub3d->player->map.y * WALL_LEN \
 													+ cub3d->player->mass.y;
 	cub3d->player->dir.radian = cub3d->player->dir.degree * M_PI / 180;
-	ft_memset(&ray, 0, sizeof(ray));
+	ft_memset(&ray, 0, sizeof(t_ray));
 	while (i < WIN_WIDTH)
 	{
 		angle = (cub3d->player->dir.radian + cub3d->angles[i].radian);
@@ -79,6 +79,8 @@ int	update_image(t_cub3d *cub3d)
 			angle -= 360 * M_PI / 180;
 		else if (angle < 0)
 			angle += 360 * M_PI / 180;
+		ray.tmp_offset = i;
+		ray.start_angle = angle;
 		fire_ray(cub3d, &ray, angle);
 		i = update_image_per_wall(cub3d, &ray, i);
 	}

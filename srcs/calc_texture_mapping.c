@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:53:34 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 08:41:13 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/11 08:14:46 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle)
 
 	img_x_ratio = (double)ray->wall_img->width / WALL_LEN;
 	img_y_ratio = (double)ray->wall_img->height / WALL_LEN;
+
 
 	y = z;
 	y = 0;
@@ -66,6 +67,7 @@ void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle)
 	double offset_win = ((z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2) * WIN_HEIGHT / world_height);
 	//nnratio = ray->wall_img->height / world_height;
 	wall_flag = false;
+
 	while (y < WIN_HEIGHT)
 	{
 		win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);

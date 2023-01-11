@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 02:50:57 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/09 12:34:45 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/11 08:18:09 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,6 @@ t_cub3d	*init_minilibx(void)
 	if (!cub3d->image->img)
 		error_and_end_game(cub3d, "cub3D:failure to create image\n");
 	cub3d->image->addr = mlx_get_data_addr(cub3d->image->img, &cub3d->image->bpp, &cub3d->image->sl, &cub3d->image->endian);
-	cub3d->player = (t_player *)ft_calloc(sizeof(t_player), 1);
-	if (!cub3d->player)
-		error_and_end_game(cub3d, "cub3D:failure to create player\n");
 	return (cub3d);
 }
 
@@ -119,6 +116,9 @@ t_cub3d	*init(int argc, char **argv)
 	cub3d->player->map.x = 3;
 	cub3d->player->map.y = 3;
 	*/
+	cub3d->player = (t_player *)ft_calloc(sizeof(t_player), 1);
+	if (!cub3d->player)
+		error_and_end_game(cub3d, "cub3D:failure to create player\n");
 	cub3d->player->mass.x = 200;
 	cub3d->player->mass.y = 200;
 	return (cub3d);

@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/09 12:27:01 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/11 06:28:53 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #define RATIO_Z (300)
 #define BASE_ZX (400)
 #define BASE_ZY (300)
+#define CLOSE_DOOR_VALUE (90)
 #define D_EQUAL 0.001
 #include <unistd.h>
 #include <stdio.h>
@@ -103,8 +104,10 @@ typedef enum e_door_state
 {
 	OTHER = 0,
 	OPEN,
-	CLOSE = 100,
+	CLOSE,
+	ANIME,
 } t_door_state;
+
 
 typedef struct s_map
 {
@@ -138,6 +141,7 @@ typedef struct s_ray
 	t_image		*wall_img;
 	//int		is_adjacent_wall;
 	int		is_door;
+	int		tmp_offset;
 }	t_ray;
 
 typedef struct s_player
@@ -152,6 +156,21 @@ typedef struct s_player
 	size_t world_y; // map_y * MAP_SPACE + y
 	t_angle dir;	// north:0 west:90 south:180 east:270
 } t_player;
+
+typedef struct s_anime
+{
+	t_map		*map_info;
+	double		door_angle;
+	t_point		point;
+	t_door_state	state;
+	int		add_ratio;
+	int		open_ratio;
+	int		old_open_ratio;
+	int		tmp_offset;
+	int		flag;
+	//t_ray		ray;
+	//int		old_open_ratio;
+} t_anime;
 
 typedef struct s_cub3d
 {
@@ -168,21 +187,9 @@ typedef struct s_cub3d
 	t_color floor;
 	t_color ceiling;
 	int	door_change_flag;
+	t_anime	*anime;
 } t_cub3d;
 
-typedef struct s_door
-{
-	int map_x;
-	int map_y;
-	int is_north;
-	int is_south;
-	int is_east;
-	int is_west;
-	int open_north;
-	int open_south;
-	int open_east;
-	int open_west;
-} t_door;
 
 typedef struct s_xspace
 {

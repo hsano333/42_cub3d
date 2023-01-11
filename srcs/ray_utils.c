@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 00:59:08 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/09 16:02:42 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/11 08:19:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,20 +97,32 @@ t_point	search_wall(t_cub3d *cub3d \
 	else
 		x_dist = (map.x + 1) * WALL_LEN - cub3d->player->world_x;
 	next = next_map_mass(angle, x_dist, y_dist, map);
+
+
+
 	if (cub3d->map[next.y][next.x].obj == WALL \
 					|| (cub3d->map[next.y][next.x].obj >= DOOR && cub3d->map[next.y][next.x].state == CLOSE))
 	{
 		set_map_dir(cub3d, ray, map, next);
+		if (ray->is_door)
+			ray->wall_img = cub3d->walls->sprite;
+		ray->is_door = false;
 		if (cub3d->map[next.y][next.x].obj >= DOOR)
 		{
 			open_and_close_door(cub3d, next);
 			ray->wall_img = cub3d->walls->sprite;
-			ray->is_door = true;
+			//ray->is_door = true;
 		}
 		return (next);
 	}
 	else if ((cub3d->map[next.y][next.x].obj >= DOOR && cub3d->map[next.y][next.x].state == OPEN))
+	{
+		ray->is_door = true;
 		open_and_close_door(cub3d, next);
+	}
+	else
+		ray->is_door = false;
+
 	return (search_wall(cub3d, ray, angle, next));
 }
 
@@ -133,7 +145,9 @@ int	is_collision_wall(t_cub3d *cub3d, t_ray *ray \
 	if (ray->map_point.x == next.x && ray->map_point.y == next.y)
 	{
 		if (get_wall_direction(src_map, next) == ray->wall_dir)
+		{
 			return (true);
+		}
 		return (false);
 	}
 	else if (cub3d->map[next.y][next.x].obj == WALL \

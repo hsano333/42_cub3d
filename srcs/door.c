@@ -6,11 +6,14 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 14:24:47 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/09 16:02:52 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/11 08:18:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "door.h"
+#include "ray.h"
+#include "window.h"
+#include "libft_mem.h"
 
 static int	is_nearest_wall(t_cub3d *cub3d, t_point next)
 {
@@ -66,9 +69,6 @@ static int	is_near_door(t_cub3d *cub3d)
 
 void	open_and_close_door(t_cub3d *cub3d, t_point next)
 {
-	//t_wall_dir	wall_dir;
-
-	//printf("open_and_close_door No.1\n");
 	if (!cub3d->door_change_flag)
 		return ;
 	if (!is_nearest_wall(cub3d,next))
@@ -79,5 +79,8 @@ void	open_and_close_door(t_cub3d *cub3d, t_point next)
 		cub3d->map[next.y][next.x].state = CLOSE;
 	else
 		cub3d->map[next.y][next.x].state = OPEN;
+	//else
+		//cub3d->map[next.y][next.x].state = OPEN;
 	cub3d->door_change_flag = false;
 }
+
