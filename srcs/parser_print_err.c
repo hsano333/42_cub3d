@@ -11,9 +11,11 @@
 /* ************************************************************************** */
 
 #include "../include/all.h"
+#include "../include/close.h"
 
 void putstr_err(const char *err_type, const char *err_message)
 {
+    ft_putstr_fd("Error\n", STDERR_FILENO);
     // putstrにする
     if (err_type)
         write(STDERR_FILENO, err_type, ft_strlen((char *)err_type));
@@ -84,6 +86,5 @@ void print_parse_err_exit(t_parser *parser, t_cub3d *env)
     i = -1;
     while (++i < ERR_GIBBER)
         if ((parser->blocking_err_flag >> i) & 1)
-            exit(1);
-    // c3d_add_to_env_exit(parser, env);
+            add_to_env_exit(parser, env);
 }
