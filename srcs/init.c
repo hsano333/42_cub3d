@@ -67,6 +67,9 @@ t_cub3d *init_minilibx(void)
 	cub3d->image->img = (void *)mlx_new_image(cub3d->mlx, cub3d->image->width, cub3d->image->height);
 	if (!cub3d->image->img)
 		error_and_end_game(cub3d, "cub3D:failure to create image\n");
+	cub3d->player = (t_player *)ft_calloc(sizeof(t_player), 1);
+	if (!cub3d->player)
+		error_and_end_game(cub3d, "cub3D:failure to create player\n");
 	cub3d->image->addr = mlx_get_data_addr(cub3d->image->img, &cub3d->image->bpp, &cub3d->image->sl, &cub3d->image->endian);
 	return (cub3d);
 }
@@ -117,9 +120,6 @@ t_cub3d *init(int argc, char **argv)
 	cub3d->player->map.x = 3;
 	cub3d->player->map.y = 3;
 	*/
-	cub3d->player = (t_player *)ft_calloc(sizeof(t_player), 1);
-	if (!cub3d->player)
-		error_and_end_game(cub3d, "cub3D:failure to create player\n");
 	cub3d->player->mass.x = 200;
 	cub3d->player->mass.y = 200;
 	return (cub3d);
