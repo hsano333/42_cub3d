@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/11 08:20:03 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/11 15:42:12 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ t_cub3d_type	get_stop_angle(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 
 int	is_next_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 {
-	if (ray->start_angle >= ray->stop_angle && angle <= ray->stop_angle)
+	if (ray->start_angle >= ray->stop_angle && (angle <= ray->stop_angle || angle > ray->start_angle))
 	{
 		if (is_collision_wall(cub3d, ray, angle, cub3d->player->map))
 			return (false);
