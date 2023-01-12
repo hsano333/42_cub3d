@@ -6,14 +6,12 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:53:34 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/12 07:21:11 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/12 18:33:32 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "calc_texture_mapping.h"
 
-//void	calc_texture_mapping(t_cub3d *cub3d)
-//double		update_image_per_x(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle, t_cub3d_type old_x)
 void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle)
 {
 	int	*win_img_addr;
@@ -73,6 +71,39 @@ void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle)
 		win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
 		img_point.y = (y - offset_win) * world_height / WIN_HEIGHT  * img_y_ratio;
 
+		if (ray->shot_flag && cub3d->player->shot.y == y && cub3d->map[ray->map_point.y][ray->map_point.x].obj != DOOR)
+		{
+			if (cub3d->slot.slot_flag)
+			{
+				cub3d->slot.slot_flag = false;
+				if (ray->wall_img == cub3d->walls->enemy)
+				{
+
+					printf("shot result No.1, y=%d,x=%d \n", ray->map_point.y, ray->map_point.x);
+					cub3d->map[ray->map_point.y][ray->map_point.x].state = SLOT_RESULT;
+					cub3d->slot.result_flag = true;
+					cub3d->slot.release_count = cub3d->frame_count;
+				}
+				else
+				{
+					printf("shot result No.2, y=%d,x=%d \n", ray->map_point.y, ray->map_point.x);
+					cub3d->map[ray->map_point.y][ray->map_point.x].state = OTHER;
+				}
+			}
+			else
+			{
+				printf("shot result No.0, y=%d,x=%d \n", ray->map_point.y, ray->map_point.x);
+				//printf("ray->map_point.y=%d, x=%d\n", ray->map_point.y, ray->map_point.x);
+				cub3d->map[ray->map_point.y][ray->map_point.x].state = SLOT;
+				cub3d->slot.shot_wall = ray->wall_dir;
+				cub3d->slot.slot_flag = true;
+				cub3d->slot.map_point.x = ray->map_point.x;
+				cub3d->slot.map_point.y = ray->map_point.y;
+
+			}
+			
+				ray->shot_flag = false;
+		}
 		if (0 <= img_point.y && img_point.y <= ray->wall_img->height && 0 <= img_point.x && img_point.x <= ray->wall_img->width)
 		{
 			img_addr = ray->wall_img->addr + (ray->wall_img->sl * img_point.y);

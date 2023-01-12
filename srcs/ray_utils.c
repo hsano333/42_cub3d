@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 00:59:08 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/11 08:19:20 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/12 14:14:08 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ray_utils.h"
 #include "map_utils.h"
 #include "door.h"
+#include "slot.h"
 #define F_NEAR (0.0001)
 
 static t_point	which_mass(double angle, t_distance dist, t_point map, double y)
@@ -104,15 +105,7 @@ t_point	search_wall(t_cub3d *cub3d \
 					|| (cub3d->map[next.y][next.x].obj >= DOOR && cub3d->map[next.y][next.x].state == CLOSE))
 	{
 		set_map_dir(cub3d, ray, map, next);
-		if (ray->is_door)
-			ray->wall_img = cub3d->walls->sprite;
-		ray->is_door = false;
-		if (cub3d->map[next.y][next.x].obj >= DOOR)
-		{
-			open_and_close_door(cub3d, next);
-			ray->wall_img = cub3d->walls->sprite;
-			//ray->is_door = true;
-		}
+		change_image(cub3d, ray, next);
 		return (next);
 	}
 	else if ((cub3d->map[next.y][next.x].obj >= DOOR && cub3d->map[next.y][next.x].state == OPEN))

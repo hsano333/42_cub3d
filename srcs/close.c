@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:08:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/11 08:14:57 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/12 14:59:08 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,19 @@ void	clear_wall(t_cub3d *cub3d, t_wall_imgs *walls)
 			mlx_destroy_image(cub3d->mlx, walls->west->img);
 		if (walls->east && walls->east->img)
 			mlx_destroy_image(cub3d->mlx, walls->east->img);
-		if (walls->sprite && walls->sprite->img)
-			mlx_destroy_image(cub3d->mlx, walls->sprite->img);
+		if (walls->door && walls->door->img)
+			mlx_destroy_image(cub3d->mlx, walls->door->img);
+		if (walls->enemy && walls->enemy->img)
+			mlx_destroy_image(cub3d->mlx, walls->enemy->img);
+		if (walls->shot_enemy && walls->shot_enemy->img)
+			mlx_destroy_image(cub3d->mlx, walls->shot_enemy->img);
 		free(walls->north);
 		free(walls->south);
 		free(walls->west);
 		free(walls->east);
-		free(walls->sprite);
+		free(walls->door);
+		free(walls->enemy);
+		free(walls->shot_enemy);
 		free(walls);
 	}
 }

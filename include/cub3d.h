@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/12 07:28:23 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/12 18:36:43 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,16 @@ typedef struct s_wall_imgs
 	t_image *south;
 	t_image *west;
 	t_image *east;
-	t_image *sprite;
+	t_image *door;
+	t_image *enemy;
+	t_image *shot_enemy;
 } t_wall_imgs;
 
 typedef enum e_map_obj
 {
 	EMPTY = 0,
 	WALL = 1,
+	SHOT,
 	N_PLAYER,
 	S_PLAYER,
 	E_PLAYER,
@@ -106,6 +109,8 @@ typedef enum e_door_state
 	OPEN,
 	CLOSE,
 	ANIME,
+	SLOT,
+	SLOT_RESULT,
 } t_door_state;
 
 
@@ -142,6 +147,7 @@ typedef struct s_ray
 	//int		is_adjacent_wall;
 	int		is_door;
 	int		tmp_offset;
+	int		shot_flag;
 }	t_ray;
 
 typedef struct s_player
@@ -150,6 +156,7 @@ typedef struct s_player
 	// int	map_y; // >= 0
 	// int	x; // > 0 && < MAP_SPACE
 	// int	y; // > 0 && < MAP_SPACE
+	t_point		shot;
 	t_point map;
 	t_point mass;
 	size_t world_x; // map_x * MAP_SPACE + x
@@ -172,6 +179,17 @@ typedef struct s_anime
 	//int		old_open_ratio;
 } t_anime;
 
+
+typedef struct s_slot
+{
+
+	int		slot_flag;
+	int		result_flag;
+	int		release_count;
+	t_point		map_point;
+	t_wall_dir	shot_wall;
+} t_slot;
+
 typedef struct s_cub3d
 {
 	void *mlx;
@@ -186,7 +204,9 @@ typedef struct s_cub3d
 
 	t_color floor;
 	t_color ceiling;
+	t_slot	slot;
 	int	door_change_flag;
+	int	frame_count;
 } t_cub3d;
 
 

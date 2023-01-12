@@ -81,6 +81,7 @@ t_cub3d *init(int argc, char **argv)
 	if (argc != 2)
 		error_and_end_game(NULL, "cub3D:invalid argument\n");
 	cub3d = init_minilibx();
+	printf("cub3d->slot.slot_flag=%d, cub3d->slot.result_flag=%d\n", cub3d->slot.slot_flag, cub3d->slot.result_flag);
 	calc_angles(cub3d);
 	parse_map_main(cub3d, argv);
 
@@ -122,6 +123,10 @@ t_cub3d *init(int argc, char **argv)
 	*/
 	cub3d->player->mass.x = 200;
 	cub3d->player->mass.y = 200;
-	cub3d->walls->sprite = load_wall_img(cub3d, "image/door.xpm");
+	cub3d->player->shot.x = -1;
+	cub3d->player->shot.y = -1;
+	cub3d->walls->door = load_wall_img(cub3d, "image/door.xpm");
+	cub3d->walls->enemy = load_wall_img(cub3d, "image/enemy.xpm");
+	cub3d->walls->shot_enemy = load_wall_img(cub3d, "image/shot_enemy.xpm");
 	return (cub3d);
 }

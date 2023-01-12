@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 07:04:07 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/10 07:29:22 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/12 14:15:48 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "window.h"
 #include "ray.h"
 #include "door.h"
+#include "slot.h"
 
 int	expose_win_hook(void *p)
 {
@@ -47,4 +48,5 @@ void	init_mlx_hook(t_cub3d *cub3d)
 	mlx_hook(cub3d->window, ON_DESTROY, NoEventMask, close_cub3d, cub3d);
 	mlx_hook(cub3d->window, ON_EXPOSE, NoEventMask, unlock, cub3d);
 	mlx_loop_hook(cub3d->mlx, update_image, cub3d);
+	//mlx_loop_hook(cub3d->mlx, count_frame, cub3d);
 }
