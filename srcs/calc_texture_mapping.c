@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:53:34 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/11 08:14:46 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/12 07:21:11 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle)
 		}
 		else if (wall_flag)
 		{
-			win_img_addr[x] = 65535 * 255;
+			win_img_addr[x] = cub3d->floor.color;
 		}
 		else
 		{
-			win_img_addr[x] = 255;
+			win_img_addr[x] = cub3d->ceiling.color;
 		}
 		y++;
 	}
