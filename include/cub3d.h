@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/11 06:28:53 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/12 07:28:23 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,6 @@ typedef struct s_cub3d
 	t_color floor;
 	t_color ceiling;
 	int	door_change_flag;
-	t_anime	*anime;
 } t_cub3d;
 
 

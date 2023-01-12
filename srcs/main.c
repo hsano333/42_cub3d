@@ -24,8 +24,8 @@ int main(int argc, char **argv)
 	cub3d = init(argc, argv);
 	if (!cub3d)
 		exit(1);
-       //cub3d->map[2][3].obj =  DOOR;
-       //cub3d->map[2][3].state= OPEN;
+        cub3d->map[2][3].obj =  DOOR;
+        cub3d->map[2][3].state= OPEN;
 
 	mlx_loop(cub3d->mlx);
 	close_cub3d(cub3d);

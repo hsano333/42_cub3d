@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/11 15:42:12 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/12 07:48:41 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "map_utils.h"
 #include "libft_mem.h"
 #include "ray_utils.h"
+#include "player.h"
 #define FIRST 0
 #define LAST 1
 
@@ -180,6 +181,8 @@ static void	calc_ray_to_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 
 int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 {
+	if (get_cur_map_obj(cub3d) == DOOR)
+		ray->is_door = true;
 	ray->map_point = search_wall(cub3d, ray, angle, cub3d->player->map);
 	calc_ray_to_wall(cub3d, ray, angle);
 	/*
