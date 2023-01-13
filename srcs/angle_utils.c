@@ -6,24 +6,36 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 07:27:31 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 03:55:25 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 21:17:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "angle_utils.h"
 
-t_cub3d_type	convt_degree_to_radian(t_cub3d_type val)
+double	fit_in_radian(double angle)
 {
-	t_cub3d_type	tmp;
+	if (angle >= 360 * M_PI / 180)
+		angle -= 360 * M_PI / 180;
+	else if (angle < 0)
+		angle += 360 * M_PI / 180;
+	return (angle);
+}
+
+/*
+double	convt_degree_to_radian(double val)
+{
+	double	tmp;
 
 	tmp = val * M_PI / 180;
 	return (tmp);
 }
+*/
 
-t_cub3d_type	near_angle(t_cub3d_type angle, t_cub3d_type a, t_cub3d_type b)
+/*
+double	near_angle(double angle, double a, double b)
 {
-	t_cub3d_type	diff1[3];
-	t_cub3d_type	diff2[3];
+	double	diff1[3];
+	double	diff2[3];
 
 	diff1[0] = fabs(a - angle);
 	diff1[1] = 2 * M_PI - fabs(a - angle);
@@ -41,21 +53,24 @@ t_cub3d_type	near_angle(t_cub3d_type angle, t_cub3d_type a, t_cub3d_type b)
 		return (b);
 	return (a);
 }
+*/
 
+/*
 t_angle	get_radian_per_len(int len)
 {
 	t_angle	tmp;
 
-	tmp.degree = (t_cub3d_type)len / (WIN_WIDTH - 1);
+	tmp.degree = (double)len / (WIN_WIDTH - 1);
 	tmp.radian = tmp.degree * M_PI / 180;
 	return (tmp);
 }
+*/
 
-t_cub3d_type	distance_to_angle(t_cub3d_type val \
-					, t_cub3d_type angle, t_rotate_mode mode)
+double	distance_to_angle(double val \
+					, double angle, t_rotate_mode mode)
 {
-	t_cub3d_type	tmp1;
-	t_cub3d_type	tmp2;
+	double	tmp1;
+	double	tmp2;
 
 	tmp1 = atan(val);
 	if (tmp1 < 0)
@@ -81,7 +96,7 @@ t_cub3d_type	distance_to_angle(t_cub3d_type val \
 	return (tmp2);
 }
 
-int	is_in_range_fov(t_cub3d *cub3d, t_cub3d_type angle)
+int	is_in_range_fov(t_cub3d *cub3d, double angle)
 {
 	angle -= cub3d->player->dir.radian;
 	if (angle < 0)
@@ -90,5 +105,15 @@ int	is_in_range_fov(t_cub3d *cub3d, t_cub3d_type angle)
 		return (true);
 	else if (angle < M_PI && angle <= cub3d->angles[0].radian)
 		return (true);
+	return (false);
+}
+
+int	is_exceed_angle(t_ray *ray, double angle)
+{
+	if (ray->start_angle >= ray->stop_angle \
+		&& (angle <= ray->stop_angle || angle > ray->start_angle))
+	{
+		return (true);
+	}
 	return (false);
 }

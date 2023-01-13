@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/11 08:20:03 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 21:32:14 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,39 +17,9 @@
 #include "map_utils.h"
 #include "libft_mem.h"
 #include "ray_utils.h"
+#include "player.h"
 #define FIRST 0
 #define LAST 1
-
-/*
-static void	set_map_dir(t_cub3d *cub3d, t_ray *ray \
-							, t_point map, t_point next_map)
-{
-	t_point	diff;
-
-	diff.x = next_map.x - map.x;
-	diff.y = next_map.y - map.y;
-	if (diff.y == -1)
-	{
-		ray->wall_dir = SOUTH_WALL;
-		ray->wall_img = cub3d->walls->north;
-	}
-	else if (diff.y == 1)
-	{
-		ray->wall_dir = NORTH_WALL;
-		ray->wall_img = cub3d->walls->south;
-	}
-	else if (diff.x == 1)
-	{
-		ray->wall_dir = WEST_WALL;
-		ray->wall_img = cub3d->walls->east;
-	}
-	else if (diff.x == -1)
-	{
-		ray->wall_dir = EAST_WALL;
-		ray->wall_img = cub3d->walls->west;
-	}
-}
-*/
 
 static t_point	get_offset(t_ray *ray, int mode)
 {
@@ -80,36 +50,9 @@ static t_point	get_offset(t_ray *ray, int mode)
 	return (point);
 }
 
-/*
-static t_point	search_wall(t_cub3d *cub3d, t_ray *ray
-							, t_cub3d_type angle, t_point map)
+double	get_stop_angle(t_cub3d *cub3d, t_ray *ray, double angle)
 {
-	double		y_dist;
-	double		x_dist;
-	t_point		next;
-
-	if (angle < M_PI / 2 || angle > M_PI * 3 / 2)
-		y_dist = cub3d->player->world_y - map.y * WALL_LEN;
-	else
-		y_dist = (map.y + 1) * WALL_LEN - cub3d->player->world_y;
-	if (angle < M_PI && angle > 0)
-		x_dist = cub3d->player->world_x - map.x * WALL_LEN;
-	else
-		x_dist = (map.x + 1) * WALL_LEN - cub3d->player->world_x;
-	next = next_map_mass(angle, x_dist, y_dist, map);
-	if (cub3d->map[next.y][next.x].obj == WALL \
-					|| cub3d->map[next.y][next.x].obj >= DOOR)
-	{
-		set_map_dir(cub3d, ray, map, next);
-		return (next);
-	}
-	return (search_wall(cub3d, ray, angle, next));
-}
-*/
-
-t_cub3d_type	get_stop_angle(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
-{
-	const double	sub_angle = (t_cub3d_type)1 * M_PI / 180;
+	const double	sub_angle = (double)1 * M_PI / 180;
 	int				over_flag;
 
 	over_flag = false;
@@ -135,9 +78,9 @@ t_cub3d_type	get_stop_angle(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 	return (angle);
 }
 
-int	is_next_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
+int	is_next_wall(t_cub3d *cub3d, t_ray *ray, double angle)
 {
-	if (ray->start_angle >= ray->stop_angle && angle <= ray->stop_angle)
+	if (is_exceed_angle(ray, angle))
 	{
 		if (is_collision_wall(cub3d, ray, angle, cub3d->player->map))
 			return (false);
@@ -157,7 +100,7 @@ int	is_next_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 	return (false);
 }
 
-static void	calc_ray_to_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
+static void	calc_ray_to_wall(t_cub3d *cub3d, t_ray *ray, double angle)
 {
 	t_point	offset;
 
@@ -173,29 +116,13 @@ static void	calc_ray_to_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 							/ ray->last_distance.y, angle, RORATE_MINUS);
 	ray->start_angle = angle;
 	ray->stop_angle = get_stop_angle(cub3d, ray, ray->last_angle);
-	ray->begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian);
-	ray->last_base_len = tan(ray->last_angle - cub3d->player->dir.radian);
-	ray->max_len = ray->last_base_len - ray->begin_base_len;
 }
 
-int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
+int	fire_ray(t_cub3d *cub3d, t_ray *ray, double angle)
 {
+	if (get_cur_map_obj(cub3d) == DOOR)
+		ray->is_door = true;
 	ray->map_point = search_wall(cub3d, ray, angle, cub3d->player->map);
 	calc_ray_to_wall(cub3d, ray, angle);
-	/*
-	ray->is_adjacent_wall = false;
-	if (ray->map_point.x - cub3d->player->map.x == 1 \
-					|| ray->map_point.x - cub3d->player->map.x == -1)
-	{
-		if (ray->map_point.y - cub3d->player->map.y == 0)
-			ray->is_adjacent_wall = true;
-	}
-	else if (ray->map_point.y - cub3d->player->map.y == 1 \
-					|| ray->map_point.y - cub3d->player->map.y == -1)
-	{
-		if (ray->map_point.x - cub3d->player->map.x == 0)
-			ray->is_adjacent_wall = true;
-	}
-	*/
 	return (true);
 }

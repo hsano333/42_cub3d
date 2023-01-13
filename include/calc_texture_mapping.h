@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:54:00 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 14:59:44 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 20:16:02 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 # include <math.h>
 # include "cub3d.h"
 
-void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, t_cub3d_type angle);
+void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, double angle);
 #endif

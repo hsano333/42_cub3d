@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:40:57 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/11 07:31:27 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 20:47:37 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		ft_isdigitstr(char *str);
 char	**ft_split(char const *s, char c);
 int		ft_free_split(char **split);
 char	*ft_itoa(int n);
-int	ft_itoa_no_memory(size_t n, size_t size, char *p, char *r);
+int		ft_itoa_no_memory(size_t n, size_t size, char *p, char *r);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_bzero(void *s, size_t n);

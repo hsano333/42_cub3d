@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 07:04:07 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/10 07:29:22 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 21:26:17 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "window.h"
 #include "ray.h"
 #include "door.h"
+#include "slot.h"
 
 int	expose_win_hook(void *p)
 {

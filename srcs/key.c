@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:46:39 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/09 16:04:41 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 22:00:31 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,15 @@ static int	is_invalid_point(t_cub3d *cub3d, size_t x, size_t y)
 {
 	t_point	tmp_map_point;
 	t_point	tmp_mass_point;
+	t_map	map_p;
 
 	tmp_map_point.x = (int)(x / MAP_SPACE);
 	tmp_map_point.y = (int)(y / MAP_SPACE);
+	map_p = cub3d->map[tmp_map_point.y][tmp_map_point.x];
 	if (tmp_map_point.x < 0 || tmp_map_point.y < 0)
 		return (true);
-	if (cub3d->map[tmp_map_point.y][tmp_map_point.x].obj == WALL \
-		|| (cub3d->map[tmp_map_point.y][tmp_map_point.x].obj >= DOOR && cub3d->map[tmp_map_point.y][tmp_map_point.x].state == CLOSE))
+	if (map_p.obj == WALL \
+		|| (map_p.obj >= DOOR && map_p.state == CLOSE))
 		return (true);
 	tmp_mass_point.x = (int)(x % MAP_SPACE);
 	tmp_mass_point.y = (int)(y % MAP_SPACE);
@@ -45,8 +47,8 @@ static int	is_invalid_point(t_cub3d *cub3d, size_t x, size_t y)
 		tmp_map_point.x -= 1;
 	if (tmp_mass_point.y == 0)
 		tmp_map_point.y -= 1;
-	if (cub3d->map[tmp_map_point.y][tmp_map_point.x].obj == WALL \
-			|| (cub3d->map[tmp_map_point.y][tmp_map_point.x].obj >= DOOR && cub3d->map[tmp_map_point.y][tmp_map_point.x].state == CLOSE))
+	if (map_p.obj == WALL \
+			|| (map_p.obj >= DOOR && map_p.state == CLOSE))
 		return (true);
 	return (false);
 }
@@ -64,13 +66,12 @@ static void	change_player_point(t_cub3d *cub3d, int x, int y)
 	cub3d->player->map.y = (int)(tmp_point_y / MAP_SPACE);
 	cub3d->player->mass.x = (int)(tmp_point_x % MAP_SPACE);
 	cub3d->player->mass.y = (int)(tmp_point_y % MAP_SPACE);
-	//printf("map:x=%d, y=%d, mass:x=%d, y=%d\n",cub3d->player->map.x, cub3d->player->map.y,cub3d->player->mass.x, cub3d->player->mass.y );
 }
 
 int	key_hook(int key, void *cub3d)
 {
-	double	angle;
-	const	double	step = MAP_SPACE / MOVE_STEP;
+	double			angle;
+	const double	step = MAP_SPACE / MOVE_STEP;
 
 	cub3d = (t_cub3d *)cub3d;
 	angle = ((t_cub3d *)cub3d)->player->dir.radian;
@@ -82,10 +83,6 @@ int	key_hook(int key, void *cub3d)
 		change_player_dir(cub3d, 3);
 	else if (key == ARROW_RIGHT)
 		change_player_dir(cub3d, -3);
-	else if (key == ARROW_UP)
-		;
-	else if (key == ARROW_DOWN)
-		;
 	else if (key == W_KEY)
 		change_player_point(cub3d, -sin(angle) * step, -cos(angle) * step);
 	else if (key == S_KEY)

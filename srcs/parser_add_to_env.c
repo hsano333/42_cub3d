@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 21:30:23 by maoyagi           #+#    #+#             */
-/*   Updated: 2023/01/07 21:30:23 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/13 20:27:00 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,6 @@ static void allocate_memmory_wall(t_cub3d *cub3d)
 {
     cub3d->walls = (t_wall_imgs *)ft_calloc(sizeof(t_wall_imgs), 1);
     if (!cub3d->walls)
-        error_and_end_game(cub3d, NULL);
-    cub3d->trans_walls = (t_wall_imgs *)ft_calloc(sizeof(t_wall_imgs), 1);
-    if (!cub3d->trans_walls)
         error_and_end_game(cub3d, NULL);
 }
 
