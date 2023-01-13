@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 14:24:47 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/11 08:18:54 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 11:57:17 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ void	open_and_close_door(t_cub3d *cub3d, t_point next)
 		cub3d->map[next.y][next.x].state = CLOSE;
 	else
 		cub3d->map[next.y][next.x].state = OPEN;
-	//else
-		//cub3d->map[next.y][next.x].state = OPEN;
 	cub3d->door_change_flag = false;
 }
 

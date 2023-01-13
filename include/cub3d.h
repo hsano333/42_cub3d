@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 07:55:15 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 12:09:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ typedef struct s_point {
 	int	y;
 	int	z;
 }	t_point;
+
+typedef struct s_wpoint {
+	size_t	x;
+	size_t	y;
+	size_t	z;
+}	t_wpoint;
 
 typedef struct s_image
 {
