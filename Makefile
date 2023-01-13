@@ -10,19 +10,23 @@ LIBFTNAME	:= libft.a
 LIBFT		:= $(LIBFTDIR)/$(LIBFTNAME)
 
 SRCDIR	:= ./srcs/
-SRC	:= init.c arg.c hook.c mouse.c key.c close.c window.c wall.c affine.c ray.c angle_utils.c map_utils.c calc_texture_mapping.c ray_utils.c door.c parser_add_color.c parser_add_map.c parser_add_to_env.c parser_check_file.c parser_check_type.c parser_copy_map.c parser_exit.c parser_fill_check_buf.c parser_free.c parser_line.c parser_main.c parser_print_err.c parser_util.c parser_add_player.c player.c slot.c
-ENTRY	:= main.c
-ENTRYBONUS	:= main_bonus.c
+SRC	:=  arg.c hook.c mouse.c key.c close.c window.c wall.c affine.c ray.c angle_utils.c map_utils.c calc_texture_mapping.c ray_utils.c door.c parser_add_color.c parser_add_map.c parser_add_to_env.c parser_check_file.c parser_check_type.c parser_copy_map.c parser_exit.c parser_fill_check_buf.c parser_free.c parser_line.c parser_main.c parser_print_err.c parser_util.c parser_add_player.c player.c slot.c
+ENTRY	:= main.c init.c
+ENTRYBONUS	:= main_bonus.c init_bonus.c
 ifdef WITH_BONUS
 ENTRY	:= $(ENTRYBONUS)
+else
 endif
-SRC	+= $(ENTRY)
 
+
+SRC	+= $(ENTRY)
 SRCS	:= $(addprefix $(SRCDIR), $(SRC))
 OBJS	:= $(SRCS:.c=.o)
 OBJDIR	:= ./obj
 OBJECTS	:= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 DEPS	:= $(OBJECTS:.o=.d)
+DELENTRY	:= $(addprefix $(OBJDIR)/, $(ENTRY))
+DELENTRY	+= $(addprefix $(OBJDIR)/, $(ENTRYBONUS))
 ifeq ($(shell uname),Darwin)
 INCS	:= ./include $(LIBFTDIR)/include $(LIBMLXDIR) /opt/X11/include
 else
@@ -50,13 +54,13 @@ all:	$(LIBMLX)
 	@make $(NAME)	
 
 $(NAME)	:	$(OBJECTS) $(LIBS) 
-		$(CC)  $(CFLAGS) $(OBJECTS)  $(LDFLAGS) -o $@
+		$(CC)  $(CFLAGS) $(OBJECTS) $(LDFLAGS) -o $@
+		$(RM) $(DELENTRY)
 
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(OBJDIR) / $(*D)
-	$(CC) $(CFLAGS) $(IFLAGS) -c $< -MMD -MP -MF   $(OBJDIR)/$*.d  -o $@
-	$(CC) $(CFLAGS) $(IFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) $(IFLAGS) $(BONUS_FLAG) -c $< -MMD -MP -MF   $(OBJDIR)/$*.d  -o $@
 
 $(LIBMLX) :
 	tar zxvf $(LIBMLXTAR) -C $(LIB)
@@ -64,10 +68,16 @@ $(LIBMLX) :
 clean	:
 			$(RM) $(OBJECTS)
 			$(RM) $(DEPS)
+			$(RM) $(OBJDIR)/$(ENTRY:.c=.o)
+			$(RM) $(OBJDIR)/$(ENTRY:.c=.d)
 			$(RM) $(OBJDIR)/$(ENTRYBONUS:.c=.o)
 			$(RM) $(OBJDIR)/$(ENTRYBONUS:.c=.d)
-			make clean -C $(LIBFTDIR)
-			make clean -C $(LIBMLXDIR)
+			$(RM) $(DELENTRY:.c=.o)
+			$(RM) $(DELENTRY:.c=.d)
+			echo	$(ENTRYBONUS)
+			echo	$(ENTRY)
+			@make clean -C $(LIBFTDIR)
+			@make clean -C $(LIBMLXDIR)
 
 fclean	:	clean
 			$(RM) $(NAME)
@@ -82,4 +92,4 @@ ifeq ($(findstring clean,$(MAKECMDGOALS)),)
 -include $(DEPS)
 endif
 
-.PHONY: clean fclean bonus re
+.PHONY: all clean fclean bonus re

@@ -20,7 +20,7 @@
 int main(int argc, char **argv)
 {
 	t_cub3d *cub3d;
-	printf("main not bonus\n");
+	printf("main bonus\n");
 
 	cub3d = init(argc, argv);
 	if (!cub3d)
