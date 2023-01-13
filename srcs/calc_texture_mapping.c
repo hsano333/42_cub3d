@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:53:34 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 08:14:01 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 11:12:23 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ int	calc_z(t_cub3d *cub3d, t_ray *ray, double angle)
 		tmp_x = (double)fabs((double)ray->begin_distance.x);
 		tmp_y = (double)fabs((double)ray->begin_distance.x / tan(angle));
 	}
+	else
+	{
+		tmp_x = 0;
+		tmp_y = 0;
+	}
 	r = sqrt(pow(tmp_x, 2) + pow(tmp_y, 2));
 	z = fabs(r * sin(angle - cub3d->player->dir.radian - M_PI / 2));
 	return (z);
@@ -41,6 +46,7 @@ int	calc_x(t_ray *ray, double angle)
 	double	image_x;
 
 	img_x_ratio = (double)ray->wall_img->width / WALL_LEN;
+	image_x = 0;
 	if (ray->wall_dir == SOUTH_WALL)
 		image_x = (int)((ray->begin_distance.x - ray->begin_distance.y * tan(angle)) * img_x_ratio);
 	else if (ray->wall_dir == NORTH_WALL)
