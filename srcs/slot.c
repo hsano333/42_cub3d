@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:14:27 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 21:12:24 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 13:29:32 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ int	count_frame(t_cub3d *cub3d)
 
 void	manage_slot_flag(t_cub3d *cub3d, t_ray *ray, int y)
 {
-	t_map	door_p;
+	t_map	*door_p;
 
-	door_p = cub3d->map[ray->map_point.y][ray->map_point.x];
-	if (cub3d->player->shot.y == y && door_p.obj != DOOR)
+	door_p = &(cub3d->map[ray->map_point.y][ray->map_point.x]);
+	if (cub3d->player->shot.y == y && door_p->obj != DOOR)
 	{
 		if (cub3d->slot.slot_flag)
 			set_off_slot(cub3d, ray, door_p);
