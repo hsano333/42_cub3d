@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:53:34 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 21:45:12 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 17:50:20 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,16 @@ int	calc_x(t_ray *ray, double angle)
 		image_x = ((-dist.y - dist.x * tan(angle - M_PI * 0.5)) * img_x_ratio);
 	else if (ray->wall_dir == WEST_WALL)
 		image_x = ((dist.y + dist.x * tan(angle - M_PI * 1.5)) * img_x_ratio);
+	//if (!(0 <= image_x && image_x <= cub3d->ray->wall_img->width))
+	//if (!(0 <= image_x && image_x <= cub3d->ray->wall_img->width))
+	if (!(0 <= image_x && image_x <= 200))
+	{
+		//image_x = 0;
+		//printf("test\n");
+		printf("\n image_x=%d, angle=%lf,dist.x=%d, dist.y=%d,img_x_ratio=%lf,ray->wall_dir=%d  \n",image_x, angle * 180 / M_PI, dist.x, dist.y, img_x_ratio, ray->wall_dir);
+		//printf("\nimage_x=%d, angle=%lf,dist.x=%d, dist.y=%d,img_x_ratio=%lf,ray->wall_dir=%d  \n",image_x, angle * 180 / M_PI, dist.x, dist.y, img_x_ratio, ray->wall_dir);
+		//printf("\n angle=,dist.x=, dist.y=,img_x_ratio=,ray->wall_dir=  \n" );
+	}
 	return (image_x);
 }
 
@@ -73,6 +83,10 @@ int	copy_to_addr(t_cub3d *cub3d, t_point img_point \
 	y = win_point.y;
 	ray = cub3d->ray;
 	win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
+	 //if(!(0 <= img_point.x && img_point.x <= cub3d->ray->wall_img->width))
+	 //{
+		//printf("x=%d,, image:x=%d, y=%d, \n", x, img_point.x, img_point.y);
+	 //}
 	if ((0 <= img_point.y && img_point.y <= ray->wall_img->height) \
 			&& 0 <= img_point.x && img_point.x <= ray->wall_img->width)
 	{
@@ -120,6 +134,7 @@ void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, double angle)
 	t_point	win_point;
 	double	z;
 
+	//printf("ray->map_point.x=%d, ray->map_point.y =%d, player:x=%d, y=%d, mass:x=%d,y=%d \n", ray->map_point.x, ray->map_point.y, cub3d->player->map.x, cub3d->player->map.y, cub3d->player->mass.y, cub3d->player->mass.y);
 	img_point.x = calc_x(ray, angle);
 	z = calc_z(cub3d, ray, angle);
 	cub3d->ray = ray;

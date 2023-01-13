@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 07:27:31 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 21:17:50 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 18:42:01 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 double	fit_in_radian(double angle)
 {
-	if (angle >= 360 * M_PI / 180)
-		angle -= 360 * M_PI / 180;
+	if (angle >= 2 * M_PI)
+		angle -= 2 * M_PI;
 	else if (angle < 0)
-		angle += 360 * M_PI / 180;
+		angle += 2 * M_PI;
 	return (angle);
 }
 
@@ -110,10 +110,15 @@ int	is_in_range_fov(t_cub3d *cub3d, double angle)
 
 int	is_exceed_angle(t_ray *ray, double angle)
 {
-	if (ray->start_angle >= ray->stop_angle \
-		&& (angle <= ray->stop_angle || angle > ray->start_angle))
+	if (ray->start_angle >= ray->stop_angle)
 	{
-		return (true);
+		if (angle <= ray->stop_angle || angle > ray->start_angle)
+			return (true);
+	}
+	else
+	{
+		if (angle <= ray->stop_angle)
+			return (true);
 	}
 	return (false);
 }
