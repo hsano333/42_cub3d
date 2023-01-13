@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 21:16:14 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 21:32:14 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,6 @@ static void	calc_ray_to_wall(t_cub3d *cub3d, t_ray *ray, double angle)
 							/ ray->last_distance.y, angle, RORATE_MINUS);
 	ray->start_angle = angle;
 	ray->stop_angle = get_stop_angle(cub3d, ray, ray->last_angle);
-	//ray->begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian);
-	//ray->last_base_len = tan(ray->last_angle - cub3d->player->dir.radian);
-	//ray->max_len = ray->last_base_len - ray->begin_base_len;
 }
 
 int	fire_ray(t_cub3d *cub3d, t_ray *ray, double angle)

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:53:34 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 21:03:54 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 21:45:12 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,35 +42,39 @@ int	calc_z(t_cub3d *cub3d, t_ray *ray, double angle)
 
 int	calc_x(t_ray *ray, double angle)
 {
+	int		image_x;
 	double	img_x_ratio;
-	double	image_x;
+	t_point	dist;
 
+	dist = ray->begin_distance;
 	img_x_ratio = (double)ray->wall_img->width / WALL_LEN;
 	image_x = 0;
 	if (ray->wall_dir == SOUTH_WALL)
-		image_x = (int)((ray->begin_distance.x - ray->begin_distance.y * tan(angle)) * img_x_ratio);
+		image_x = ((dist.x - dist.y * tan(angle)) * img_x_ratio);
 	else if (ray->wall_dir == NORTH_WALL)
-		image_x = (int)((-ray->begin_distance.x + ray->begin_distance.y * tan(angle - M_PI)) * img_x_ratio);
+		image_x = ((-dist.x + dist.y * tan(angle - M_PI)) * img_x_ratio);
 	else if (ray->wall_dir == EAST_WALL)
-		image_x = (int)((-ray->begin_distance.y - (ray->begin_distance.x) * tan(angle - M_PI * 1 / 2)) * img_x_ratio);
+		image_x = ((-dist.y - dist.x * tan(angle - M_PI * 0.5)) * img_x_ratio);
 	else if (ray->wall_dir == WEST_WALL)
-		image_x = (int)((ray->begin_distance.y + (ray->begin_distance.x) * tan(angle - M_PI * 3 / 2)) * img_x_ratio);
+		image_x = ((dist.y + dist.x * tan(angle - M_PI * 1.5)) * img_x_ratio);
 	return (image_x);
 }
 
-int	copy_to_addr(t_cub3d *cub3d, t_point img_point, t_point win_point, int wall_flag)
+int	copy_to_addr(t_cub3d *cub3d, t_point img_point \
+									, t_point win_point, int wall_flag)
 {
-	int	*win_img_addr;
-	int	*img_addr;
-	int	x;
-	int	y;
+	int		*win_img_addr;
+	int		*img_addr;
+	int		x;
+	int		y;
 	t_ray	*ray;
 
 	x = win_point.x;
 	y = win_point.y;
 	ray = cub3d->ray;
 	win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
-	if (0 <= img_point.y && img_point.y <= ray->wall_img->height && 0 <= img_point.x && img_point.x <= ray->wall_img->width)
+	if ((0 <= img_point.y && img_point.y <= ray->wall_img->height) \
+			&& 0 <= img_point.x && img_point.x <= ray->wall_img->width)
 	{
 		img_addr = ray->wall_img->addr + (ray->wall_img->sl * img_point.y);
 		wall_flag = true;
@@ -83,23 +87,26 @@ int	copy_to_addr(t_cub3d *cub3d, t_point img_point, t_point win_point, int wall_
 	return (wall_flag);
 }
 
-void	copy_to_addr_base(t_cub3d *cub3d, t_point img_point, t_point win_point, double z)
+void	copy_to_addr_base(t_cub3d *cub3d, t_point img_point \
+									, t_point win_point, double z)
 {
+	int		wall_flag;
+	int		y;
 	double	world_height;
 	double	offset_win;
 	double	img_y_ratio;
-	int	wall_flag;
-	int	y;
 
 	y = 0;
 	img_y_ratio = (double)cub3d->ray->wall_img->height / WALL_LEN;
 	world_height = z * WALL_LEN / BASE_ZY;
-	offset_win = ((z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2) * WIN_HEIGHT / world_height);
+	offset_win = (z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2) \
+									* WIN_HEIGHT / world_height;
 	wall_flag = false;
 	while (y < WIN_HEIGHT)
 	{
 		win_point.y = y;
-		img_point.y = (y - offset_win) * world_height / WIN_HEIGHT  * img_y_ratio;
+		img_point.y = (y - offset_win) \
+					* world_height / WIN_HEIGHT * img_y_ratio;
 		if (cub3d->ray->shot_flag)
 			manage_slot_flag(cub3d, cub3d->ray, y);
 		wall_flag = copy_to_addr(cub3d, img_point, win_point, wall_flag);

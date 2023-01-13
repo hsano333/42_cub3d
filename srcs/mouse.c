@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:50:01 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/12 09:18:50 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 22:01:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@
 int	hook_mouse_hook(int key, int x, int y, void *cub3d_v)
 {
 	t_cub3d	*cub3d;
-	//double	ratio;
 
-	//ratio = x / WIN_WIDTH;
 	cub3d = (t_cub3d *)cub3d_v;
 	cub3d = (t_cub3d *)cub3d;
 	key = (int)key;

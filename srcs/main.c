@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/11 12:17:51 by hsano             #+#    #+#             */
+/*   Created: 2023/01/13 22:02:50 by hsano             #+#    #+#             */
+/*   Updated: 2023/01/13 22:03:04 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +18,15 @@
 #include "window.h"
 #include "close.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_cub3d *cub3d;
-	printf("main not bonus\n");
+	t_cub3d	*cub3d;
 
 	cub3d = init(argc, argv);
 	if (!cub3d)
 		exit(1);
-        cub3d->map[2][3].obj =  DOOR;
-        cub3d->map[2][3].state= OPEN;
-
 	mlx_loop(cub3d->mlx);
 	close_cub3d(cub3d);
 	exit_game(cub3d);
+	return (true);
 }
