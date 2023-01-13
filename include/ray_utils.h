@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 01:02:17 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 19:29:43 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 20:19:17 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # include "cub3d.h"
 
 t_point	search_wall(t_cub3d *cub3d \
-			, t_ray *ray, t_cub3d_type angle, t_point map);
-int	is_collision_wall(t_cub3d *cub3d, t_ray *ray \
+			, t_ray *ray, double angle, t_point map);
+int		is_collision_wall(t_cub3d *cub3d, t_ray *ray \
 						, double angle, t_point src_map);
 typedef struct s_distance {
 	double	x;

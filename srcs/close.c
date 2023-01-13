@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:08:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/12 14:59:08 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 20:26:45 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	clear_cub3d(t_cub3d *cub3d)
 		mlx_destroy_image(cub3d->mlx, cub3d->image->img);
 	free(cub3d->image);
 	clear_wall(cub3d, cub3d->walls);
-	clear_wall(cub3d, cub3d->trans_walls);
 	if (cub3d->window)
 		mlx_destroy_window(cub3d->mlx, cub3d->window);
 	if (cub3d->player)

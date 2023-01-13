@@ -6,13 +6,12 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 11:24:50 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 20:36:51 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "mlx.h"
-#include "affine.h"
 #include "ray.h"
 #include "close.h"
 #include "libft_mem.h"
@@ -103,7 +102,7 @@ int	update_image(t_cub3d *cub3d)
 	{
 		angle = (cub3d->player->dir.radian + cub3d->angles[i].radian);
 		angle = fit_in_radian(angle);
-		ray.tmp_offset = i;
+		//ray.tmp_offset = i;
 		ray.start_angle = angle;
 		fire_ray(cub3d, &ray, angle);
 		i = update_image_per_wall(cub3d, &ray, i);

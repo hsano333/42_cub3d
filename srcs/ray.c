@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 08:25:45 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 20:43:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ static t_point	get_offset(t_ray *ray, int mode)
 	return (point);
 }
 
-t_cub3d_type	get_stop_angle(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
+double	get_stop_angle(t_cub3d *cub3d, t_ray *ray, double angle)
 {
-	const double	sub_angle = (t_cub3d_type)1 * M_PI / 180;
+	const double	sub_angle = (double)1 * M_PI / 180;
 	int				over_flag;
 
 	over_flag = false;
@@ -78,7 +78,7 @@ t_cub3d_type	get_stop_angle(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 	return (angle);
 }
 
-int	is_next_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
+int	is_next_wall(t_cub3d *cub3d, t_ray *ray, double angle)
 {
 	if (ray->start_angle >= ray->stop_angle && (angle <= ray->stop_angle || angle > ray->start_angle))
 	{
@@ -100,7 +100,7 @@ int	is_next_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 	return (false);
 }
 
-static void	calc_ray_to_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
+static void	calc_ray_to_wall(t_cub3d *cub3d, t_ray *ray, double angle)
 {
 	t_point	offset;
 
@@ -116,12 +116,12 @@ static void	calc_ray_to_wall(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 							/ ray->last_distance.y, angle, RORATE_MINUS);
 	ray->start_angle = angle;
 	ray->stop_angle = get_stop_angle(cub3d, ray, ray->last_angle);
-	ray->begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian);
-	ray->last_base_len = tan(ray->last_angle - cub3d->player->dir.radian);
-	ray->max_len = ray->last_base_len - ray->begin_base_len;
+	//ray->begin_base_len = tan(ray->begin_angle - cub3d->player->dir.radian);
+	//ray->last_base_len = tan(ray->last_angle - cub3d->player->dir.radian);
+	//ray->max_len = ray->last_base_len - ray->begin_base_len;
 }
 
-int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
+int	fire_ray(t_cub3d *cub3d, t_ray *ray, double angle)
 {
 	if (get_cur_map_obj(cub3d) == DOOR)
 		ray->is_door = true;

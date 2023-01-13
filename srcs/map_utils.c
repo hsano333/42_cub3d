@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 05:49:47 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 20:14:48 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 20:17:03 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_point	get_point(int x, int y)
 	return (point);
 }
 
-t_cub3d_type	convert_positive_radian(t_cub3d_type radian)
+double	convert_positive_radian(double radian)
 {
 	if (radian < 0)
 		return (radian + 2 * M_PI);
