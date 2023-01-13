@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:14:27 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/12 18:46:06 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 07:12:18 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,44 @@ int	count_frame(t_cub3d *cub3d)
 	if (cub3d->frame_count >= 60)
 		cub3d->frame_count = 0;
 	return (true);
+}
+
+
+void	manage_slot_flag(t_cub3d *cub3d, t_ray *ray, int y)
+{
+		if (ray->shot_flag && cub3d->player->shot.y == y && cub3d->map[ray->map_point.y][ray->map_point.x].obj != DOOR)
+		{
+			if (cub3d->slot.slot_flag)
+			{
+				cub3d->slot.slot_flag = false;
+				if (ray->wall_img == cub3d->walls->enemy)
+				{
+
+					printf("shot result No.1, y=%d,x=%d \n", ray->map_point.y, ray->map_point.x);
+					cub3d->map[ray->map_point.y][ray->map_point.x].state = SLOT_RESULT;
+					cub3d->slot.result_flag = true;
+					cub3d->slot.release_count = cub3d->frame_count;
+				}
+				else
+				{
+					printf("shot result No.2, y=%d,x=%d \n", ray->map_point.y, ray->map_point.x);
+					cub3d->map[ray->map_point.y][ray->map_point.x].state = OTHER;
+				}
+			}
+			else
+			{
+				printf("shot result No.0, y=%d,x=%d \n", ray->map_point.y, ray->map_point.x);
+				//printf("ray->map_point.y=%d, x=%d\n", ray->map_point.y, ray->map_point.x);
+				cub3d->map[ray->map_point.y][ray->map_point.x].state = SLOT;
+				cub3d->slot.shot_wall = ray->wall_dir;
+				cub3d->slot.slot_flag = true;
+				cub3d->slot.map_point.x = ray->map_point.x;
+				cub3d->slot.map_point.y = ray->map_point.y;
+
+			}
+			
+				ray->shot_flag = false;
+		}
+
+
 }
