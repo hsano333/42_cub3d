@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:53:05 by hsano             #+#    #+#             */
-/*   Updated: 2022/12/11 07:37:00 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 20:47:46 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ long	ft_atol(const char *str, int *long_over_flag);
 float	ft_atof(const char *str, int *error);
 double	ft_atod(const char *str, int *error);
 char	*ft_itoa(int n);
-int	ft_itoa_no_memory(size_t n, size_t size, char *p, char *r);
+int		ft_itoa_no_memory(size_t n, size_t size, char *p, char *r);
 char	*ft_strdup(const char *s1);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);

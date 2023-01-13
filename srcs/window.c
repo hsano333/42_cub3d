@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 20:36:51 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 20:48:54 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 static	void	clear_state(t_cub3d *cub3d)
 {
-	int	one_second_flag;
+	int		one_second_flag;
 	t_point	wall;
 
 	wall = cub3d->slot.map_point;
@@ -60,13 +60,12 @@ static int	calc_wall_pixel(t_cub3d *cub3d, t_ray *ray, int offset)
 
 int	update_image_per_wall(t_cub3d *cub3d, t_ray *ray, int offset)
 {
-	double	angle;
 	int		i;
-	int	x_begin;
-	int	x_last;
+	int		x_begin;
+	int		x_last;
+	double	angle;
 
 	i = 0;
-
 	ray->wall_pixel = calc_wall_pixel(cub3d, ray, offset);
 	x_begin = i + offset;
 	x_last = i + offset + ray->wall_pixel;
@@ -102,7 +101,6 @@ int	update_image(t_cub3d *cub3d)
 	{
 		angle = (cub3d->player->dir.radian + cub3d->angles[i].radian);
 		angle = fit_in_radian(angle);
-		//ray.tmp_offset = i;
 		ray.start_angle = angle;
 		fire_ray(cub3d, &ray, angle);
 		i = update_image_per_wall(cub3d, &ray, i);

@@ -6,26 +6,27 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:14:27 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 11:43:21 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 21:12:24 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "slot.h"
 #include "door.h"
+#include "slot_utils.h"
 
 int	is_raise_shot_flag(t_cub3d *cub3d, t_ray *ray, int start, int end)
 {
 	t_point	cur;
 	t_point	old;
-	int	is_same_wall;
-	int	shot_x;
+	int		is_same_wall;
+	int		shot_x;
 
 	shot_x = cub3d->player->shot.x;
 	if (cub3d->slot.result_flag)
 		return (false);
 	cur = ray->map_point;
 	old = cub3d->slot.map_point;
-	is_same_wall = cur.x == old.x && cub3d->slot.shot_wall == ray->wall_dir;
+	is_same_wall = (cur.x == old.x && cub3d->slot.shot_wall == ray->wall_dir);
 	if (cub3d->slot.slot_flag == false || is_same_wall)
 	{
 		if (start <= shot_x && shot_x <= end)
@@ -53,7 +54,7 @@ void	rotate_slot(t_cub3d *cub3d, t_ray *ray)
 void	change_image(t_cub3d *cub3d, t_ray *ray, t_point next)
 {
 	t_door_state	wall_state;
-	t_wall_dir	wall_dir;
+	t_wall_dir		wall_dir;
 
 	wall_state = cub3d->map[next.y][next.x].state;
 	wall_dir = cub3d->slot.shot_wall;
@@ -79,35 +80,17 @@ int	count_frame(t_cub3d *cub3d)
 	return (true);
 }
 
-
 void	manage_slot_flag(t_cub3d *cub3d, t_ray *ray, int y)
 {
-	int	is_not_door;
+	t_map	door_p;
 
-	is_not_door = cub3d->map[ray->map_point.y][ray->map_point.x].obj != DOOR;
-	if (ray->shot_flag && cub3d->player->shot.y == y && is_not_door)
+	door_p = cub3d->map[ray->map_point.y][ray->map_point.x];
+	if (cub3d->player->shot.y == y && door_p.obj != DOOR)
 	{
 		if (cub3d->slot.slot_flag)
-		{
-			cub3d->slot.slot_flag = false;
-			if (ray->wall_img == cub3d->walls->enemy)
-			{
-				cub3d->map[ray->map_point.y][ray->map_point.x].state = SLOT_RESULT;
-				cub3d->slot.result_flag = true;
-				cub3d->slot.release_count = cub3d->frame_count;
-			}
-			else
-				cub3d->map[ray->map_point.y][ray->map_point.x].state = OTHER;
-		}
+			set_off_slot(cub3d, ray, door_p);
 		else
-		{
-			cub3d->map[ray->map_point.y][ray->map_point.x].state = SLOT;
-			cub3d->slot.shot_wall = ray->wall_dir;
-			cub3d->slot.slot_flag = true;
-			cub3d->slot.map_point.x = ray->map_point.x;
-			cub3d->slot.map_point.y = ray->map_point.y;
-		}
-		
-			ray->shot_flag = false;
+			set_on_slot(cub3d, ray, door_p);
+		ray->shot_flag = false;
 	}
 }

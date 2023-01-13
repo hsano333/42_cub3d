@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 07:39:41 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 12:13:08 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 21:11:29 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_map_obj	get_cur_map_obj(t_cub3d *cub3d)
 
 t_wpoint	get_dist_player_from_wall(t_cub3d *cub3d, t_point map \
 								, double angle)
-					
 {
 	t_wpoint	dist;
 
