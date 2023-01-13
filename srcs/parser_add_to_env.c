@@ -34,7 +34,6 @@ int load_texture(t_cub3d *env, char *path, t_image **wall)
         return (-1);
     *wall = (t_image *)ft_calloc(sizeof(t_image), 1);
     if (!(*wall))
-        // error_and_end_game(env, NULL);
         return (-1);
     (*wall)->img = mlx_xpm_file_to_image(env->mlx, path, &((*wall)->width), &((*wall)->height));
     if (!(*wall)->img)
@@ -43,7 +42,6 @@ int load_texture(t_cub3d *env, char *path, t_image **wall)
         *wall = NULL;
         return (-1);
     }
-    // error_and_end_game(env, NULL);
     (*wall)->addr = mlx_get_data_addr((*wall)->img, &((*wall)->bpp), &((*wall)->sl), &((*wall)->endian));
 
     return (0);
@@ -87,9 +85,6 @@ int add_path_to_env(t_parser *parser, t_cub3d *env)
 // t_envにする
 int add_to_env(t_parser *parser, t_cub3d *env)
 {
-
-    // テストではmlxはやらない
-
     int i;
     int((*add_to_env[3])(t_parser * parser, t_cub3d * env));
     add_to_env[0] = &add_path_to_env;
@@ -102,18 +97,5 @@ int add_to_env(t_parser *parser, t_cub3d *env)
             return (parser->blocking_err_flag);
     }
 
-    /*
-    int i;
-    int((*add_to_env[2])(t_parser * parser, t_cub3d * env));
-
-    add_to_env[0] = &add_color_to_env;
-    add_to_env[1] = &add_map_to_env;
-    i = -1;
-    while (++i < 2)
-    {
-        if (add_to_env[i](parser, env))
-            return (parser->blocking_err_flag);
-    }
-    */
     return (0);
 }
