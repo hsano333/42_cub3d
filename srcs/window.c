@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 08:24:46 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 11:24:50 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 static	void	clear_state(t_cub3d *cub3d)
 {
+	int	one_second_flag;
 	t_point	wall;
 
 	wall = cub3d->slot.map_point;
@@ -32,12 +33,8 @@ static	void	clear_state(t_cub3d *cub3d)
 	cub3d->player->shot.x = -1;
 	cub3d->player->shot.y = -1;
 	count_frame(cub3d);
-
-	if (cub3d->slot.result_flag)
-		printf("result: slot count=%d,now=%d\n ", cub3d->slot.release_count, cub3d->frame_count);
-
-
-	if (cub3d->slot.result_flag && cub3d->slot.release_count == cub3d->frame_count)
+	one_second_flag = (cub3d->slot.release_count == cub3d->frame_count);
+	if (cub3d->slot.result_flag && one_second_flag)
 	{
 		cub3d->map[wall.y][wall.x].state = OTHER;
 		cub3d->slot.result_flag = false;
@@ -66,10 +63,15 @@ int	update_image_per_wall(t_cub3d *cub3d, t_ray *ray, int offset)
 {
 	double	angle;
 	int		i;
+	int	x_begin;
+	int	x_last;
 
 	i = 0;
+
 	ray->wall_pixel = calc_wall_pixel(cub3d, ray, offset);
-	ray->shot_flag = is_raise_shot_flag(cub3d, ray, i + offset, i + offset + ray->wall_pixel);
+	x_begin = i + offset;
+	x_last = i + offset + ray->wall_pixel;
+	ray->shot_flag = is_raise_shot_flag(cub3d, ray, x_begin, x_last);
 	while (i < ray->wall_pixel)
 	{
 		angle = cub3d->player->dir.radian + cub3d->angles[i + offset].radian;
