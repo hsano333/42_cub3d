@@ -6,12 +6,22 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 07:27:31 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/08 03:55:25 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 08:23:29 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "angle_utils.h"
 
+double	fit_in_radian(double angle)
+{
+	if (angle >= 360 * M_PI / 180)
+		angle -= 360 * M_PI / 180;
+	else if (angle < 0)
+		angle += 360 * M_PI / 180;
+	return (angle);
+}
+
+/*
 t_cub3d_type	convt_degree_to_radian(t_cub3d_type val)
 {
 	t_cub3d_type	tmp;
@@ -19,7 +29,9 @@ t_cub3d_type	convt_degree_to_radian(t_cub3d_type val)
 	tmp = val * M_PI / 180;
 	return (tmp);
 }
+*/
 
+/*
 t_cub3d_type	near_angle(t_cub3d_type angle, t_cub3d_type a, t_cub3d_type b)
 {
 	t_cub3d_type	diff1[3];
@@ -41,7 +53,9 @@ t_cub3d_type	near_angle(t_cub3d_type angle, t_cub3d_type a, t_cub3d_type b)
 		return (b);
 	return (a);
 }
+*/
 
+/*
 t_angle	get_radian_per_len(int len)
 {
 	t_angle	tmp;
@@ -50,6 +64,7 @@ t_angle	get_radian_per_len(int len)
 	tmp.radian = tmp.degree * M_PI / 180;
 	return (tmp);
 }
+*/
 
 t_cub3d_type	distance_to_angle(t_cub3d_type val \
 					, t_cub3d_type angle, t_rotate_mode mode)

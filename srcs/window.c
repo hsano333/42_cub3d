@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/12 17:09:53 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 08:24:46 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "door.h"
 #include "libft_mem.h"
 #include "slot.h"
+#include "angle_utils.h"
 
 static	void	clear_state(t_cub3d *cub3d)
 {
@@ -99,10 +100,7 @@ int	update_image(t_cub3d *cub3d)
 	while (i < WIN_WIDTH)
 	{
 		angle = (cub3d->player->dir.radian + cub3d->angles[i].radian);
-		if (angle >= 360 * M_PI / 180)
-			angle -= 360 * M_PI / 180;
-		else if (angle < 0)
-			angle += 360 * M_PI / 180;
+		angle = fit_in_radian(angle);
 		ray.tmp_offset = i;
 		ray.start_angle = angle;
 		fire_ray(cub3d, &ray, angle);

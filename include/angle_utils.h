@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 12:52:37 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/07 23:48:51 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 08:24:15 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,5 @@ typedef enum e_rotate_mode
 t_cub3d_type	distance_to_angle(t_cub3d_type val \
 				, t_cub3d_type angle, t_rotate_mode mode);
 int				is_in_range_fov(t_cub3d *cub3d, t_cub3d_type angle);
+double	fit_in_radian(double angle);
 #endif

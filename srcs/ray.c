@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/12 07:48:41 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 08:25:45 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,37 +20,6 @@
 #include "player.h"
 #define FIRST 0
 #define LAST 1
-
-/*
-static void	set_map_dir(t_cub3d *cub3d, t_ray *ray \
-							, t_point map, t_point next_map)
-{
-	t_point	diff;
-
-	diff.x = next_map.x - map.x;
-	diff.y = next_map.y - map.y;
-	if (diff.y == -1)
-	{
-		ray->wall_dir = SOUTH_WALL;
-		ray->wall_img = cub3d->walls->north;
-	}
-	else if (diff.y == 1)
-	{
-		ray->wall_dir = NORTH_WALL;
-		ray->wall_img = cub3d->walls->south;
-	}
-	else if (diff.x == 1)
-	{
-		ray->wall_dir = WEST_WALL;
-		ray->wall_img = cub3d->walls->east;
-	}
-	else if (diff.x == -1)
-	{
-		ray->wall_dir = EAST_WALL;
-		ray->wall_img = cub3d->walls->west;
-	}
-}
-*/
 
 static t_point	get_offset(t_ray *ray, int mode)
 {
@@ -80,33 +49,6 @@ static t_point	get_offset(t_ray *ray, int mode)
 		point.y = 1;
 	return (point);
 }
-
-/*
-static t_point	search_wall(t_cub3d *cub3d, t_ray *ray
-							, t_cub3d_type angle, t_point map)
-{
-	double		y_dist;
-	double		x_dist;
-	t_point		next;
-
-	if (angle < M_PI / 2 || angle > M_PI * 3 / 2)
-		y_dist = cub3d->player->world_y - map.y * WALL_LEN;
-	else
-		y_dist = (map.y + 1) * WALL_LEN - cub3d->player->world_y;
-	if (angle < M_PI && angle > 0)
-		x_dist = cub3d->player->world_x - map.x * WALL_LEN;
-	else
-		x_dist = (map.x + 1) * WALL_LEN - cub3d->player->world_x;
-	next = next_map_mass(angle, x_dist, y_dist, map);
-	if (cub3d->map[next.y][next.x].obj == WALL \
-					|| cub3d->map[next.y][next.x].obj >= DOOR)
-	{
-		set_map_dir(cub3d, ray, map, next);
-		return (next);
-	}
-	return (search_wall(cub3d, ray, angle, next));
-}
-*/
 
 t_cub3d_type	get_stop_angle(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 {
@@ -185,20 +127,5 @@ int	fire_ray(t_cub3d *cub3d, t_ray *ray, t_cub3d_type angle)
 		ray->is_door = true;
 	ray->map_point = search_wall(cub3d, ray, angle, cub3d->player->map);
 	calc_ray_to_wall(cub3d, ray, angle);
-	/*
-	ray->is_adjacent_wall = false;
-	if (ray->map_point.x - cub3d->player->map.x == 1 \
-					|| ray->map_point.x - cub3d->player->map.x == -1)
-	{
-		if (ray->map_point.y - cub3d->player->map.y == 0)
-			ray->is_adjacent_wall = true;
-	}
-	else if (ray->map_point.y - cub3d->player->map.y == 1 \
-					|| ray->map_point.y - cub3d->player->map.y == -1)
-	{
-		if (ray->map_point.x - cub3d->player->map.x == 0)
-			ray->is_adjacent_wall = true;
-	}
-	*/
 	return (true);
 }
