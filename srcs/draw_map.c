@@ -2,10 +2,11 @@
 
 void draw_square(t_cub3d *env, int startx, int starty, int color)
 {
-    const int wall;
+    const int wall = 4;
     int y;
     int x;
-    int **image_addr;
+    int *image_addr;
+    // int *win_image_addr;
 
     image_addr = env->image->addr;
 
@@ -15,10 +16,10 @@ void draw_square(t_cub3d *env, int startx, int starty, int color)
         x = 0;
         while (x < wall)
         {
-            image_addr[starty * wall + y][startx * wall + x] = color;
-            y++;
+            image_addr[(starty * wall + y) * WIN_WIDTH + (startx * wall + x)] = color;
+            x++;
         }
-        x++;
+        y++;
     }
 }
 
@@ -35,7 +36,7 @@ void draw_map(t_cub3d *env, t_map **map, int player_x, int player_y)
         x = 0;
         while (map[y][x].obj != 100)
         {
-            if (map[y][x].obj == WALL || map[y][x].obj == DOOR)
+            if (map[y][x].obj == WALL || map[y][x].obj == DOOR || (y == player_y && x == player_x))
             {
                 if (map[y][x].obj == WALL)
                     color = 0xFFFFFF;
