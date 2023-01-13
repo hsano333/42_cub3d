@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/12 18:36:43 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 07:55:15 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ typedef struct s_cub3d
 	t_slot	slot;
 	int	door_change_flag;
 	int	frame_count;
+	t_ray	*ray;
 } t_cub3d;
 
 

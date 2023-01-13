@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:53:34 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 07:22:24 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/13 08:12:15 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,79 +81,69 @@ int	calc_y(t_ray *ray, double angle)
 	return (image_x);
 }
 
-/*
-void	copy_to_addr(t_cub3d *cub3d, t_ray *ray, t_point img_point, int *win_img_add)
+int	copy_to_addr(t_cub3d *cub3d, t_point img_point, t_point win_point, int wall_flag)
 {
-	//int	y;
 	int	*win_img_addr;
-	//int	wall_flag;
+	t_ray	*ray;
 	int	*img_addr;
-	double world_height;
-	double offset_win;
-	double		img_y_ratio;
+	int	x;
+	int	y;
 
-	//y = 0;
-	//img_y_ratio = (double)ray->wall_img->height / WALL_LEN;
+	x = win_point.x;
+	y = win_point.y;
+	ray = cub3d->ray;
 	//wall_flag = false;
-	//world_height = z * WALL_LEN / BASE_ZY;
-	//offset_win = ((z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2) * WIN_HEIGHT / world_height);
-	//while (y < WIN_HEIGHT)
+	win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
+	if (0 <= img_point.y && img_point.y <= ray->wall_img->height && 0 <= img_point.x && img_point.x <= ray->wall_img->width)
 	{
-		//win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
-		//img_point.y = (y - offset_win) * world_height / WIN_HEIGHT  * img_y_ratio;
+		img_addr = ray->wall_img->addr + (ray->wall_img->sl * img_point.y);
+		wall_flag = true;
+		win_img_addr[x] = img_addr[img_point.x];
+	}
+	else if (wall_flag)
+		win_img_addr[x] = cub3d->floor.color;
+	else
+		win_img_addr[x] = cub3d->ceiling.color;
+	return (wall_flag);
+}
 
-		//manage_slot_flag(cub3d, ray);
-		if (0 <= img_point.y && img_point.y <= ray->wall_img->height && 0 <= img_point.x && img_point.x <= ray->wall_img->width)
-		{
-			img_addr = ray->wall_img->addr + (ray->wall_img->sl * img_point.y);
-			*wall_flag = true;
-			win_img_addr[x] = img_addr[img_point.x];
-		}
-		else if (*wall_flag)
-			win_img_addr[x] = cub3d->floor.color;
-		else
-			win_img_addr[x] = cub3d->ceiling.color;
+void	copy_to_addr_base(t_cub3d *cub3d, t_point img_point, t_point win_point, double z)
+{
+	double	world_height;
+	double	offset_win;
+	int	y;
+	double	img_y_ratio;
+	int	wall_flag;
+
+	y = 0;
+	img_y_ratio = (double)cub3d->ray->wall_img->height / WALL_LEN;
+	world_height = z * WALL_LEN / BASE_ZY;
+	offset_win = ((z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2) * WIN_HEIGHT / world_height);
+	wall_flag = false;
+	while (y < WIN_HEIGHT)
+	{
+		win_point.y = y;
+		img_point.y = (y - offset_win) * world_height / WIN_HEIGHT  * img_y_ratio;
+		manage_slot_flag(cub3d, cub3d->ray, y);
+		wall_flag = copy_to_addr(cub3d, img_point, win_point, wall_flag);
+		y++;
 	}
 }
-*/
 
 void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, double angle)
 {
 	t_point	img_point;
-	int	*win_img_addr;
-	int	y;
-	double z;
-	double		img_y_ratio;
-	int	wall_flag;
-	double world_height;
-	double offset_win;
-	int	*img_addr;
+	t_point	win_point;
+	double	z;
+	//int	*img_addr;
 
-	z = calc_z(cub3d, ray, angle);
 	img_point.x = calc_x(ray, angle);
-	img_y_ratio = (double)ray->wall_img->height / WALL_LEN;
-	wall_flag = false;
-	world_height = z * WALL_LEN / BASE_ZY;
-	offset_win = ((z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2) * WIN_HEIGHT / world_height);
+	z = calc_z(cub3d, ray, angle);
 
-	y = 0;
-	while (y < WIN_HEIGHT)
-	{
-		win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
-		img_point.y = (y - offset_win) * world_height / WIN_HEIGHT  * img_y_ratio;
-		manage_slot_flag(cub3d, ray, y);
-		if (0 <= img_point.y && img_point.y <= ray->wall_img->height && 0 <= img_point.x && img_point.x <= ray->wall_img->width)
-		{
-			img_addr = ray->wall_img->addr + (ray->wall_img->sl * img_point.y);
-			wall_flag = true;
-			win_img_addr[x] = img_addr[img_point.x];
-		}
-		else if (wall_flag)
-			win_img_addr[x] = cub3d->floor.color;
-		else
-			win_img_addr[x] = cub3d->ceiling.color;
-		y++;
-	}
+	cub3d->ray = ray;
+	win_point.x = x;
+	copy_to_addr_base(cub3d, img_point, win_point, z);
+
 }
 
 /*
