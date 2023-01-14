@@ -43,9 +43,6 @@ t_map **init_env_map(t_parser *parser)
             ft_memset(map[i], 0, parser->map_max_x); //+1?
             if (!map[i])
             {
-                // optionなしで解放
-                // map = freetab_index(map, 0, NO_INDEX);
-                // 作り直し
                 free_ptrarr((void **)map);
                 break;
             }
@@ -88,8 +85,6 @@ t_map **map_cpy(t_parser *parser, t_map **env_map)
             *dst++ = m;
             to_cpy++;
         }
-        //?
-        // ダミーで入れてるだけ
         *dst = (t_map){.obj = 100};
     }
     env_map[i] = NULL;

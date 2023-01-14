@@ -23,7 +23,6 @@ int convert_rgb_to_int(t_color color)
     return (val);
 }
 
-// to_env
 void send_color_to_env(long long rgb[3], t_cub3d *env, int type)
 {
     if (type == TYPE_F)

@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 
 #include "../include/all.h"
+#include "close.h"
 
 int exit_game(t_cub3d *env)
 {
-    //if (env->map2)
-    //    free_array_of_char_pointers(env->map2);
+    if (env->map)
+        clear_map(env);
     (void)env;
     exit(EXIT_SUCCESS);
     return (0);

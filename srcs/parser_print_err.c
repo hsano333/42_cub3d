@@ -16,7 +16,6 @@
 void putstr_err(const char *err_type, const char *err_message)
 {
     ft_putstr_fd("Error\n", STDERR_FILENO);
-    // putstrにする
     if (err_type)
         write(STDERR_FILENO, err_type, ft_strlen((char *)err_type));
     write(STDERR_FILENO, err_message, ft_strlen((char *)err_message));
@@ -24,7 +23,6 @@ void putstr_err(const char *err_type, const char *err_message)
 
 void putstr_err_line(int line, const char *err_message)
 {
-    // putstr
     putstr_err(NULL, "Line ");
     ft_putnbr_fd(line, STDERR_FILENO);
     putstr_err(NULL, err_message);

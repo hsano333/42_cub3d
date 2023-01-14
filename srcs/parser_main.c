@@ -61,15 +61,6 @@ void print_parser(t_parser parser)
 
 void print_env(t_cub3d *env)
 {
-    // map
-    /*
-    printf("MAP\n");
-    for (size_t i = 0; env->map2[i]; i++)
-    {
-        printf("%zu: \t %s\n", i, env->map2[i]);
-    }
-    */
-    // 2重ループにする
     for (size_t i = 0; env->map[i]; i++)
     {
         for (size_t j = 0; env->map[i][j].obj != 100; j++)
@@ -79,8 +70,6 @@ void print_env(t_cub3d *env)
         printf("\n");
     }
 
-    // textures
-
     // path
     /*
     printf("PATHs\n");
@@ -88,16 +77,6 @@ void print_env(t_cub3d *env)
     {
         printf("%s\n", env->tex_paths[i]);
     }
-    */
-
-    // player
-    /*
-    printf("PLAYER\n");
-    printf("player: dirx: %f, diry: %f\n", env->player.dir.x, env->player.dir.y);
-    printf("player speed: %f\n", env->player.speed);
-    printf("player move: %d\n", env->player.move);
-    printf("player posx: %f, posy: %f\n", env->player.pos.x, env->player.pos.y);
-    printf("player cam_planex: %f, cam_planey: %f\n", env->player.cam_plane.x, env->player.cam_plane.y);
     */
 
     // floor
@@ -155,13 +134,9 @@ void parse_map_main(t_cub3d *env, char **argv)
     else if (add_to_env(&parser, env))
         print_parse_err_exit(&parser, env);
 
-    // print parser
     print_parser(parser);
 
-    // print env
     print_env(env);
 
-    // free
-    // index付きで解放
     freetab_index(parser.map_buf, parser.map_buf_index, WITH_INDEX);
 }

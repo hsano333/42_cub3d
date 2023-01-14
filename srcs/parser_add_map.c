@@ -117,7 +117,7 @@ void set_player_position(t_parser *parser, int *x, int *y)
     return;
 }
 
-int check_map_surrounded_with_floodfill(t_parser *parser, t_cub3d *env)
+int check_map_surrounded_with_floodfill_helper(t_parser *parser)
 {
     int x;
     int y;
@@ -125,11 +125,7 @@ int check_map_surrounded_with_floodfill(t_parser *parser, t_cub3d *env)
     bool **filled_map;
     bool is_surrounded;
 
-    (void)env;
-    is_surrounded = true;
-
     set_player_position(parser, &x, &y);
-
     filled_map = ft_calloc(parser->map_max_y + 1, sizeof(bool *));
     if (!filled_map)
         return (-1);
@@ -137,21 +133,23 @@ int check_map_surrounded_with_floodfill(t_parser *parser, t_cub3d *env)
     while (i < parser->map_max_y)
     {
         filled_map[i] = ft_calloc(parser->map_max_x, sizeof(bool));
-        if (!filled_map[i])
+        if (!filled_map[i++])
         {
             free_ptrarr((void **)filled_map);
             return (update_err_flag(parser, ERR_MP_BORDERS));
         }
-        i++;
     }
-    // floodfill
     is_surrounded = floodfill(parser, filled_map, y, x);
-    // free filled map
     free_ptrarr((void **)filled_map);
     if (!is_surrounded)
-        // error check
         return (update_err_flag(parser, ERR_MP_BORDERS));
     return (0);
+}
+
+int check_map_surrounded_with_floodfill(t_parser *parser, t_cub3d *env)
+{
+    (void)env;
+    return (check_map_surrounded_with_floodfill_helper(parser));
 }
 
 int add_map_to_env(t_parser *parser, t_cub3d *env)

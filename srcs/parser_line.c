@@ -96,17 +96,12 @@ void parse_map(t_parser *parser, char *line, int type)
     if (parser->map_buf_index < PARSER_BUFFER_SIZE - 1)
     {
         line_len = ft_strlen(line);
-        // line_len = c3d_strlen(line) - 1;
-        //   行をコピー
         parser->map_buf[parser->map_buf_index] = line;
-        // 行番号
         parser->map_line_buf[parser->map_buf_index] = parser->gnl_cnt;
         parser->map_buf_index++;
         if (line_len > parser->map_max_x)
             parser->map_max_x = line_len;
         parser->map_max_y++;
-
-        // マップ大きさを確認
         if (line_len >= MAP_MAX_LENGH || parser->map_max_y >= MAP_MAX_HEIGHT)
             add_in_err_buf(parser, ERR_MP_TOO_BIG);
     }
@@ -114,7 +109,6 @@ void parse_map(t_parser *parser, char *line, int type)
         add_in_err_buf(parser, ERR_MP_TOO_BIG);
 }
 
-// 行を解析
 void parse_line(t_parser *parser, char *line)
 {
     void((*parse_line[7])(t_parser * parser, char *line, int type));
@@ -122,10 +116,8 @@ void parse_line(t_parser *parser, char *line)
     parse_line[TYPE_SO] = &parse_texture;
     parse_line[TYPE_WE] = &parse_texture;
     parse_line[TYPE_EA] = &parse_texture;
-    // 色情報
     parse_line[TYPE_F] = &parse_color;
     parse_line[TYPE_C] = &parse_color;
-    // map読み込み
     parse_line[TYPE_MAP] = &parse_map;
     if (parser->type <= TYPE_C)
         line = skip_useless_char(line, parser->type, 0);

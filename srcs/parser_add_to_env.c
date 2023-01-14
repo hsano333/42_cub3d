@@ -14,10 +14,8 @@
 #include "../include/close.h"
 #include "mlx.h"
 
-// おかしい行の文字列と行番号を追加
 int add_info_err_buf(t_parser *parser, int type, int error_num)
 {
-    //  bitを立てる
     parser->blocking_err_flag |= (1 << error_num);
     if (type <= TYPE_C)
         parser->err_buf[parser->err_buf_index][LINE_NBR] = parser->info_buf_line[type];
@@ -79,7 +77,6 @@ int add_path_to_env(t_parser *parser, t_cub3d *env)
     return (0);
 }
 
-// t_envにする
 int add_to_env(t_parser *parser, t_cub3d *env)
 {
     int i;
