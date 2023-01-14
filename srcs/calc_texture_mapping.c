@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:53:34 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/14 16:18:33 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/14 08:57:40 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, double angle)
 	double	z;
 
 	img_point.x = calc_x(ray, angle);
-	if (img_point.x >= ray->wall_img->width)
+	if (img_point.x >= ray->wall_img->width || img_point.x < 0)
 		img_point.x = ray->wall_img->width - 1;
 	z = calc_z(cub3d, ray, angle);
 	cub3d->ray = ray;
