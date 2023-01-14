@@ -6,9 +6,16 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 22:10:56 by maoyagi           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/01/14 22:14:59 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+=======
+/*   Updated: 2023/01/14 22:10:56 by maoyagi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+>>>>>>> 238edf706910ba903fed28d0a6edb97453dae67a
 #include "../include/all.h"
 
 void	draw_square(t_cub3d *env, int startx, int starty, int color)
