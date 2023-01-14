@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:53:34 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/14 05:05:41 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/14 05:07:16 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void	copy_to_addr_base(t_cub3d *cub3d, t_point img_point \
 			img_point.y = cub3d->ray->wall_img->height - 1;
 		else
 			img_point.y = (y - offset_win) \
+					* world_height / WIN_HEIGHT * img_y_ratio;
 		if (cub3d->ray->shot_flag)
 			manage_slot_flag(cub3d, cub3d->ray, y);
 		wall_flag = copy_to_addr(cub3d, img_point, win_point, wall_flag);
