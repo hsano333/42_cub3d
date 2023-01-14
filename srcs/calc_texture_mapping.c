@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:53:34 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/14 08:11:42 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/14 16:18:33 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	calc_z(t_cub3d *cub3d, t_ray *ray, double angle)
 	}
 	r = sqrt(pow(tmp_x, 2) + pow(tmp_y, 2));
 	z = fabs(r * sin(angle - cub3d->player->dir.radian - M_PI / 2));
-	//printf("angle=%lf, tmp_x=%lf, tmp_y=%lf, r=%lf, z=%lf\n ",angle * 180 / M_PI, tmp_x, tmp_y, r, z);
 	return (z);
 }
 
@@ -58,17 +57,6 @@ int	calc_x(t_ray *ray, double angle)
 		image_x = ((-dist.y - dist.x * tan(angle - M_PI * 0.5)) * img_x_ratio);
 	else if (ray->wall_dir == WEST_WALL)
 		image_x = ((dist.y + dist.x * tan(angle - M_PI * 1.5)) * img_x_ratio);
-	//if (image_x image_x < 200)
-	//if (!(0 <= image_x && image_x <= cub3d->ray->wall_img->width))
-	//if (!(0 <= image_x && image_x <= cub3d->ray->wall_img->width))
-	if (!(0 <= image_x && image_x < 200))
-	{
-		//image_x = 0;
-		//printf("test\n");
-		//printf("\n image_x=%d,ray->wall_img->width=%d,  angle=%lf,dist.x=%d, dist.y=%d,img_x_ratio=%lf,ray->wall_dir=%d  \n",image_x,ray->wall_img->width, angle * 180 / M_PI, dist.x, dist.y, img_x_ratio, ray->wall_dir);
-		//printf("\nimage_x=%d, angle=%lf,dist.x=%d, dist.y=%d,img_x_ratio=%lf,ray->wall_dir=%d  \n",image_x, angle * 180 / M_PI, dist.x, dist.y, img_x_ratio, ray->wall_dir);
-		//printf("\n angle=,dist.x=, dist.y=,img_x_ratio=,ray->wall_dir=  \n" );
-	}
 	return (image_x);
 }
 
@@ -85,10 +73,6 @@ int	copy_to_addr(t_cub3d *cub3d, t_point img_point \
 	y = win_point.y;
 	ray = cub3d->ray;
 	win_img_addr = cub3d->image->addr + (cub3d->image->sl * y);
-	 //if(!(0 <= img_point.x && img_point.x <= cub3d->ray->wall_img->width))
-	 //{
-		//printf("x=%d,, image:x=%d, y=%d, \n", x, img_point.x, img_point.y);
-	 //}
 	if ((0 <= img_point.y && img_point.y <= ray->wall_img->height) \
 			&& 0 <= img_point.x && img_point.x <= ray->wall_img->width)
 	{
@@ -118,7 +102,6 @@ void	copy_to_addr_base(t_cub3d *cub3d, t_point img_point \
 	offset_win = (z / BASE_ZY * WALL_LEN / 2 - WALL_LEN / 2) \
 									* WIN_HEIGHT / world_height;
 	wall_flag = false;
-	//printf("img_y_ratio=%lf, world_height=%lf, offset_win=%lf,  z=%lf\n ",img_y_ratio , world_height, offset_win, z);
 	while (y < WIN_HEIGHT)
 	{
 		win_point.y = y;
@@ -140,7 +123,6 @@ void	calc_texture_mapping(t_cub3d *cub3d, int x, t_ray *ray, double angle)
 	t_point	win_point;
 	double	z;
 
-	//printf("\nx=%d, map_point.x=%d, map_point.y =%d, player:x=%d, y=%d, mass:x=%d,y=%d , wall_dir=%d\n", x,ray->map_point.x, ray->map_point.y, cub3d->player->map.x, cub3d->player->map.y, cub3d->player->mass.y, cub3d->player->mass.y, ray->wall_dir);
 	img_point.x = calc_x(ray, angle);
 	if (img_point.x >= ray->wall_img->width)
 		img_point.x = ray->wall_img->width - 1;

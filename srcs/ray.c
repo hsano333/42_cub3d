@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/14 07:25:31 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/14 16:17:40 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static t_point	get_offset(t_ray *ray, int mode)
 double	get_stop_angle(t_cub3d *cub3d, t_ray *ray, double angle)
 {
 	const double	sub_angle = (double)1 * M_PI / 180;
-	double				start_angle;
+	double			start_angle;
 
 	if (!is_in_range_fov(cub3d, angle))
 		angle = cub3d->angles[WIN_WIDTH - 1].radian + cub3d->player->dir.radian;
