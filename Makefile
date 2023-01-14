@@ -1,5 +1,6 @@
 NAME 	:= cub3D
 LIB	:= ./lib/
+OBJDIR	:= ./obj
 
 LIBMLXDIR	:= $(LIB)/minilibx-linux
 LIBMLXTAR	:= $(LIB)/minilibx-linux.tgz
@@ -10,23 +11,22 @@ LIBFTNAME	:= libft.a
 LIBFT		:= $(LIBFTDIR)/$(LIBFTNAME)
 
 SRCDIR	:= ./srcs/
-SRC	:=  arg.c hook.c mouse.c key.c close.c wall.c ray.c angle_utils.c map_utils.c calc_texture_mapping.c ray_utils.c door.c parser_add_color.c parser_add_map.c parser_add_map_helper.c parser_add_to_env.c parser_check_file.c parser_check_type.c parser_copy_map.c parser_exit.c parser_fill_check_buf.c parser_free.c parser_line.c parser_main.c parser_print_err.c parser_util.c parser_add_player.c player.c slot.c slot_utils.c draw_map.c
-ENTRY	:= main.c init.c window.c
-ENTRYBONUS	:= main_bonus.c init_bonus.c window_bonus.c
+SRC	:= main.c init.c arg.c hook.c mouse.c key.c close.c wall.c ray.c angle_utils.c map_utils.c calc_texture_mapping.c ray_utils.c door.c parser_add_color.c parser_add_map.c parser_add_map_helper.c parser_add_to_env.c parser_check_file.c parser_check_type.c parser_copy_map.c parser_exit.c parser_fill_check_buf.c parser_free.c parser_line.c parser_main.c parser_print_err.c parser_util.c parser_add_player.c player.c slot.c slot_utils.c draw_map.c
+ENTRY	:= window.c
+ENTRYBONUS	:= window_bonus.c
+
 ifdef WITH_BONUS
-ENTRY	:= $(ENTRYBONUS)
+SRC	+= $(ENTRYBONUS)
+DELENTRY	:= $(addprefix $(OBJDIR)/, $(ENTRY))
 else
+DELENTRY	:= $(addprefix $(OBJDIR)/, $(ENTRYBONUS))
+SRC	+= $(ENTRY)
 endif
 
-
-SRC	+= $(ENTRY)
 SRCS	:= $(addprefix $(SRCDIR), $(SRC))
 OBJS	:= $(SRCS:.c=.o)
-OBJDIR	:= ./obj
 OBJECTS	:= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 DEPS	:= $(OBJECTS:.o=.d)
-DELENTRY	:= $(addprefix $(OBJDIR)/, $(ENTRY))
-DELENTRY	+= $(addprefix $(OBJDIR)/, $(ENTRYBONUS))
 ifeq ($(shell uname),Darwin)
 INCS	:= ./include $(LIBFTDIR)/include $(LIBMLXDIR) /opt/X11/include
 else
@@ -53,13 +53,15 @@ DFLAGS  := -D BONUS=1
 endif
 
 all:	$(LIBMLX)	
+	echo $(DELENTRY)
 	@make -C $(LIBFTDIR)
 	@make -C $(LIBMLXDIR)
 	@make $(NAME)	
 
 $(NAME)	:	$(OBJECTS) $(LIBS) 
 		$(CC)  $(CFLAGS) $(OBJECTS) $(LDFLAGS) $(DFLAGS) -o $@
-		$(RM) $(DELENTRY)
+		$(RM) $(DELENTRY:.c=.o)
+		$(RM) $(DELENTRY:.c=.d)
 
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
