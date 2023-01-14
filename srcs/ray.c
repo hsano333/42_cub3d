@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/14 07:10:51 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/14 07:14:36 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ static t_point	get_offset(t_ray *ray, int mode)
 double	get_stop_angle(t_cub3d *cub3d, t_ray *ray, double angle)
 {
 	const double	sub_angle = (double)1 * M_PI / 180;
-	int				over_flag;
+	//int				over_flag;
 	double				start_angle;
 	//double				last_angle;
 
-	over_flag = false;
+	//over_flag = false;
 	if (!is_in_range_fov(cub3d, angle))
 		angle = cub3d->angles[WIN_WIDTH - 1].radian + cub3d->player->dir.radian;
 	start_angle = ray->start_angle;
@@ -69,7 +69,7 @@ double	get_stop_angle(t_cub3d *cub3d, t_ray *ray, double angle)
 		//angle = fit_in_radian(angle + sub_angle);
 		angle = angle + sub_angle;
 		//printf("infinete?\n");
-		printf("infinite over_flag=%d, angle=%lf, start=%lf, last=%lf\n",over_flag, angle * 180 / M_PI, ray->start_angle * 180 / M_PI, ray->last_angle * 180 / M_PI);
+		//printf("infinite over_flag=%d, angle=%lf, start=%lf, last=%lf\n",over_flag, angle * 180 / M_PI, ray->start_angle * 180 / M_PI, ray->last_angle * 180 / M_PI);
 		//angle += sub_angle;
 		if (angle > start_angle)
 		{
