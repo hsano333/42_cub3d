@@ -6,7 +6,6 @@ void draw_square(t_cub3d *env, int startx, int starty, int color)
     int y;
     int x;
     int *image_addr;
-    // int *win_image_addr;
 
     image_addr = env->image->addr;
 
@@ -30,7 +29,6 @@ void draw_map(t_cub3d *env, t_map **map, int player_x, int player_y)
     int color;
 
     y = 0;
-    // t_image *image;に書き込む
     while (map[y])
     {
         x = 0;
