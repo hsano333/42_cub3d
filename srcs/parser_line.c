@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 21:25:28 by maoyagi           #+#    #+#             */
-/*   Updated: 2023/01/15 06:43:20 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/15 07:41:07 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	parse_texture(t_parser *parser, char *line, int type)
 	if (!(parser->info_buf_flag & (1 << type)))
 	{
 		i = -1;
-		while (line[++i] && !ft_strchr(" \n", line[i]))
+		while (line[++i] && !ft_strchr("\n", line[i]))
 		{
 			parser->info_buf[type][i] = line[i];
 			if (i == MAX_PATH_LENGH && \
@@ -127,5 +127,8 @@ void	parse_line(t_parser *parser, char *line)
 	else
 		parse_line[parser->type](parser, line, parser->type);
 	if (parser->type != TYPE_MAP && parser->line)
+	{
 		free(parser->line);
+		parser->line = NULL;
+	}
 }

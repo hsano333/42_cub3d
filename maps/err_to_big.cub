@@ -1,7 +1,7 @@
-NO ./img/no_wall.xpm
-SO ./img/no_wall.xpm
-WE ./img/no_wall.xpm
-EA ./img/no_wall.xpm
+NO ./image/north.xpm
+SO ./image/south.xpm
+WE ./image/west.xpm
+EA ./image/east.xpm
 
 F 70,70,70
 C 38,38,38

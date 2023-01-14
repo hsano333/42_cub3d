@@ -1,9 +1,9 @@
 
-SO ./img/so_wall.xpm
-NO ./img/no_wall.xpm
+SO ./image/south.xpm
+NO ./img/north.xpm
 
-WE ./img/we_wall.xpm
-EA ./img/ea_wall.xpm
+WE ./img/west.xpm
+EA ./img/east.xpm
 
 F 255,244,11
 C 225,224,255

@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 21:19:45 by maoyagi           #+#    #+#             */
-/*   Updated: 2023/01/14 23:07:36 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/15 07:39:22 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	add_in_err_buf(t_parser *parser, int error_type)
 		parser->err_buf[parser->err_buf_index][1] = error_type;
 		parser->err_buf_index++;
 	}
-	if (error_type < ERR_GIBBER)
+	if (error_type <= ERR_TX_MULTIDEF)
 		parser->blocking_err_flag |= (1 << error_type);
 	if (parser->line && parser->type != TYPE_MAP)
 	{

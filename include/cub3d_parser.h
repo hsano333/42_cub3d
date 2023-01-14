@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 21:30:23 by maoyagi           #+#    #+#             */
-/*   Updated: 2023/01/14 23:36:56 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/15 07:41:58 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CUB3D_PARSER_H
@@ -30,9 +30,9 @@
 # define FOUND 0
 # define COLOR_MAX_LEN 11
 # define NBR_PARSING_ERR 11
-# define PARSER_BUFFER_SIZE 8192
-# define MAP_MAX_LENGH 8192
-# define MAP_MAX_HEIGHT 8192
+# define PARSER_BUFFER_SIZE 1024
+# define MAP_MAX_LENGH 1024
+# define MAP_MAX_HEIGHT 1024
 # define DIR 1.0
 # define CAM_PLANE 0.66
 # define X_ADJUST 0.5
