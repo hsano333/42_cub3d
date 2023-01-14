@@ -48,19 +48,23 @@ LDFLAGS := $(IFLAGS) $(LFLAGS) -lft -lm -lmlx -lX11 -lXext -fsanitize=address  -
 
 endif
 
+ifdef WITH_BONUS
+DFLAGS  := -D BONUS=1
+endif
+
 all:	$(LIBMLX)	
 	@make -C $(LIBFTDIR)
 	@make -C $(LIBMLXDIR)
 	@make $(NAME)	
 
 $(NAME)	:	$(OBJECTS) $(LIBS) 
-		$(CC)  $(CFLAGS) $(OBJECTS) $(LDFLAGS) -o $@
+		$(CC)  $(CFLAGS) $(OBJECTS) $(LDFLAGS) $(DFLAGS) -o $@
 		$(RM) $(DELENTRY)
 
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(OBJDIR) / $(*D)
-	$(CC) $(CFLAGS) $(IFLAGS) $(BONUS_FLAG) -c $< -MMD -MP -MF   $(OBJDIR)/$*.d  -o $@
+	$(CC) $(CFLAGS) $(IFLAGS) $(BONUS_FLAG) $(DFLAGS) -c $< -MMD -MP -MF   $(OBJDIR)/$*.d  -o $@
 
 $(LIBMLX) :
 	tar zxvf $(LIBMLXTAR) -C $(LIB)

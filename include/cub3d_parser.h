@@ -3,10 +3,18 @@
 
 #define _TEX_NBR 4
 
-// mapの値
-// Xあとから消す
-#define MAP_CHAR " 01SEWNDX"
+#ifdef BONUS
+#define MAP_CHAR " 01SEWND"
+#else
+#define MAP_CHAR " 01SEWN"
+#endif
+
+#ifdef BONUS
 #define MAP_OBJ_CHAR "01NSEW D"
+#else
+#define MAP_OBJ_CHAR "01NSEW "
+#endif
+
 // 向き
 #define MAP_ORIENT_CHAR "SEWN"
 #define FOUND 0
