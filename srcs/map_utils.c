@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 05:49:47 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 17:38:17 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/14 05:08:25 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ t_point	get_wall_distance_from_player(t_cub3d *cub3d \
 
 	world_x = (cub3d->player->map.x - (map_point.x + offset.x)) * WALL_LEN;
 	world_y = (cub3d->player->map.y - (map_point.y + offset.y)) * WALL_LEN;
-	printf("map_point:x=%d, y=%d,offset;x=%d,y=%d, world:x=%d,y=%d \n", map_point.x, map_point.y,offset.x, offset.y , world_x, world_y);
 	distance.x = world_x + cub3d->player->mass.x;
 	distance.y = world_y + cub3d->player->mass.y;
 	return (distance);

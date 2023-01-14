@@ -26,7 +26,7 @@ void calc_angles(t_cub3d *cub3d)
 	int i;
 	double ratio;
 
-	printf("init bonus\n");
+	//printf("init bonus\n");
 
 
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 14:53:34 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/14 05:07:16 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/14 05:08:36 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	calc_x(t_ray *ray, double angle)
 	{
 		//image_x = 0;
 		//printf("test\n");
-		printf("\n image_x=%d, angle=%lf,dist.x=%d, dist.y=%d,img_x_ratio=%lf,ray->wall_dir=%d  \n",image_x, angle * 180 / M_PI, dist.x, dist.y, img_x_ratio, ray->wall_dir);
+		//printf("\n image_x=%d, angle=%lf,dist.x=%d, dist.y=%d,img_x_ratio=%lf,ray->wall_dir=%d  \n",image_x, angle * 180 / M_PI, dist.x, dist.y, img_x_ratio, ray->wall_dir);
 		//printf("\nimage_x=%d, angle=%lf,dist.x=%d, dist.y=%d,img_x_ratio=%lf,ray->wall_dir=%d  \n",image_x, angle * 180 / M_PI, dist.x, dist.y, img_x_ratio, ray->wall_dir);
 		//printf("\n angle=,dist.x=, dist.y=,img_x_ratio=,ray->wall_dir=  \n" );
 	}
