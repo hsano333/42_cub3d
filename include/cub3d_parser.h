@@ -1,41 +1,33 @@
 #ifndef CUB3D_PARSER_H
-#define CUB3D_PARSER_H
+# define CUB3D_PARSER_H
 
-#define _TEX_NBR 4
+# define _TEX_NBR 4
 
-#ifdef BONUS
-#define MAP_CHAR " 01SEWND"
-#else
-#define MAP_CHAR " 01SEWN"
-#endif
+# ifdef BONUS
+#  define MAP_CHAR " 01SEWND"
+# else
+#  define MAP_CHAR " 01SEWN"
+# endif
 
-#ifdef BONUS
-#define MAP_OBJ_CHAR "01NSEW D"
-#else
-#define MAP_OBJ_CHAR "01NSEW "
-#endif
+# ifdef BONUS
+#  define MAP_OBJ_CHAR "01NSEW D"
+# else
+#  define MAP_OBJ_CHAR "01NSEW "
+# endif
 
-// 向き
-#define MAP_ORIENT_CHAR "SEWN"
-#define FOUND 0
-// 色データ長さ
-#define COLOR_MAX_LEN 11
-#define NBR_PARSING_ERR 11
-// バッファ
+# define MAP_ORIENT_CHAR "SEWN"
+# define FOUND 0
+# define COLOR_MAX_LEN 11
+# define NBR_PARSING_ERR 11
 #define PARSER_BUFFER_SIZE 8192
-// マップ長さ最大
 #define MAP_MAX_LENGH 8192
 #define MAP_MAX_HEIGHT 8192
-// 向き
 #define DIR 1.0
-// カメラ平面
 #define CAM_PLANE 0.66
-// 位置？
 #define X_ADJUST 0.5
 #define Y_ADJUST 0.5
 #define MAX_PATH_LENGH 800
 
-// エラー
 #define MS_MLX_INIT "1: mlx_init failed!\n"
 #define MS_MLX_RESOLUTION "2: the screen resolution is too low!\n"
 #define MS_MLX_NEW_IMG "3: mlx_new_image failed!\n"
@@ -66,7 +58,6 @@
 #define MS_FC_MULTIDEF "	: re-definition of colors ignored\n"
 #define MS_TX_MULTIDEF "	: re-definition of texture ignored\n"
 
-// ファイルエラー
 enum e_file_err
 {
     ERR_NO_FILE,
@@ -76,7 +67,6 @@ enum e_file_err
     ERR_PATH,
 };
 
-// マップエラー
 enum e_map_err
 {
     ERR_EMPTY_FILE,
@@ -99,7 +89,6 @@ enum e_map_err
     ERR_TX_MULTIDEF,
 };
 
-// マップのデータ種類
 enum e_line_type
 {
     TYPE_NO,
@@ -114,49 +103,33 @@ enum e_line_type
     TYPE_EOF,
 };
 
-//
 enum e_err_buf_index
 {
     LINE_NBR,
     ERROR_CODE,
 };
 
-//
 enum e_tab_free_opt
 {
     NO_INDEX,
     WITH_INDEX,
 };
 
-// map解析用の構造体
 typedef struct s_parser
 {
-    // 読み込んだ行
     char *line;
-    // 読み込んだ行
     int gnl_cnt;
-    // mapの最大x
     int map_max_x;
-    // mapの最大y
     int map_max_y;
-    // 読み込んだ行の種類
     int type;
-    // 詳細情報のバッファ？色情報など、ファイルパスなど
     char info_buf[6][MAX_PATH_LENGH];
-    // 画像データや色情報の詳細情報
     int info_buf_line[6];
-    // mapデータ
     char *map_buf[PARSER_BUFFER_SIZE];
-    // mapの読み込んだ行の行数
     int map_line_buf[PARSER_BUFFER_SIZE];
-    // エラー行とメッセージを格納する
     int err_buf[PARSER_BUFFER_SIZE][2];
-    // 詳細情報bit
     int info_buf_flag;
-    // mapとerrのインデックス
     int map_buf_index;
     int err_buf_index;
-    // 中断するエラーbit
     int blocking_err_flag;
 } t_parser;
 
