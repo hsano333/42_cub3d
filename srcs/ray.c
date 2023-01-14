@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/14 06:36:09 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/14 07:10:51 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,27 +54,31 @@ double	get_stop_angle(t_cub3d *cub3d, t_ray *ray, double angle)
 {
 	const double	sub_angle = (double)1 * M_PI / 180;
 	int				over_flag;
+	double				start_angle;
+	//double				last_angle;
 
 	over_flag = false;
 	if (!is_in_range_fov(cub3d, angle))
 		angle = cub3d->angles[WIN_WIDTH - 1].radian + cub3d->player->dir.radian;
-	angle = fit_in_radian(angle);
+	start_angle = ray->start_angle;
 	if (ray->start_angle < ray->last_angle)
-		over_flag = true;
+		start_angle += start_angle + 2 * M_PI;
+	//last_angle = angle >= ray->last_angle;
 	while (!is_collision_wall(cub3d, ray, angle, cub3d->player->map))
 	{
-		angle = fit_in_radian(angle + sub_angle);
+		//angle = fit_in_radian(angle + sub_angle);
+		angle = angle + sub_angle;
 		//printf("infinete?\n");
-		//printf("infinite over_flag=%d, angle=%lf, start=%lf, last=%lf\n",over_flag, angle * 180 / M_PI, ray->start_angle * 180 / M_PI, ray->last_angle * 180 / M_PI);
+		printf("infinite over_flag=%d, angle=%lf, start=%lf, last=%lf\n",over_flag, angle * 180 / M_PI, ray->start_angle * 180 / M_PI, ray->last_angle * 180 / M_PI);
 		//angle += sub_angle;
-		if (angle >= ray->start_angle && (!over_flag || (over_flag && angle < ray->last_angle)))
+		if (angle > start_angle)
 		{
 			angle = ray->start_angle - sub_angle / 20;
 			angle = fit_in_radian(angle);
 			return (angle);
 		}
 	}
-	return (angle);
+	return (fit_in_radian(angle));
 }
 
 int	is_next_wall(t_cub3d *cub3d, t_ray *ray, double angle)
