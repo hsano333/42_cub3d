@@ -50,8 +50,8 @@ void print_file_err_exit(int err)
 
 void print_parse_err_exit(t_parser *parser, t_cub3d *env)
 {
-    (void)env;
     int i;
+    // 2つずつ
     const char *tab[] = {
         [ERR_EMPTY_FILE] = MS_EMPTY_FILE,
         [ERR_TX_KEY_MISS] = MS_TX_KEY_MISS,

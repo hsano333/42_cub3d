@@ -4,16 +4,12 @@
 #include "cub3d.h"
 #include "cub3d_parser.h"
 
-// #include "../lib/libft/include/common.h"
 #include "../lib/libft/include/get_next_line.h"
-// #include "../lib/libft/include/libft_common.h"
 #include "../lib/libft/include/libft_isto.h"
-// #include "../lib/libft/include/libft_lst.h"
 #include "../lib/libft/include/libft_mem.h"
 #include "../lib/libft/include/libft_put.h"
 #include "../lib/libft/include/libft_sort.h"
 #include "../lib/libft/include/libft_str.h"
-// #include "../lib/libft/include/libft.h"
 #include "../lib/libft/include/parse.h"
 
 #include <stddef.h>
@@ -62,4 +58,7 @@ int update_err_flag(t_parser *parser, int err_nbr);
 int add_info_err_buf(t_parser *parser, int type, int error_num);
 void putstr_err(const char *err_type, const char *err_message);
 
+void free_ptrarr(void **ptr);
+int check_player(t_parser *parser, t_cub3d *env);
+int check_cutted_map(t_parser *parser, t_cub3d *env);
 #endif

@@ -13,21 +13,6 @@
 #include "../include/all.h"
 #include "../include/close.h"
 
-static void free_ptrarr(void **ptr)
-{
-    size_t i = 0;
-
-    while (ptr[i])
-    {
-        free(ptr[i]);
-        ptr[i] = NULL;
-        i++;
-    }
-    free(ptr);
-    ptr = NULL;
-    return;
-}
-
 t_map **init_env_map(t_parser *parser)
 {
     t_map **map;
