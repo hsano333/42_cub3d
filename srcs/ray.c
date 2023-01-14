@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/14 05:10:17 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/14 06:36:09 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,13 @@ double	get_stop_angle(t_cub3d *cub3d, t_ray *ray, double angle)
 		over_flag = true;
 	while (!is_collision_wall(cub3d, ray, angle, cub3d->player->map))
 	{
-		//printf("infinete?\n");
-		//angle += sub_angle;
 		angle = fit_in_radian(angle + sub_angle);
+		//printf("infinete?\n");
+		//printf("infinite over_flag=%d, angle=%lf, start=%lf, last=%lf\n",over_flag, angle * 180 / M_PI, ray->start_angle * 180 / M_PI, ray->last_angle * 180 / M_PI);
+		//angle += sub_angle;
 		if (angle >= ray->start_angle && (!over_flag || (over_flag && angle < ray->last_angle)))
 		{
-			angle = ray->start_angle - sub_angle / 2;
+			angle = ray->start_angle - sub_angle / 20;
 			angle = fit_in_radian(angle);
 			return (angle);
 		}
