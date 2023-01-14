@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:13:20 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/14 07:14:36 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/14 07:25:31 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,24 +53,16 @@ static t_point	get_offset(t_ray *ray, int mode)
 double	get_stop_angle(t_cub3d *cub3d, t_ray *ray, double angle)
 {
 	const double	sub_angle = (double)1 * M_PI / 180;
-	//int				over_flag;
 	double				start_angle;
-	//double				last_angle;
 
-	//over_flag = false;
 	if (!is_in_range_fov(cub3d, angle))
 		angle = cub3d->angles[WIN_WIDTH - 1].radian + cub3d->player->dir.radian;
 	start_angle = ray->start_angle;
 	if (ray->start_angle < ray->last_angle)
 		start_angle += start_angle + 2 * M_PI;
-	//last_angle = angle >= ray->last_angle;
 	while (!is_collision_wall(cub3d, ray, angle, cub3d->player->map))
 	{
-		//angle = fit_in_radian(angle + sub_angle);
 		angle = angle + sub_angle;
-		//printf("infinete?\n");
-		//printf("infinite over_flag=%d, angle=%lf, start=%lf, last=%lf\n",over_flag, angle * 180 / M_PI, ray->start_angle * 180 / M_PI, ray->last_angle * 180 / M_PI);
-		//angle += sub_angle;
 		if (angle > start_angle)
 		{
 			angle = ray->start_angle - sub_angle / 20;
@@ -108,7 +100,6 @@ static void	calc_ray_to_wall(t_cub3d *cub3d, t_ray *ray, double angle)
 	t_point	offset;
 
 	offset = get_offset(ray, FIRST);
-	//printf("\nbegin\n");
 	ray->begin_distance = get_wall_distance_from_player(cub3d \
 												, ray->map_point, offset);
 	offset = get_offset(ray, LAST);
@@ -120,8 +111,6 @@ static void	calc_ray_to_wall(t_cub3d *cub3d, t_ray *ray, double angle)
 							/ ray->last_distance.y, angle, RORATE_MINUS);
 	ray->start_angle = angle;
 	ray->stop_angle = get_stop_angle(cub3d, ray, ray->last_angle);
-	//printf("begin_angle=%lf, last_angle=%lf, start_angle=%lf, stop_angle=%lf\n", ray->begin_angle * 180 / M_PI, ray->last_angle * 180 / M_PI, ray->start_angle * 180 / M_PI, ray->stop_angle * 180 / M_PI);
-
 }
 
 int	fire_ray(t_cub3d *cub3d, t_ray *ray, double angle)
