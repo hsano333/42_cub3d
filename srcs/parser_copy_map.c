@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 21:33:24 by maoyagi           #+#    #+#             */
-/*   Updated: 2023/01/14 23:03:16 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/15 06:42:25 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_map	**init_env_map(t_parser *parser)
 		while (++i < parser->map_max_y)
 		{
 			map[i] = malloc(sizeof(t_map) * parser->map_max_x + 1);
-			ft_memset(map[i], 0, parser->map_max_x);
+			ft_memset(map[i], 0, parser->map_max_x + 1);
 			if (!map[i])
 			{
 				free_ptrarr((void **)map);

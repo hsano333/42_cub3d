@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 21:25:28 by maoyagi           #+#    #+#             */
-/*   Updated: 2023/01/14 23:14:24 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/15 06:43:20 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*skip_useless_char(char *line, int type, int opt)
 		while (*line == '0')
 		{
 			line++;
-			if (!(*line >= '0' && *line <= '9') && line--)
+			if (!(ft_isdigit(*line)) && line--)
 				break ;
 		}
 	}
@@ -70,7 +70,7 @@ void	parse_color(t_parser *parser, char *line, int type)
 		i = 0;
 		while (*line && *line != '\n')
 		{
-			while ('0' <= *line && *line <= '9')
+			while (ft_isdigit(*line))
 				parser->info_buf[type][i++] = (*line++);
 			if (*line == ',')
 				parser->info_buf[type][i++] = *(line++);

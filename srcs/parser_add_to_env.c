@@ -6,26 +6,13 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 21:30:23 by maoyagi           #+#    #+#             */
-/*   Updated: 2023/01/14 22:50:55 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/15 06:43:50 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/all.h"
 #include "../include/close.h"
 #include "mlx.h"
-
-int	add_info_err_buf(t_parser *parser, int type, int error_num)
-{
-	parser->blocking_err_flag |= (1 << error_num);
-	if (type <= TYPE_C)
-		parser->err_buf[parser->err_buf_index][LINE_NBR] \
-			= parser->info_buf_line[type];
-	else
-		parser->err_buf[parser->err_buf_index][LINE_NBR] = parser->gnl_cnt;
-	parser->err_buf[parser->err_buf_index][ERROR_CODE] = error_num;
-	parser->err_buf_index++;
-	return (-1);
-}
 
 int	load_texture(t_cub3d *env, char *path, t_image **wall)
 {
