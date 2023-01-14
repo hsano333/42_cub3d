@@ -80,11 +80,11 @@ void print_parse_err_exit(t_parser *parser, t_cub3d *env)
         while (++i < parser->err_buf_index)
             putstr_err_line(parser->err_buf[i][0], tab[parser->err_buf[i][1]]);
     i = -1;
-    while (++i < ERR_GIBBER)
+    while (++i <= ERR_TX_MULTIDEF)
         if ((parser->blocking_err_flag >> i) & 1)
             putstr_err(MS_BLK_ERR, tab[i]);
     i = -1;
-    while (++i < ERR_GIBBER)
+    while (++i <= ERR_TX_MULTIDEF)
         if ((parser->blocking_err_flag >> i) & 1)
             add_to_env_exit(parser, env);
 }

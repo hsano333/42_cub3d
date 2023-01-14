@@ -10,7 +10,7 @@ LIBFTNAME	:= libft.a
 LIBFT		:= $(LIBFTDIR)/$(LIBFTNAME)
 
 SRCDIR	:= ./srcs/
-SRC	:=  arg.c hook.c mouse.c key.c close.c window.c wall.c ray.c angle_utils.c map_utils.c calc_texture_mapping.c ray_utils.c door.c parser_add_color.c parser_add_map.c parser_add_to_env.c parser_check_file.c parser_check_type.c parser_copy_map.c parser_exit.c parser_fill_check_buf.c parser_free.c parser_line.c parser_main.c parser_print_err.c parser_util.c parser_add_player.c player.c slot.c slot_utils.c
+SRC	:=  arg.c hook.c mouse.c key.c close.c window.c wall.c ray.c angle_utils.c map_utils.c calc_texture_mapping.c ray_utils.c door.c parser_add_color.c parser_add_map.c parser_add_to_env.c parser_check_file.c parser_check_type.c parser_copy_map.c parser_exit.c parser_fill_check_buf.c parser_free.c parser_line.c parser_main.c parser_print_err.c parser_util.c parser_add_player.c player.c slot.c slot_utils.c draw_map.c
 ENTRY	:= main.c init.c
 ENTRYBONUS	:= main_bonus.c init_bonus.c
 ifdef WITH_BONUS
@@ -48,19 +48,23 @@ LDFLAGS := $(IFLAGS) $(LFLAGS) -lft -lm -lmlx -lX11 -lXext -fsanitize=address  -
 
 endif
 
+ifdef WITH_BONUS
+DFLAGS  := -D BONUS=1
+endif
+
 all:	$(LIBMLX)	
 	@make -C $(LIBFTDIR)
 	@make -C $(LIBMLXDIR)
 	@make $(NAME)	
 
 $(NAME)	:	$(OBJECTS) $(LIBS) 
-		$(CC)  $(CFLAGS) $(OBJECTS) $(LDFLAGS) -o $@
+		$(CC)  $(CFLAGS) $(OBJECTS) $(LDFLAGS) $(DFLAGS) -o $@
 		$(RM) $(DELENTRY)
 
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(OBJDIR) / $(*D)
-	$(CC) $(CFLAGS) $(IFLAGS) $(BONUS_FLAG) -c $< -MMD -MP -MF   $(OBJDIR)/$*.d  -o $@
+	$(CC) $(CFLAGS) $(IFLAGS) $(BONUS_FLAG) $(DFLAGS) -c $< -MMD -MP -MF   $(OBJDIR)/$*.d  -o $@
 
 $(LIBMLX) :
 	tar zxvf $(LIBMLXTAR) -C $(LIB)

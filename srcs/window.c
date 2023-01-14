@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:29:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 20:48:54 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/14 08:25:15 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int	update_image(t_cub3d *cub3d)
 		fire_ray(cub3d, &ray, angle);
 		i = update_image_per_wall(cub3d, &ray, i);
 	}
+	draw_map(cub3d, cub3d->map, cub3d->player->map.x, cub3d->player->map.y);
 	mlx_put_image_to_window(cub3d->mlx, cub3d->window \
 								, cub3d->image->img, 0, 0);
 	clear_state(cub3d);

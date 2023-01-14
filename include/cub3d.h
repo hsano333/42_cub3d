@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 20:43:57 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/14 08:23:55 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,4 +184,5 @@ typedef struct s_cub3d
 
 void	parse_map_main(t_cub3d *env, char **argv);
 int		exit_game(t_cub3d *env);
+void	draw_map(t_cub3d *env, t_map **map, int playerx, int playery);
 #endif

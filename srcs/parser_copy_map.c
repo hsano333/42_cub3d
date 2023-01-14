@@ -34,7 +34,7 @@ t_map **init_env_map(t_parser *parser)
     int i;
 
     i = -1;
-    map = malloc(sizeof(t_map *) * parser->map_max_y);
+    map = malloc(sizeof(t_map *) * parser->map_max_y + 1);
     if (map)
     {
         while (++i < parser->map_max_y)
