@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:08:13 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/15 19:44:29 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/15 20:09:15 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,7 @@ void	clear_cub3d(t_cub3d *cub3d)
 		mlx_destroy_window(cub3d->mlx, cub3d->window);
 	}
 	if (cub3d->mlx)
-	{
-		mlx_loop_end(cub3d->mlx);
-		mlx_destroy_display(cub3d->mlx);
 		free(cub3d->mlx);
-	}
 	if (cub3d->player)
 		free(cub3d->player);
 	free(cub3d);
