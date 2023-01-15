@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 21:32:35 by maoyagi           #+#    #+#             */
-/*   Updated: 2023/01/15 16:06:23 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/15 16:09:16 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	add_map_to_env(t_parser *parser, t_cub3d *env)
 			return (-1);
 	}
 	update_player_position(env, parser->map_buf);
-	if (check_door(parser))
+	if (check_door(parser, env))
 		return (-1);
 	return (0);
 }
