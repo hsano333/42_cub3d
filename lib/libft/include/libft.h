@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 21:40:57 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 20:47:37 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/15 19:52:12 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 # include <stdbool.h>
 # include <unistd.h>
 # include <limits.h>
+
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdint.h>
+
+# define BUFFER_SIZE 4
+# define OPEN_MAX 10240
 
 typedef struct s_list
 {

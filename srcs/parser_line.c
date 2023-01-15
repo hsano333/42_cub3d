@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 21:25:28 by maoyagi           #+#    #+#             */
-/*   Updated: 2023/01/15 07:41:07 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/15 19:42:28 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,11 @@ void	parse_map(t_parser *parser, char *line, int type)
 			add_in_err_buf(parser, ERR_MP_TOO_BIG);
 	}
 	else
+	{
+		free(parser->line);
+		parser->line = NULL;
 		add_in_err_buf(parser, ERR_MP_TOO_BIG);
+	}
 }
 
 void	parse_line(t_parser *parser, char *line)
