@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:18:21 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/14 08:23:55 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/15 12:01:48 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@
 # include <stdio.h>
 # include <stdbool.h>
 
-// ここはlinuxでやる
-//  色情報
 typedef struct s_color
 {
 	int	r;
@@ -40,7 +38,6 @@ typedef struct s_color
 	int	color;
 }	t_color;
 
-// マス
 typedef struct s_coord
 {
 	double	x;
@@ -91,13 +88,13 @@ typedef enum e_map_obj
 {
 	EMPTY = 0,
 	WALL = 1,
-	SHOT,
 	N_PLAYER,
 	S_PLAYER,
 	E_PLAYER,
 	W_PLAYER,
 	SPACE,
 	DOOR,
+	SHOT,
 	N_DOOR,
 	S_DOOR,
 	E_DOOR,
