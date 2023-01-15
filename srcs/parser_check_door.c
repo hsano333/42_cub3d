@@ -6,26 +6,26 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 12:56:29 by maoyagi           #+#    #+#             */
-/*   Updated: 2023/01/15 14:43:53 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/15 16:05:47 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/all.h"
 #include "../include/cub3d_parser.h"
 
-bool	is_ok_door(t_parser *parser, size_t y, size_t x)
+bool	is_ok_door(t_cub3d *env, size_t y, size_t x)
 {
-	return (!(((parser->map_buf[y - 1][x] == '1' && \
-			parser->map_buf[y + 1][x] == '1') && \
-			(parser->map_buf[y][x - 1] == '0' && \
-			parser->map_buf[y][x + 1] == '0')) \
-			|| ((parser->map_buf[y - 1][x] == '0' \
-			&& parser->map_buf[y + 1][x] == '0') \
-			&& (parser->map_buf[y][x - 1] == '1' \
-			&& parser->map_buf[y][x + 1] == '1'))));
+	return (!(((env->map[y - 1][x].obj == WALL && \
+				env->map[y + 1][x].obj == WALL) && \
+				(env->map[y][x - 1].obj == EMPTY && \
+				env->map[y][x + 1].obj == EMPTY)) || \
+				((env->map[y - 1][x].obj == EMPTY && \
+				env->map[y + 1][x].obj == EMPTY) && \
+				(env->map[y][x - 1].obj == WALL && \
+				env->map[y][x + 1].obj == WALL))));
 }
 
-bool	check_door(t_parser *parser)
+bool	check_door(t_parser *parser, t_cub3d *env)
 {
 	size_t	y;
 	size_t	x;
@@ -33,14 +33,14 @@ bool	check_door(t_parser *parser)
 
 	err_flag = true;
 	y = 0;
-	while (parser->map_buf[y])
+	while (env->map[y])
 	{
 		x = 0;
-		while (parser->map_buf[y][x] != '\n')
+		while (env->map[y][x].obj != 100)
 		{
-			if (parser->map_buf[y][x] == 'D')
+			if (env->map[y][x].obj == DOOR)
 			{
-				if (is_ok_door(parser, y, x))
+				if (is_ok_door(env, y, x))
 					err_flag = false;
 			}
 			x++;

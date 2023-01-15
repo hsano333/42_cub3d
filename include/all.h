@@ -6,7 +6,7 @@
 /*   By: maoyagi <maoyagi@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 21:30:23 by maoyagi           #+#    #+#             */
-/*   Updated: 2023/01/15 13:55:13 by maoyagi          ###   ########.fr       */
+/*   Updated: 2023/01/15 16:07:08 by maoyagi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef ALL_H
@@ -72,5 +72,5 @@ void	putstr_err(const char *err_type, const char *err_message);
 void	free_ptrarr(void **ptr);
 int		check_player(t_parser *parser, t_cub3d *env);
 int		check_cutted_map(t_parser *parser, t_cub3d *env);
-bool	check_door(t_parser *parser);
+bool	check_door(t_parser *parser, t_cub3d *env);
 #endif
