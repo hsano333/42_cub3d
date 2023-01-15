@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 08:46:39 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 22:00:31 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/15 03:49:25 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	is_invalid_point(t_cub3d *cub3d, size_t x, size_t y)
 	if (tmp_map_point.x < 0 || tmp_map_point.y < 0)
 		return (true);
 	if (map_p.obj == WALL \
-		|| (map_p.obj >= DOOR && map_p.state == CLOSE))
+		|| (map_p.obj == DOOR && map_p.state == CLOSE))
 		return (true);
 	tmp_mass_point.x = (int)(x % MAP_SPACE);
 	tmp_mass_point.y = (int)(y % MAP_SPACE);
@@ -48,7 +48,7 @@ static int	is_invalid_point(t_cub3d *cub3d, size_t x, size_t y)
 	if (tmp_mass_point.y == 0)
 		tmp_map_point.y -= 1;
 	if (map_p.obj == WALL \
-			|| (map_p.obj >= DOOR && map_p.state == CLOSE))
+			|| (map_p.obj == DOOR && map_p.state == CLOSE))
 		return (true);
 	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: hsano </var/mail/hsano>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 00:59:08 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 12:11:58 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/15 03:49:40 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,13 @@ t_point	search_wall(t_cub3d *cub3d \
 	y_dist = (double)dist.y;
 	next = next_map_mass(angle, x_dist, y_dist, map);
 	wall_p = cub3d->map[next.y][next.x];
-	if (wall_p.obj == WALL || (wall_p.obj >= DOOR && wall_p.state == CLOSE))
+	if (wall_p.obj == WALL || (wall_p.obj == DOOR && wall_p.state == CLOSE))
 	{
 		set_map_dir(cub3d, ray, map, next);
 		change_image(cub3d, ray, next);
 		return (next);
 	}
-	else if ((wall_p.obj >= DOOR && wall_p.state == OPEN))
+	else if ((wall_p.obj == DOOR && wall_p.state == OPEN))
 	{
 		ray->is_door = true;
 		open_and_close_door(cub3d, next);
@@ -137,7 +137,7 @@ int	is_collision_wall(t_cub3d *cub3d, t_ray *ray \
 			return (true);
 		return (false);
 	}
-	else if (wall.obj == WALL || (wall.obj >= DOOR && wall.state == CLOSE))
+	else if (wall.obj == WALL || (wall.obj == DOOR && wall.state == CLOSE))
 		return (false);
 	return (is_collision_wall(cub3d, ray, angle, next));
 }
