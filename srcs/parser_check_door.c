@@ -13,13 +13,18 @@
 #include "../include/all.h"
 #include "../include/cub3d_parser.h"
 
+bool is_ok_door(t_parser *parser, size_t y, size_t x)
+{
+    return (!(((parser->map_buf[y - 1][x] == '1' && parser->map_buf[y + 1][x] == '1') && (parser->map_buf[y][x - 1] == '0' && parser->map_buf[y][x + 1] == '0')) || ((parser->map_buf[y - 1][x] == '0' && parser->map_buf[y + 1][x] == '0') && (parser->map_buf[y][x - 1] == '1' && parser->map_buf[y][x + 1] == '1'))));
+}
+
 bool check_door(t_parser *parser)
 {
     size_t y;
     size_t x;
     bool err_flag;
 
-    err_flag = false;
+    err_flag = true;
     y = 0;
     while (parser->map_buf[y])
     {
@@ -28,19 +33,14 @@ bool check_door(t_parser *parser)
         {
             if (parser->map_buf[y][x] == 'D')
             {
-                printf("y: %zu x: %zu\n", y, x);
-                if (!((parser->map_buf[y - 1][x] == '1' || parser->map_buf[y + 1][x] == '1') && (parser->map_buf[y][x - 1] == '0' || parser->map_buf[y][x + 1] == '0')) || ((parser->map_buf[y - 1][x] == '0' || parser->map_buf[y + 1][x] == '0') && (parser->map_buf[y][x - 1] == '1' || parser->map_buf[y][x + 1] == '1')))
-                {
-                    err_flag = true;
-                    break;
-                }
+                if (is_ok_door(parser, y, x))
+                    err_flag = false;
             }
             x++;
         }
         y++;
     }
-    printf("check door: %d\n", err_flag);
-    if (err_flag)
+    if (!err_flag)
         return (update_err_flag(parser, ERR_GIBBER));
-    return (true);
+    return (false);
 }
