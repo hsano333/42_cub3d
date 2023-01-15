@@ -1,9 +1,9 @@
 
 SO ./image/south.xpm
-NO ./img/north.xpm
+NO ./image/north.xpm
 
-WE ./img/west.xpm
-EA ./img/east.xpm
+WE ./image/west.xpm
+EA ./image/east.xpm
 
 F 255,244,11
 C 225,224,255
