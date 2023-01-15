@@ -6,7 +6,7 @@
 /*   By: hsano <hsano@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:14:27 by hsano             #+#    #+#             */
-/*   Updated: 2023/01/13 13:29:32 by hsano            ###   ########.fr       */
+/*   Updated: 2023/01/15 03:49:46 by hsano            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	change_image(t_cub3d *cub3d, t_ray *ray, t_point next)
 	if (ray->is_door)
 		ray->wall_img = cub3d->walls->door;
 	ray->is_door = false;
-	if (cub3d->map[next.y][next.x].obj >= DOOR)
+	if (cub3d->map[next.y][next.x].obj == DOOR)
 	{
 		open_and_close_door(cub3d, next);
 		ray->wall_img = cub3d->walls->door;
